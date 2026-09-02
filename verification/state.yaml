@@ -3,11 +3,11 @@
   "bridge_version": "manual-verification-bridge-v1",
   "repository": "docs",
   "authority_mode": "MANUAL_AUTHORITY",
-  "status": "INDEPENDENT_REVIEW_PENDING",
-  "previous_status": "BUILDING",
+  "status": "BUILDING",
+  "previous_status": "INDEPENDENT_REVIEW_PENDING",
   "transition": {
-    "from": "BUILDING",
-    "to": "INDEPENDENT_REVIEW_PENDING",
+    "from": "INDEPENDENT_REVIEW_PENDING",
+    "to": "BUILDING",
     "authority": "BUILDER"
   },
   "risk": {
@@ -63,7 +63,7 @@
       "review_subject_digest": "1867e9a9b3190f67fef44d7378bb02569a8cc21effa504412f3fa0f1a7f16054",
       "created_at": "2026-09-02T20:44:07Z",
       "verdict": "BUILDER_GREEN",
-      "active": true
+      "active": false
     }
   ],
   "remediation_inputs": [
