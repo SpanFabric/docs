@@ -3,19 +3,19 @@
   "bridge_version": "manual-verification-bridge-v1",
   "repository": "docs",
   "authority_mode": "MANUAL_AUTHORITY",
-  "status": "BUILDING",
-  "previous_status": "INDEPENDENT_REVIEW_PENDING",
+  "status": "INDEPENDENT_REVIEW_PENDING",
+  "previous_status": "BUILDING",
   "transition": {
-    "from": "INDEPENDENT_REVIEW_PENDING",
-    "to": "BUILDING",
+    "from": "BUILDING",
+    "to": "INDEPENDENT_REVIEW_PENDING",
     "authority": "BUILDER"
   },
   "risk": {
     "class": "R2",
     "reason": "Initial governance/CI bootstrap; model may raise but not lower deterministic floor."
   },
-  "review_subject_digest": "1867e9a9b3190f67fef44d7378bb02569a8cc21effa504412f3fa0f1a7f16054",
-  "review_subject_commit": "30bde35fda5b625166fdee53e977d6f52c5cddf9",
+  "review_subject_digest": "c75e5b31d8e5033670af31862543fb88956d28d0c630909a48da2711d7d7fcf2",
+  "review_subject_commit": "dd1481a0e8af1a4664e3dadff7d3c3d1272d529a",
   "evidence": [
     {
       "id": "INITIAL-BASELINE-BOOTSTRAP-BUILDER-20260902",
@@ -64,6 +64,18 @@
       "created_at": "2026-09-02T20:44:07Z",
       "verdict": "BUILDER_GREEN",
       "active": false
+    },
+    {
+      "id": "FRESH-BREAKER-F001-F004-REMEDIATION-BUILDER-FOLLOWUP-20260902",
+      "type": "BUILDER_REPORT",
+      "producer": "BUILDER",
+      "role": "BUILDER",
+      "authority": "MANUAL_AUTHORITY",
+      "commit_sha": "dd1481a0e8af1a4664e3dadff7d3c3d1272d529a",
+      "review_subject_digest": "c75e5b31d8e5033670af31862543fb88956d28d0c630909a48da2711d7d7fcf2",
+      "created_at": "2026-09-02T20:57:45Z",
+      "verdict": "BUILDER_GREEN",
+      "active": true
     }
   ],
   "remediation_inputs": [
