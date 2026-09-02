@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SpanGPU Compatibility Record",
+  "type": "object",
+  "required": [
+    "application",
+    "version",
+    "graphics_api",
+    "remote_gpu",
+    "local_gpu",
+    "host_os",
+    "client_os",
+    "driver_versions",
+    "network_profile",
+    "result",
+    "evidence",
+    "date"
+  ],
+  "properties": {
+    "application": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "engine": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "launcher": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "graphics_api": {
+      "enum": [
+        "DX9",
+        "DX10",
+        "DX11",
+        "DX12",
+        "Vulkan",
+        "OpenGL",
+        "Other"
+      ]
+    },
+    "remote_gpu": {
+      "type": "object"
+    },
+    "local_gpu": {
+      "type": "object"
+    },
+    "host_os": {
+      "type": "string"
+    },
+    "client_os": {
+      "type": "string"
+    },
+    "driver_versions": {
+      "type": "object"
+    },
+    "network_profile": {
+      "type": "object"
+    },
+    "result": {
+      "enum": [
+        "SUPPORTED",
+        "SUPPORTED_WITH_LIMITATIONS",
+        "SPANGPU_BUG",
+        "THIRD_PARTY_BLOCKED",
+        "UNSUPPORTED_ARCHITECTURE",
+        "UNKNOWN",
+        "NOT_TESTED"
+      ]
+    },
+    "performance": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "known_issues": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "date": {
+      "type": "string"
+    }
+  }
+}

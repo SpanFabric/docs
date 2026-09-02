@@ -1,0 +1,17 @@
+flowchart LR
+A[Local Windows app] --> B[DX/VK/GL runtime]
+B --> C[SpanGPU UMD/ICD]
+C --> D[WDDM KMD]
+C --> E[Local shadow state]
+D --> F[Client service]
+E --> F
+F --> G[Semantic protocol over QUIC]
+G --> H[Remote host session/decoder]
+H --> I[VRAM/resource authority]
+H --> J[Vendor-neutral backend]
+J --> K[Stock NVIDIA/AMD host driver]
+K --> L[Physical GPU]
+L --> M[Frame/export path]
+M --> F
+F --> N[Windows presentation]
+O[Local GPU] --- N

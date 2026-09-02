@@ -1,0 +1,34 @@
+{
+  "builderkit_version": "2026.09.02-v1.2.3-spanfabric",
+  "status": "PASS",
+  "semantic_tests": [
+    "test_bootstrap_repos_contract.py",
+    "test_bootstrap_target_constraints.py",
+    "test_project_state.py",
+    "test_steward_policy.py",
+    "test_materialization_manifest.py",
+    "test_materialization_recovery.py",
+    "test_manual_verification_bridge.py"
+  ],
+  "validators": {
+    "builderkit": "PASS",
+    "traceability": "PASS",
+    "upstreams": "PASS"
+  },
+  "yaml_json_parse": "PASS",
+  "clean_extraction_validation": "PASS",
+  "counts": {
+    "requirements": 396,
+    "invariants": 35,
+    "technology_decisions": 34,
+    "proof_gates_total": 32,
+    "implementation_phases": 43,
+    "controlled_forks": 4,
+    "direct_dependencies": 3,
+    "proof_required_or_provisional_decisions": 15
+  },
+  "zip_crc": "PASS",
+  "release_validation_note": "v1.2.3 fixes F-000-03 (PowerShell 5.1 JSON [] normalization and byte-safe native capture), preserves F-000-01/F-000-02 remediations, and materializes Manual Verification Bridge v1 before first repository push/merge. Windows-only regressions still require fresh execution on the user Windows Stage-A attempt.",
+  "clean_extraction_candidate_sha256": "NOT_EMBEDDED_TO_AVOID_PACKAGE_SELF_REFERENCE",
+  "packaging_environment_note": "Linux packaging environment executes cross-platform validators and semantic tests including the Manual Verification Bridge. Windows PowerShell 5.1 branches are embedded and require fresh Stage-A execution on the user Windows machine."
+}

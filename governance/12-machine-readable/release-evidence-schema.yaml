@@ -1,0 +1,14 @@
+schema_version: '1.0'
+required:
+- release_id
+- source_commits
+- artifact_hashes
+- build_provenance
+- sbom_hash
+- license_manifest_hash
+- gate_evidence
+- signatures
+- protocol_compatibility
+- rollback_target
+rule: Public release cannot be accepted without GATE-028 evidence and staged rollback/revocation
+  metadata.

@@ -1,0 +1,21 @@
+schema_version: '1.0'
+client:
+  os: Windows 11 supported build pinned in PHASE-002
+  local_gpu: NVIDIA GTX 1080-class available baseline; additional vendors added by
+    matrix
+  role: sacrificial/recoverable driver test client
+host:
+  os: Linux-first provisional per TD-023
+  remote_gpu_minimum:
+  - one NVIDIA GPU with supported host stack
+  - one AMD GPU before GATE-025
+  role: physical GPU execution/VRAM
+lab_requirements:
+- exclusive lease
+- out-of-band power/recovery or equivalent
+- separate management channel
+- off-machine artifact storage
+- network shaping path
+- time sync observability
+matrix_policy: Exact device/driver/firmware fingerprints become canonical evidence
+  during PHASE-002/034; no result is generalized beyond tested matrix.

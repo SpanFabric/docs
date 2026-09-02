@@ -1,0 +1,2 @@
+# Controlled Fork Policy
+Critical forks use `origin` as the SpanGPU-controlled fork and `upstream` as the source project. Baselines are pinned to exact commit/tag after PHASE-001. SpanGPU patches carry ownership/provenance. Upstream changes are detected automatically but never auto-merged into critical forks. Adoption requires impact+license/security review, build/tests, compatibility selection, fresh review and human/Steward gate.

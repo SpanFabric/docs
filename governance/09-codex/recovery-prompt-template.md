@@ -1,0 +1,1 @@
+Start a new recovery attempt ID. Identify failed baseline/commit/attempt, completion certainty, preserved evidence and last known-good state. Do not reuse stale counters/resources/fence IDs. Apply bounded remediation, rerun required regression tests, then hand to a new fresh BREAKER.

@@ -1,0 +1,93 @@
+schema_version: '1.0'
+lessons:
+- id: LL-001
+  title: Global reasoning, local implementation
+  rule: Implementation scope stays inside the current phase; reasoning must include
+    the whole product and future-phase compatibility.
+- id: LL-002
+  title: Global Impact Pass before coding
+  rule: Before implementation, enumerate affected requirements, invariants, repositories,
+    producers/consumers, state machines, persistence, auth/trust, concurrency, recovery,
+    migrations and future compatibility.
+- id: LL-003
+  title: What are we missing before and after build
+  rule: Every phase begins and ends with an explicit missing-assumptions pass.
+- id: LL-004
+  title: Boundary Audit for every changed interface
+  rule: Record producer guarantees, consumer assumptions, source of truth, validation/authorization
+    owner, version owner, trust boundary, retry/idempotency, failure semantics and
+    compatibility.
+- id: LL-005
+  title: Green tests are not DONE
+  rule: Passing builder tests means INDEPENDENT_REVIEW_PENDING until fresh independent
+    review and all required proof gates pass.
+- id: LL-006
+  title: Fresh independent BREAKER
+  rule: A separate fresh Codex session receives requirements/invariants and resulting
+    code/commit but not builder reasoning; it attempts to falsify the implementation.
+- id: LL-007
+  title: Evidence-based merge blocking
+  rule: A blocking finding needs a concrete failure mechanism/sequence, violated requirement
+    or invariant, realistic impact/severity, remediation, regression evidence and
+    fresh verification.
+- id: LL-008
+  title: Fix findings permanently
+  rule: Confirmed defects become regression tests and, where systemic, requirements/invariants/documentation
+    so the same class does not recur.
+- id: LL-009
+  title: Specialists are risk-triggered
+  rule: Security, driver, concurrency, database/transaction or performance specialist
+    review is invoked only when the phase presents that risk signal.
+- id: LL-010
+  title: Environment blockers remain blockers
+  rule: If required tests cannot execute because of Windows policy, signing, missing
+    hardware or external services, phase status is BLOCKED_ENVIRONMENT/PROOF_NOT_ESTABLISHED—not
+    DONE.
+- id: LL-011
+  title: Recovery provenance must be explicit
+  rule: Recovery/retry uses unique attempt IDs, immutable evidence IDs and explicit
+    baseline provenance; stale counters or prior-run state cannot silently carry forward.
+- id: LL-012
+  title: Historical and publication baselines are distinct
+  rule: Source/historical evidence and current control-plane/publication state must
+    have distinct identifiers and digests; never infer one from the other.
+- id: LL-013
+  title: Allowed, required and observed sets are different
+  rule: Schemas and validators must distinguish allowed values, exact required values
+    and observed values to avoid permissive-success bugs.
+- id: LL-014
+  title: Retry and idempotency are designed, not assumed
+  rule: Every retryable operation has an idempotency owner/key and ambiguous completion
+    semantics are explicitly tested.
+- id: LL-015
+  title: Concurrency and transaction semantics need hostile tests
+  rule: Races and ambiguous commits can survive green unit suites; use fault injection,
+    repeated parallel runs and explicit invariants.
+- id: LL-016
+  title: Control plane is protected
+  rule: Governance, .github, requirements, TDs, schemas and gate definitions are controlled
+    interfaces; changes require impact review and cross-repo contract checks.
+- id: LL-017
+  title: No retry-until-green validation
+  rule: Validation may rerun after a concrete fix, but must not repeatedly mutate/retry
+    until tests happen to pass.
+- id: LL-018
+  title: Future scope is checked but not prematurely built
+  rule: Document future-phase incompatibility as a finding, but do not implement later
+    features early merely to silence hypothetical concerns.
+- id: LL-019
+  title: Source of truth must be singular per fact
+  rule: Every authoritative state has exactly one owner; caches and projections are
+    explicitly non-authoritative.
+- id: LL-020
+  title: Authorization and validation ownership are explicit
+  rule: Even where current v1 is single-user/single-tenant, trust/validation ownership
+    is recorded so later multi-tenant work cannot inherit implicit trust.
+- id: LL-021
+  title: Publication requires immutable evidence
+  rule: Gate PASS and phase DONE reference immutable evidence artifacts/logs/commit
+    IDs; summaries are not evidence.
+- id: LL-022
+  title: Independent review is stateful governance
+  rule: Project state records builder attempt, breaker attempt, findings, remediation
+    attempt and fresh breaker result as separate immutable events.

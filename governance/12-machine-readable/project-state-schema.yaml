@@ -1,0 +1,33 @@
+schema_version: '1.0'
+required_top_level:
+- project
+- north_star
+- selected_architecture
+- current_phase
+- current_gate
+- builderkit_acceptance_gate
+- completed_phases
+- completed_gates
+- repositories
+- next_required_action
+project_required:
+- name
+- builderkit_version
+- status
+- research_status
+- architecture_status
+- implementation_status
+- organization
+allowed_project_status:
+- READY_FOR_PHASE_00
+- PHASE_ACTIVE
+- INDEPENDENT_REVIEW_PENDING
+- BLOCKED_ENVIRONMENT
+- BLOCKED_ARCHITECTURE
+- BLOCKED_UPSTREAM
+- FAILED
+- PROOF_NOT_ESTABLISHED
+phase_000:
+  pre_apply_breaker_required: true
+  github_mutation_before_pre_apply_breaker: FORBIDDEN
+  post_apply_breaker_required_for_done: true

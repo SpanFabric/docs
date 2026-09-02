@@ -1,0 +1,130 @@
+schema_version: '1.0'
+gates:
+- id: GATE-BK-000
+  title: BuilderKit acceptance
+  status: PASS
+  kind: builderkit
+- id: GATE-000
+  title: Reproducible OSS baseline builds
+  status: NOT_RUN
+  kind: implementation
+- id: GATE-001
+  title: Windows enumerates SpanGPU adapter
+  status: NOT_RUN
+  kind: implementation
+- id: GATE-002
+  title: Basic allocation lifecycle
+  status: NOT_RUN
+  kind: implementation
+- id: GATE-003
+  title: Remote triangle end-to-end
+  status: NOT_RUN
+  kind: implementation
+- id: GATE-004
+  title: Unmodified third-party D3D application
+  status: NOT_RUN
+  kind: implementation
+- id: GATE-005
+  title: D3D11 correctness baseline
+  status: NOT_RUN
+  kind: implementation
+- id: GATE-006
+  title: Windows presentation path
+  status: NOT_RUN
+  kind: implementation
+- id: GATE-007
+  title: Remote-authoritative VRAM
+  status: NOT_RUN
+  kind: implementation
+- id: GATE-008
+  title: Persistent/cacheable resources
+  status: NOT_RUN
+  kind: implementation
+- id: GATE-009
+  title: Asynchronous queues and virtual fences
+  status: NOT_RUN
+  kind: implementation
+- id: GATE-010
+  title: First unmodified real game
+  status: NOT_RUN
+  kind: implementation
+- id: GATE-011
+  title: Steam-launched game without integration
+  status: NOT_RUN
+  kind: implementation
+- id: GATE-012
+  title: Local and remote GPU coexistence
+  status: NOT_RUN
+  kind: implementation
+- id: GATE-013
+  title: WAN 5 ms RTT
+  status: NOT_RUN
+  kind: implementation
+- id: GATE-014
+  title: WAN 10 ms RTT
+  status: NOT_RUN
+  kind: implementation
+- id: GATE-015
+  title: WAN 20 ms RTT
+  status: NOT_RUN
+  kind: implementation
+- id: GATE-016
+  title: WAN 40 ms characterization
+  status: NOT_RUN
+  kind: implementation
+- id: GATE-017
+  title: Loss/jitter/reordering resilience
+  status: NOT_RUN
+  kind: implementation
+- id: GATE-018
+  title: Controlled remote-host failure
+  status: NOT_RUN
+  kind: implementation
+- id: GATE-019
+  title: Hard disconnect avoids BSOD/corruption
+  status: NOT_RUN
+  kind: implementation
+- id: GATE-020
+  title: Reconnect/recovery semantics
+  status: NOT_RUN
+  kind: implementation
+- id: GATE-021
+  title: Vulkan remote path
+  status: NOT_RUN
+  kind: implementation
+- id: GATE-022
+  title: OpenGL remote path
+  status: NOT_RUN
+  kind: implementation
+- id: GATE-023
+  title: DX9/DX10 legacy path
+  status: NOT_RUN
+  kind: implementation
+- id: GATE-024
+  title: D3D12 architecture proof
+  status: NOT_RUN
+  kind: implementation
+- id: GATE-025
+  title: NVIDIA and AMD host backends
+  status: NOT_RUN
+  kind: implementation
+- id: GATE-026
+  title: Long-duration soak
+  status: NOT_RUN
+  kind: implementation
+- id: GATE-027
+  title: Security baseline
+  status: NOT_RUN
+  kind: implementation
+- id: GATE-028
+  title: Signed/Secure Boot path
+  status: NOT_RUN
+  kind: implementation
+- id: GATE-029
+  title: Official anti-cheat pilot
+  status: NOT_RUN
+  kind: implementation
+- id: GATE-030
+  title: Optional compute/PCIe research decision
+  status: NOT_RUN
+  kind: implementation

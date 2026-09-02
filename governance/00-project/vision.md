@@ -1,0 +1,2 @@
+# Vision
+Make GPU hardware location a deployable systems boundary: keep the user's Windows machine, applications, CPU, RAM, storage and input local while allowing a remote physical GPU/VRAM pool to act as a normal accelerated Windows adapter. The project optimizes for architectural universality, long-lived open-source control, transparent application compatibility and evidence-driven systems correctness rather than a quick per-game streaming hack.

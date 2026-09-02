@@ -1,0 +1,31 @@
+schema_version: '1.0'
+states:
+- CREATED
+- RUNNING
+- INDEPENDENT_REVIEW_PENDING
+- FINDINGS
+- ACCEPTED
+- FAILED
+- BLOCKED_ENVIRONMENT
+- BLOCKED_ARCHITECTURE
+- BLOCKED_UPSTREAM
+- PROOF_NOT_ESTABLISHED
+required:
+- attempt_id
+- type
+- target_commit
+- state
+- started_at
+types:
+- builder
+- breaker
+- gate
+- recovery
+- hardware
+- release
+- upstream_review
+rules:
+- One attempt never overwrites another.
+- Builder cannot self-transition to ACCEPTED for non-trivial phases.
+- Retry creates a new attempt_id and references cause/remediation.
+- ACCEPTED must reference required evidence and fresh BREAKER where policy requires.

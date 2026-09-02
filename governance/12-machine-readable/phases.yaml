@@ -1,0 +1,3198 @@
+schema_version: '1.0'
+phases:
+- id: PHASE-000
+  title: BuilderKit, organization and evidence bootstrap
+  status: NOT_STARTED
+  objective: Two-stage BuilderKit/organization/evidence bootstrap with fresh pre-apply
+    breaker before initial GitHub mutation.
+  why_now: Risk-first progression requires builderkit, organization and evidence bootstrap
+    before broader capability claims.
+  requirements:
+  - VISION-001
+  - VISION-002
+  - VISION-003
+  - VISION-004
+  - VISION-005
+  - VISION-006
+  - VISION-007
+  - VISION-008
+  - VISION-009
+  - VISION-010
+  - TEST-001
+  - TEST-002
+  - TEST-003
+  - TEST-004
+  - TEST-005
+  - TEST-006
+  - TEST-007
+  - TEST-008
+  - TEST-009
+  - TEST-010
+  - TEST-011
+  - TEST-012
+  - TEST-013
+  - TEST-014
+  - TEST-015
+  - TEST-016
+  - TEST-017
+  - TEST-018
+  - CI-001
+  - CI-002
+  - CI-003
+  - CI-004
+  - CI-005
+  - CI-006
+  - CI-007
+  - CI-008
+  - CI-009
+  - CI-010
+  - CI-011
+  - CI-012
+  - LICENSE-001
+  - LICENSE-002
+  - LICENSE-003
+  - LICENSE-004
+  - LICENSE-005
+  - LICENSE-006
+  - LICENSE-007
+  - LICENSE-008
+  - LICENSE-009
+  - LICENSE-010
+  - BUILD-001
+  - BUILD-002
+  - BUILD-003
+  - BUILD-004
+  - BUILD-005
+  - BUILD-006
+  - BUILD-007
+  - BUILD-008
+  - BUILD-009
+  - BUILD-010
+  - BUILD-011
+  - DOC-001
+  - DOC-002
+  - DOC-003
+  - DOC-004
+  - DOC-005
+  - DOC-006
+  - DOC-007
+  - DOC-008
+  - DOC-009
+  - DOC-010
+  - DOC-011
+  - DOC-012
+  - DOC-013
+  - DOC-014
+  - DOC-015
+  - DOC-016
+  - DOC-017
+  - DOC-018
+  - EVIDENCE-001
+  - EVIDENCE-002
+  - EVIDENCE-003
+  - EVIDENCE-005
+  - EVIDENCE-006
+  - EVIDENCE-007
+  - EVIDENCE-008
+  - EVIDENCE-009
+  - FINDING-001
+  - FINDING-002
+  - FINDING-003
+  - WAIVER-001
+  - WAIVER-002
+  - BOUNDARY-001
+  - BOUNDARY-002
+  - SOURCE-001
+  - SOURCE-002
+  technology_decisions:
+  - TD-001
+  - TD-003
+  - TD-020
+  - TD-025
+  - TD-026
+  - TD-027
+  - TD-028
+  - TD-029
+  - TD-030
+  - TD-031
+  prerequisite_phases: []
+  prerequisite_gates: []
+  repositories_allowed:
+  - platform
+  - windows
+  - host
+  - evals
+  - docs
+  - .github
+  expected_areas:
+  - GitHub organization bootstrap
+  - local workspace bootstrap
+  - governance/evidence baseline
+  - CI skeletons
+  implementation_tasks:
+  - 'Stage A: pinned validator environment, validators/tests, read-only discovery,
+    all dry-runs, sealed pre-bootstrap evidence.'
+  - Fresh pre-apply BREAKER must accept the exact sealed attempt before GitHub mutation.
+  - 'Stage B: create only missing repos, verify/clone workspace, canonical idempotent
+    materialization, CI/Steward/evidence baseline.'
+  - Run Phase-000 semantic tests, Builder Assumption Challenge, seal exact commit
+    evidence and stop for final fresh BREAKER.
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - BuilderKit validator
+  - Traceability validator
+  - Project state schema tests
+  - Steward policy tests
+  hardware_tests_required: false
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-000
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Preserve partial repositories/evidence and append-only materialization
+    journals; retry with a NEW attempt after rediscovery, exact origin/managed-hash
+    verification and global preflight; never delete automatically.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+  forbidden_scope:
+  - GPU feature implementation
+  - GitHub mutation during Stage A
+  - ad-hoc governance copying
+  - automatic destructive rollback
+  tests:
+  - BuilderKit validator
+  - Traceability validator
+  - Upstream registry validator
+  - bootstrap repository contract test
+  - project state schema test
+  - Steward policy test
+  - materialization idempotency/conflict test
+  - repository/workspace/materialization dry-runs
+  - fixed-target constraint test
+  - materialization apply-journal/forward-recovery test
+- id: PHASE-001
+  title: Pin and reproduce upstream baselines
+  status: NOT_STARTED
+  objective: Pin and reproduce upstream baselines
+  why_now: Risk-first progression requires pin and reproduce upstream baselines before
+    broader capability claims.
+  requirements:
+  - UPSTREAM-001
+  - UPSTREAM-002
+  - UPSTREAM-003
+  - UPSTREAM-004
+  - UPSTREAM-005
+  - UPSTREAM-006
+  - UPSTREAM-007
+  - UPSTREAM-008
+  - UPSTREAM-009
+  - UPSTREAM-010
+  - UPSTREAM-011
+  - UPSTREAM-012
+  - UPSTREAM-013
+  - UPSTREAM-014
+  technology_decisions:
+  - TD-014
+  prerequisite_phases:
+  - PHASE-000
+  prerequisite_gates:
+  - GATE-000
+  repositories_allowed:
+  - docs
+  - .github
+  - upstream-forks
+  expected_areas: []
+  implementation_tasks:
+  - Resolve UNPINNED upstream baselines to exact commits/tags
+  - Verify source license at selected baseline
+  - Build/smoke-test selected OSS baselines from clean checkout
+  - Record SBOM/upstream metadata and patch baseline
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - Clean-room upstream builds
+  - License manifest validation
+  - Upstream registry validation
+  hardware_tests_required: false
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-000
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-002
+  title: Windows driver toolchain and recoverable hardware runner
+  status: NOT_STARTED
+  objective: Windows driver toolchain and recoverable hardware runner
+  why_now: Risk-first progression requires windows driver toolchain and recoverable
+    hardware runner before broader capability claims.
+  requirements:
+  - OPS-001
+  - OPS-002
+  - OPS-003
+  - OPS-004
+  - OPS-005
+  - OPS-006
+  - OPS-007
+  - OPS-008
+  - OPS-009
+  - OPS-010
+  - OPS-011
+  - OPS-012
+  - EVIDENCE-004
+  - LAB-001
+  - LAB-002
+  - LAB-003
+  - LAB-004
+  technology_decisions:
+  - TD-020
+  - TD-032
+  prerequisite_phases:
+  - PHASE-001
+  prerequisite_gates:
+  - GATE-000
+  repositories_allowed:
+  - windows
+  - evals
+  - docs
+  expected_areas: []
+  implementation_tasks:
+  - Establish WDK/SDK/VS/WinDbg/KD toolchain
+  - Provision sacrificial client runner with exclusive lease and recovery path
+  - Configure test-signing only in isolated development environment
+  - Automate reboot-safe log/dump/ETW collection and rollback guards
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - Runner lease tests
+  - Environment fingerprint tests
+  - Rollback dry run
+  - Crash artifact persistence test
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-000
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-003
+  title: Import controlled forks and establish patch provenance
+  status: NOT_STARTED
+  objective: Import controlled forks and establish patch provenance
+  why_now: Risk-first progression requires import controlled forks and establish patch
+    provenance before broader capability claims.
+  requirements: []
+  technology_decisions: []
+  prerequisite_phases:
+  - PHASE-002
+  prerequisite_gates:
+  - GATE-000
+  repositories_allowed:
+  - windows
+  - host
+  - docs
+  - .github
+  expected_areas: []
+  implementation_tasks:
+  - Create controlled forks from pinned baselines
+  - Configure origin/upstream remotes and patch provenance
+  - Enable fork divergence CI and manual adoption gate
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - Fork clean build
+  - Patch provenance validator
+  - Upstream diff workflow test
+  hardware_tests_required: false
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-000
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-004
+  title: Secondary SpanGPU adapter enumeration proof
+  status: NOT_STARTED
+  objective: Secondary SpanGPU adapter enumeration proof
+  why_now: Risk-first progression requires secondary spangpu adapter enumeration proof
+    before broader capability claims.
+  requirements:
+  - FUNC-001
+  - FUNC-002
+  - FUNC-003
+  - FUNC-004
+  - FUNC-005
+  - FUNC-006
+  - FUNC-007
+  - FUNC-008
+  - FUNC-009
+  - FUNC-010
+  - WIN-001
+  - WIN-002
+  - WIN-003
+  - WIN-004
+  - WIN-005
+  - WIN-006
+  - WIN-007
+  - WIN-008
+  - WIN-009
+  - WIN-010
+  - WDDM-001
+  - WDDM-002
+  - WDDM-003
+  - WDDM-004
+  - WDDM-005
+  - WDDM-006
+  - WDDM-007
+  - WDDM-008
+  - WDDM-009
+  - WDDM-010
+  - WDDM-011
+  - WDDM-012
+  technology_decisions:
+  - TD-001
+  - TD-002
+  - TD-003
+  prerequisite_phases:
+  - PHASE-003
+  prerequisite_gates:
+  - GATE-000
+  repositories_allowed:
+  - windows
+  - evals
+  expected_areas: []
+  implementation_tasks:
+  - Minimize/adapt Triton-derived WDDM adapter for secondary enumeration
+  - Install only on sacrificial test machine through guarded runner
+  - Capture Device Manager/dxdiag/DXGI enumeration and crash evidence
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - Adapter enumeration integration test
+  - Install/uninstall/rollback test
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-001
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-005
+  title: Allocation/resource lifecycle proof
+  status: NOT_STARTED
+  objective: Allocation/resource lifecycle proof
+  why_now: Risk-first progression requires allocation/resource lifecycle proof before
+    broader capability claims.
+  requirements:
+  - WDDM-004
+  - WDDM-005
+  technology_decisions: []
+  prerequisite_phases:
+  - PHASE-004
+  prerequisite_gates:
+  - GATE-001
+  repositories_allowed:
+  - windows
+  - evals
+  expected_areas: []
+  implementation_tasks:
+  - Implement/prove allocation create/open/map/stage/destroy subset
+  - Define GPUVA/resource identity rules for proof subset
+  - Stress allocation lifetime and invalid inputs
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - Allocation lifecycle tests
+  - Driver Verifier targeted run
+  - Leak/stress tests
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-002
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-006
+  title: Versioned KMD-to-client-service ABI
+  status: NOT_STARTED
+  objective: Versioned KMD-to-client-service ABI
+  why_now: Risk-first progression requires versioned kmd-to-client-service abi before
+    broader capability claims.
+  requirements:
+  - WDDM-002
+  - PROTO-001
+  technology_decisions: []
+  prerequisite_phases:
+  - PHASE-005
+  prerequisite_gates:
+  - GATE-002
+  repositories_allowed:
+  - platform
+  - windows
+  expected_areas: []
+  implementation_tasks:
+  - Define and implement versioned KMD↔client-service local ABI
+  - Move network/security/cache parsing out of KMD
+  - Add bounds/version/state-machine validation
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - ABI golden vectors
+  - Version-skew tests
+  - Malformed message fuzz tests
+  hardware_tests_required: false
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-002
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-007
+  title: Host daemon and vendor-backend boundary
+  status: NOT_STARTED
+  objective: Host daemon and vendor-backend boundary
+  why_now: Risk-first progression requires host daemon and vendor-backend boundary
+    before broader capability claims.
+  requirements:
+  - HOST-001
+  - HOST-002
+  - HOST-003
+  - HOST-004
+  - HOST-005
+  - HOST-006
+  - HOST-007
+  - HOST-008
+  - HOST-009
+  - HOST-010
+  - HOST-011
+  - HOST-012
+  - GPU-001
+  - GPU-002
+  - GPU-003
+  - GPU-004
+  - GPU-005
+  - GPU-006
+  - GPU-007
+  - GPU-008
+  - GPU-009
+  - GPU-010
+  technology_decisions:
+  - TD-010
+  - TD-013
+  prerequisite_phases:
+  - PHASE-006
+  prerequisite_gates:
+  - GATE-002
+  repositories_allowed:
+  - host
+  - platform
+  expected_areas: []
+  implementation_tasks:
+  - Create host session skeleton and RGPU_BACKEND ABI
+  - Integrate first proof renderer/backend from controlled OSS baseline
+  - Record physical GPU/capability identity
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - Backend contract tests
+  - Host capability tests
+  hardware_tests_required: false
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-003
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-008
+  title: QUIC control/session/capability negotiation
+  status: NOT_STARTED
+  objective: QUIC control/session/capability negotiation
+  why_now: Risk-first progression requires quic control/session/capability negotiation
+    before broader capability claims.
+  requirements:
+  - PROTO-001
+  - PROTO-002
+  - PROTO-003
+  - PROTO-004
+  - PROTO-005
+  - PROTO-006
+  - PROTO-007
+  - PROTO-008
+  - PROTO-009
+  - PROTO-010
+  - PROTO-011
+  - PROTO-012
+  - PROTO-013
+  - TRANSPORT-001
+  - TRANSPORT-002
+  - TRANSPORT-003
+  - TRANSPORT-004
+  - TRANSPORT-005
+  - TRANSPORT-006
+  - TRANSPORT-007
+  - TRANSPORT-008
+  - TRANSPORT-009
+  - TRANSPORT-010
+  - TRANSPORT-011
+  technology_decisions:
+  - TD-003
+  - TD-005
+  - TD-019
+  prerequisite_phases:
+  - PHASE-007
+  prerequisite_gates:
+  - GATE-003
+  repositories_allowed:
+  - platform
+  - host
+  - windows
+  expected_areas: []
+  implementation_tasks:
+  - Implement MsQuic session/auth/capability negotiation behind RGPU_TRANSPORT
+  - Separate allowed/required/observed capability sets
+  - Implement session epochs and bounded reconnect-free initial behavior
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - Protocol negotiation tests
+  - Version-skew tests
+  - mTLS/session tests
+  - malformed input fuzzing
+  hardware_tests_required: false
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-003
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-009
+  title: D3D11 command/resource loopback and serialization benchmark
+  status: NOT_STARTED
+  objective: D3D11 command/resource loopback and serialization benchmark
+  why_now: Risk-first progression requires d3d11 command/resource loopback and serialization
+    benchmark before broader capability claims.
+  requirements:
+  - GFX-001
+  - GFX-002
+  - GFX-003
+  - GFX-004
+  - GFX-005
+  - GFX-006
+  - GFX-007
+  - GFX-008
+  - GFX-009
+  - GFX-010
+  technology_decisions:
+  - TD-004
+  - TD-013
+  prerequisite_phases:
+  - PHASE-008
+  prerequisite_gates:
+  - GATE-003
+  repositories_allowed:
+  - platform
+  - windows
+  - host
+  - evals
+  expected_areas: []
+  implementation_tasks:
+  - Implement bounded D3D11 command/resource serialization proof
+  - Benchmark serialization candidates for TD-006
+  - Add loopback and deterministic golden vectors
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - D3D11 command roundtrip tests
+  - Golden vectors
+  - Serialization benchmark
+  - property tests
+  hardware_tests_required: false
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-003
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-010
+  title: Remote D3D11 triangle
+  status: NOT_STARTED
+  objective: Remote D3D11 triangle
+  why_now: Risk-first progression requires remote d3d11 triangle before broader capability
+    claims.
+  requirements: []
+  technology_decisions: []
+  prerequisite_phases:
+  - PHASE-009
+  prerequisite_gates:
+  - GATE-003
+  repositories_allowed:
+  - platform
+  - windows
+  - host
+  - evals
+  expected_areas: []
+  implementation_tasks:
+  - Connect adapter/client service/QUIC/host renderer end-to-end
+  - Render remote D3D11 triangle on physical remote GPU
+  - Return completion/evidence without claiming product presentation
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - Remote triangle integration test
+  - Host GPU utilization assertion
+  - negative disconnect test
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-003
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-011
+  title: Third-party D3D11 application proof
+  status: NOT_STARTED
+  objective: Third-party D3D11 application proof
+  why_now: Risk-first progression requires third-party d3d11 application proof before
+    broader capability claims.
+  requirements:
+  - DX-004
+  technology_decisions: []
+  prerequisite_phases:
+  - PHASE-010
+  prerequisite_gates:
+  - GATE-003
+  repositories_allowed:
+  - windows
+  - host
+  - evals
+  expected_areas: []
+  implementation_tasks:
+  - Run unmodified third-party D3D11 sample/application through normal adapter path
+  - Capture API correctness and unsupported-cap behavior
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - Third-party D3D11 compatibility test
+  - Capability negative tests
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-004
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-012
+  title: D3D11 correctness and stress baseline
+  status: NOT_STARTED
+  objective: D3D11 correctness and stress baseline
+  why_now: Risk-first progression requires d3d11 correctness and stress baseline before
+    broader capability claims.
+  requirements:
+  - DX-001
+  - DX-002
+  - DX-003
+  - DX-004
+  - DX-005
+  - DX-006
+  - DX-007
+  - DX-008
+  - DX-009
+  - DX-010
+  technology_decisions:
+  - TD-021
+  prerequisite_phases:
+  - PHASE-011
+  prerequisite_gates:
+  - GATE-004
+  repositories_allowed:
+  - windows
+  - host
+  - evals
+  expected_areas: []
+  implementation_tasks:
+  - Build D3D11 correctness/stress corpus
+  - Exercise resources/shaders/descriptors/queues/error paths
+  - Create immutable baseline results
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - D3D11 API matrix
+  - resource churn
+  - shader/pipeline stress
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-005
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-013
+  title: Windows presentation architecture proof
+  status: NOT_STARTED
+  objective: Windows presentation architecture proof
+  why_now: Risk-first progression requires windows presentation architecture proof
+    before broader capability claims.
+  requirements:
+  - FUNC-005
+  - MULTIGPU-001
+  technology_decisions: []
+  prerequisite_phases:
+  - PHASE-012
+  prerequisite_gates:
+  - GATE-005
+  repositories_allowed:
+  - windows
+  - host
+  - evals
+  expected_areas: []
+  implementation_tasks:
+  - Prototype legitimate Windows presentation path per TD-012 candidates
+  - Measure remote render→return→present stages
+  - Reject streaming-window-only hacks as proof
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - Presentation correctness test
+  - DWM/display integration test
+  - resize/fullscreen/device-loss cases
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-006
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-014
+  title: First unmodified game
+  status: NOT_STARTED
+  objective: First unmodified game
+  why_now: Risk-first progression requires first unmodified game before broader capability
+    claims.
+  requirements:
+  - DX-005
+  technology_decisions: []
+  prerequisite_phases:
+  - PHASE-013
+  prerequisite_gates:
+  - GATE-006
+  repositories_allowed:
+  - windows
+  - host
+  - evals
+  expected_areas: []
+  implementation_tasks:
+  - Select one unmodified non-anti-cheat game with known API
+  - Run through normal Windows adapter selection
+  - Capture correctness, performance and failure evidence
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - First-game compatibility record
+  - frame-time trace
+  - negative local-fallback assertion
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-010
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-015
+  title: Steam launcher-independence proof
+  status: NOT_STARTED
+  objective: Steam launcher-independence proof
+  why_now: Risk-first progression requires steam launcher-independence proof before
+    broader capability claims.
+  requirements:
+  - FUNC-003
+  - FUNC-006
+  technology_decisions: []
+  prerequisite_phases:
+  - PHASE-014
+  prerequisite_gates:
+  - GATE-010
+  repositories_allowed:
+  - windows
+  - host
+  - evals
+  expected_areas: []
+  implementation_tasks:
+  - Launch the proven game from Steam without launcher plugin/injection
+  - Prove child-process/working-directory/session lifecycle remains generic
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - Steam launch integration test
+  - process tree/session teardown test
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-011
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-016
+  title: Remote-authoritative VRAM model
+  status: NOT_STARTED
+  objective: Remote-authoritative VRAM model
+  why_now: Risk-first progression requires remote-authoritative vram model before
+    broader capability claims.
+  requirements:
+  - VRAM-001
+  - VRAM-002
+  - VRAM-003
+  - VRAM-004
+  - VRAM-005
+  - VRAM-006
+  - VRAM-007
+  - VRAM-008
+  - VRAM-009
+  - VRAM-010
+  - VRAM-011
+  - VRAM-012
+  - MEM-001
+  - MEM-002
+  - MEM-003
+  - MEM-004
+  - MEM-005
+  - MEM-006
+  - MEM-007
+  - MEM-008
+  - MEM-009
+  - MEM-010
+  technology_decisions:
+  - TD-007
+  prerequisite_phases:
+  - PHASE-015
+  prerequisite_gates:
+  - GATE-011
+  repositories_allowed:
+  - platform
+  - windows
+  - host
+  - evals
+  expected_areas: []
+  implementation_tasks:
+  - Implement formal remote-authoritative resource/VRAM state machine
+  - Add explicit staging/readback/residency/OOM semantics
+  - Introduce resource generations and epoch-scoped IDs
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - Resource state-machine property tests
+  - OOM tests
+  - stale ID/epoch tests
+  - readback correctness
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-007
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-017
+  title: Content-addressed resource cache
+  status: NOT_STARTED
+  objective: Content-addressed resource cache
+  why_now: Risk-first progression requires content-addressed resource cache before
+    broader capability claims.
+  requirements:
+  - CACHE-001
+  - CACHE-002
+  - CACHE-003
+  - CACHE-004
+  - CACHE-005
+  - CACHE-006
+  - CACHE-007
+  - CACHE-008
+  - CACHE-009
+  - CACHE-010
+  - CACHE-011
+  - CACHE-012
+  technology_decisions:
+  - TD-009
+  prerequisite_phases:
+  - PHASE-016
+  prerequisite_gates:
+  - GATE-007
+  repositories_allowed:
+  - platform
+  - host
+  - evals
+  expected_areas: []
+  implementation_tasks:
+  - Implement content-addressed immutable resource cache
+  - Validate cache compatibility metadata and corruption handling
+  - Measure hit rate and upload avoidance
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - Cache hit/miss/corruption tests
+  - dedup tests
+  - persistence/restart tests
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-008
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-018
+  title: Virtual fences and queue ordering
+  status: NOT_STARTED
+  objective: Virtual fences and queue ordering
+  why_now: Risk-first progression requires virtual fences and queue ordering before
+    broader capability claims.
+  requirements:
+  - SYNC-001
+  - SYNC-002
+  - SYNC-003
+  - SYNC-004
+  - SYNC-005
+  - SYNC-006
+  - SYNC-007
+  - SYNC-008
+  - SYNC-009
+  - SYNC-010
+  - SYNC-011
+  - SYNC-012
+  technology_decisions:
+  - TD-008
+  prerequisite_phases:
+  - PHASE-017
+  prerequisite_gates:
+  - GATE-008
+  repositories_allowed:
+  - platform
+  - windows
+  - host
+  - evals
+  expected_areas: []
+  implementation_tasks:
+  - Implement queue-scoped virtual fences/timelines
+  - Reject stale/duplicate completion safely
+  - Model cross-queue dependencies and semantic waits
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - Randomized fence graph tests
+  - duplicate/stale completion tests
+  - ordering property tests
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-009
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-019
+  title: Batching, frames-in-flight and backpressure
+  status: NOT_STARTED
+  objective: Batching, frames-in-flight and backpressure
+  why_now: Risk-first progression requires batching, frames-in-flight and backpressure
+    before broader capability claims.
+  requirements: []
+  technology_decisions: []
+  prerequisite_phases:
+  - PHASE-018
+  prerequisite_gates:
+  - GATE-009
+  repositories_allowed:
+  - platform
+  - windows
+  - host
+  - evals
+  expected_areas: []
+  implementation_tasks:
+  - Batch commands/resources without changing semantics
+  - Enable bounded multiple frames in flight
+  - Implement explicit backpressure and queue limits
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - Batch equivalence tests
+  - backpressure tests
+  - frames-in-flight stress
+  - latency benchmarks
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-009
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-020
+  title: WAN observability and deterministic network profiles
+  status: NOT_STARTED
+  objective: WAN observability and deterministic network profiles
+  why_now: Risk-first progression requires wan observability and deterministic network
+    profiles before broader capability claims.
+  requirements:
+  - WAN-001
+  - WAN-002
+  - WAN-003
+  - WAN-004
+  - WAN-005
+  - WAN-006
+  - WAN-007
+  - WAN-008
+  - WAN-009
+  - WAN-010
+  - WAN-011
+  - WAN-012
+  - PERF-001
+  - PERF-002
+  - PERF-003
+  - PERF-004
+  - PERF-005
+  - PERF-006
+  - PERF-007
+  - PERF-008
+  - PERF-009
+  - PERF-010
+  - PERF-011
+  - PERF-012
+  - PERF-013
+  - PERF-014
+  - OBS-001
+  - OBS-002
+  - OBS-003
+  - OBS-004
+  - OBS-005
+  - OBS-006
+  - OBS-007
+  - OBS-008
+  - OBS-009
+  - OBS-010
+  - OBS-011
+  technology_decisions:
+  - TD-005
+  - TD-018
+  prerequisite_phases:
+  - PHASE-019
+  prerequisite_gates:
+  - GATE-009
+  repositories_allowed:
+  - evals
+  - platform
+  - host
+  - windows
+  expected_areas: []
+  implementation_tasks:
+  - Create deterministic WAN profile runner and clocks/metrics calibration
+  - Record bytes/frame, stalls, fence latency, cache rate, command-stream size and
+    frame time
+  - Make profiles seed/replay addressable
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - WAN harness determinism test
+  - metric calibration test
+  - profile replay test
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-013
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-021
+  title: 5 ms and 10 ms WAN validation
+  status: NOT_STARTED
+  objective: 5 ms and 10 ms WAN validation
+  why_now: Risk-first progression requires 5 ms and 10 ms wan validation before broader
+    capability claims.
+  requirements:
+  - WAN-001
+  - PERF-003
+  technology_decisions: []
+  prerequisite_phases:
+  - PHASE-020
+  prerequisite_gates:
+  - GATE-013
+  repositories_allowed:
+  - evals
+  - platform
+  - host
+  - windows
+  expected_areas: []
+  implementation_tasks:
+  - Run 5 ms and 10 ms RTT profiles
+  - Find RTT-sensitive synchronous paths and remediate only with proven semantics
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - 5ms profile
+  - 10ms profile
+  - performance regression comparison
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-014
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-022
+  title: 20 ms WAN validation
+  status: NOT_STARTED
+  objective: 20 ms WAN validation
+  why_now: Risk-first progression requires 20 ms wan validation before broader capability
+    claims.
+  requirements:
+  - WAN-010
+  - PERF-012
+  technology_decisions: []
+  prerequisite_phases:
+  - PHASE-021
+  prerequisite_gates:
+  - GATE-014
+  repositories_allowed:
+  - evals
+  - platform
+  - host
+  - windows
+  expected_areas: []
+  implementation_tasks:
+  - Run 20 ms RTT playable-path validation with fixed quality/workload
+  - Classify performance without weakening correctness criteria
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - 20ms deterministic profile
+  - compatibility/performance evidence
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-015
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-023
+  title: 40 ms WAN characterization
+  status: NOT_STARTED
+  objective: 40 ms WAN characterization
+  why_now: Risk-first progression requires 40 ms wan characterization before broader
+    capability claims.
+  requirements:
+  - WAN-010
+  - PERF-012
+  technology_decisions: []
+  prerequisite_phases:
+  - PHASE-022
+  prerequisite_gates:
+  - GATE-015
+  repositories_allowed:
+  - evals
+  - platform
+  - host
+  - windows
+  expected_areas: []
+  implementation_tasks:
+  - Characterize 40 ms RTT limitations and identify unavoidable waits
+  - Document support tier rather than hiding degraded behavior
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - 40ms deterministic profile
+  - stall/fence/bytes metrics
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-016
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-024
+  title: Loss, jitter, bandwidth and ordering resilience
+  status: NOT_STARTED
+  objective: Loss, jitter, bandwidth and ordering resilience
+  why_now: Risk-first progression requires loss, jitter, bandwidth and ordering resilience
+    before broader capability claims.
+  requirements:
+  - WAN-002
+  - WAN-003
+  - WAN-004
+  - WAN-012
+  technology_decisions: []
+  prerequisite_phases:
+  - PHASE-023
+  prerequisite_gates:
+  - GATE-016
+  repositories_allowed:
+  - platform
+  - windows
+  - host
+  - evals
+  - docs
+  expected_areas: []
+  implementation_tasks:
+  - Loss/jitter/bandwidth/reordering fault injection
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - Deterministic loss/jitter/reorder profiles
+  - protocol state-machine tests
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-017
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-025
+  title: Remote-host failure semantics
+  status: NOT_STARTED
+  objective: Remote-host failure semantics
+  why_now: Risk-first progression requires remote-host failure semantics before broader
+    capability claims.
+  requirements:
+  - RECOVERY-001
+  - RECOVERY-002
+  - RECOVERY-003
+  - RECOVERY-004
+  - RECOVERY-005
+  - RECOVERY-006
+  - RECOVERY-007
+  - RECOVERY-008
+  - RECOVERY-009
+  - RECOVERY-010
+  - RECOVERY-011
+  - RECOVERY-012
+  technology_decisions:
+  - TD-017
+  prerequisite_phases:
+  - PHASE-024
+  prerequisite_gates:
+  - GATE-017
+  repositories_allowed:
+  - platform
+  - windows
+  - host
+  - evals
+  - docs
+  expected_areas: []
+  implementation_tasks:
+  - Controlled host crash/reset semantics
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - Host kill/reset tests
+  - device-loss evidence
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-018
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-026
+  title: Hard disconnect, TDR and device-loss containment
+  status: NOT_STARTED
+  objective: Hard disconnect, TDR and device-loss containment
+  why_now: Risk-first progression requires hard disconnect, tdr and device-loss containment
+    before broader capability claims.
+  requirements:
+  - WDDM-007
+  - RECOVERY-007
+  - RECOVERY-011
+  technology_decisions: []
+  prerequisite_phases:
+  - PHASE-025
+  prerequisite_gates:
+  - GATE-018
+  repositories_allowed:
+  - platform
+  - windows
+  - host
+  - evals
+  - docs
+  expected_areas: []
+  implementation_tasks:
+  - Hard disconnect/TDR containment
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - Cable/link cut simulation
+  - Driver Verifier/TDR/crash-dump tests
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-019
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-027
+  title: Attempt-scoped reconnect and recovery
+  status: NOT_STARTED
+  objective: Attempt-scoped reconnect and recovery
+  why_now: Risk-first progression requires attempt-scoped reconnect and recovery before
+    broader capability claims.
+  requirements:
+  - RECOVERY-001
+  - RECOVERY-002
+  - RECOVERY-006
+  - RECOVERY-008
+  technology_decisions: []
+  prerequisite_phases:
+  - PHASE-026
+  prerequisite_gates:
+  - GATE-019
+  repositories_allowed:
+  - platform
+  - windows
+  - host
+  - evals
+  - docs
+  expected_areas: []
+  implementation_tasks:
+  - Attempt-scoped reconnect/new-epoch recovery
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - Reconnect epoch tests
+  - ambiguous completion reconciliation tests
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-020
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-028
+  title: Local/remote multi-adapter coexistence
+  status: NOT_STARTED
+  objective: Local/remote multi-adapter coexistence
+  why_now: Risk-first progression requires local/remote multi-adapter coexistence
+    before broader capability claims.
+  requirements:
+  - MULTIGPU-001
+  - MULTIGPU-002
+  - MULTIGPU-003
+  - MULTIGPU-004
+  - MULTIGPU-005
+  - MULTIGPU-006
+  - MULTIGPU-007
+  - MULTIGPU-008
+  technology_decisions:
+  - TD-011
+  prerequisite_phases:
+  - PHASE-027
+  prerequisite_gates:
+  - GATE-020
+  repositories_allowed:
+  - platform
+  - windows
+  - host
+  - evals
+  - docs
+  expected_areas: []
+  implementation_tasks:
+  - Local+remote adapter coexistence
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - Multi-adapter enumeration/selection tests
+  - desktop/local GPU continuity
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-012
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-029
+  title: Vulkan frontend using common SpanGPU core
+  status: NOT_STARTED
+  objective: Vulkan frontend using common SpanGPU core
+  why_now: Risk-first progression requires vulkan frontend using common spangpu core
+    before broader capability claims.
+  requirements:
+  - VK-001
+  - VK-002
+  - VK-003
+  - VK-004
+  - VK-005
+  - VK-006
+  - VK-007
+  - VK-008
+  - VK-009
+  - VK-010
+  technology_decisions:
+  - TD-004
+  prerequisite_phases:
+  - PHASE-028
+  prerequisite_gates:
+  - GATE-012
+  repositories_allowed:
+  - platform
+  - windows
+  - host
+  - evals
+  - docs
+  expected_areas: []
+  implementation_tasks:
+  - Vulkan frontend on common resource/session core
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - Vulkan CTS-inspired subset
+  - unmodified Vulkan app
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-021
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-030
+  title: OpenGL frontend/consolidation
+  status: NOT_STARTED
+  objective: OpenGL frontend/consolidation
+  why_now: Risk-first progression requires opengl frontend/consolidation before broader
+    capability claims.
+  requirements:
+  - GL-001
+  - GL-002
+  - GL-003
+  - GL-004
+  - GL-005
+  - GL-006
+  - GL-007
+  - GL-008
+  technology_decisions:
+  - TD-004
+  prerequisite_phases:
+  - PHASE-029
+  prerequisite_gates:
+  - GATE-021
+  repositories_allowed:
+  - platform
+  - windows
+  - host
+  - evals
+  - docs
+  expected_areas: []
+  implementation_tasks:
+  - OpenGL frontend/consolidation path
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - OpenGL app matrix
+  - Zink/native comparison
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-022
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-031
+  title: DX9/DX10 compatibility frontend
+  status: NOT_STARTED
+  objective: DX9/DX10 compatibility frontend
+  why_now: Risk-first progression requires dx9/dx10 compatibility frontend before
+    broader capability claims.
+  requirements:
+  - DX-001
+  - DX-002
+  technology_decisions: []
+  prerequisite_phases:
+  - PHASE-030
+  prerequisite_gates:
+  - GATE-022
+  repositories_allowed:
+  - platform
+  - windows
+  - host
+  - evals
+  - docs
+  expected_areas: []
+  implementation_tasks:
+  - DX9/DX10 legacy compatibility path
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - legacy D3D sample/app matrix
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-023
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-032
+  title: D3D12 bounded architecture proof
+  status: NOT_STARTED
+  objective: D3D12 bounded architecture proof
+  why_now: Risk-first progression requires d3d12 bounded architecture proof before
+    broader capability claims.
+  requirements:
+  - DX-006
+  - DX-007
+  technology_decisions: []
+  prerequisite_phases:
+  - PHASE-031
+  prerequisite_gates:
+  - GATE-023
+  repositories_allowed:
+  - platform
+  - windows
+  - host
+  - evals
+  - docs
+  expected_areas: []
+  implementation_tasks:
+  - Bounded D3D12 architecture proof
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - D3D12 minimal command/resource/sync proof
+  - architecture breaker
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-024
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-033
+  title: D3D12 implementation track
+  status: NOT_STARTED
+  objective: D3D12 implementation track
+  why_now: Risk-first progression requires d3d12 implementation track before broader
+    capability claims.
+  requirements:
+  - DX-006
+  - DX-007
+  technology_decisions: []
+  prerequisite_phases:
+  - PHASE-032
+  prerequisite_gates:
+  - GATE-024
+  repositories_allowed:
+  - platform
+  - windows
+  - host
+  - evals
+  - docs
+  expected_areas: []
+  implementation_tasks:
+  - D3D12 implementation track after proof
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - D3D12 API matrix
+  - resource/sync/present stress
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-024
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-034
+  title: AMD host backend and multi-vendor capability model
+  status: NOT_STARTED
+  objective: AMD host backend and multi-vendor capability model
+  why_now: Risk-first progression requires amd host backend and multi-vendor capability
+    model before broader capability claims.
+  requirements:
+  - GPU-002
+  - GPU-006
+  - MULTIGPU-008
+  technology_decisions: []
+  prerequisite_phases:
+  - PHASE-033
+  prerequisite_gates:
+  - GATE-024
+  repositories_allowed:
+  - platform
+  - windows
+  - host
+  - evals
+  - docs
+  expected_areas: []
+  implementation_tasks:
+  - AMD host backend and capability parity
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - AMD backend contract tests
+  - cross-vendor capability tests
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-025
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-035
+  title: Long-duration stability and resource-churn soak
+  status: NOT_STARTED
+  objective: Long-duration stability and resource-churn soak
+  why_now: Risk-first progression requires long-duration stability and resource-churn
+    soak before broader capability claims.
+  requirements:
+  - LAB-005
+  technology_decisions:
+  - TD-032
+  prerequisite_phases:
+  - PHASE-034
+  prerequisite_gates:
+  - GATE-025
+  repositories_allowed:
+  - platform
+  - windows
+  - host
+  - evals
+  - docs
+  expected_areas: []
+  implementation_tasks:
+  - Long soak/resource churn/stability
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - 8h+ soak design
+  - resource churn
+  - runner quarantine policy
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-026
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-036
+  title: Protocol/service security hardening
+  status: NOT_STARTED
+  objective: Protocol/service security hardening
+  why_now: Risk-first progression requires protocol/service security hardening before
+    broader capability claims.
+  requirements:
+  - SEC-001
+  - SEC-002
+  - SEC-003
+  - SEC-004
+  - SEC-005
+  - SEC-006
+  - SEC-007
+  - SEC-008
+  - SEC-009
+  - SEC-010
+  - SEC-011
+  - SEC-012
+  - SEC-013
+  - SEC-014
+  technology_decisions:
+  - TD-015
+  prerequisite_phases:
+  - PHASE-035
+  prerequisite_gates:
+  - GATE-026
+  repositories_allowed:
+  - platform
+  - host
+  - windows
+  - evals
+  - docs
+  expected_areas: []
+  implementation_tasks:
+  - Protocol/service security hardening
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - protocol fuzz
+  - authz/quota/replay tests
+  - threat-model review
+  hardware_tests_required: false
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-027
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-037
+  title: Driver signing, Secure Boot and release trust path
+  status: NOT_STARTED
+  objective: Driver signing, Secure Boot and release trust path
+  why_now: Risk-first progression requires driver signing, secure boot and release
+    trust path before broader capability claims.
+  requirements:
+  - TRUST-001
+  - TRUST-002
+  - TRUST-003
+  - TRUST-004
+  - TRUST-005
+  - TRUST-006
+  - TRUST-007
+  - TRUST-008
+  - TRUST-009
+  - TRUST-010
+  - RELEASE-001
+  technology_decisions:
+  - TD-015
+  - TD-033
+  prerequisite_phases:
+  - PHASE-036
+  prerequisite_gates:
+  - GATE-027
+  repositories_allowed:
+  - platform
+  - windows
+  - host
+  - evals
+  - docs
+  expected_areas: []
+  implementation_tasks:
+  - Signing/Secure Boot/release trust path
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - signed test package validation
+  - Secure Boot test plan
+  - release provenance validation
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-028
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-038
+  title: Compatibility database and representative engine/game matrix
+  status: NOT_STARTED
+  objective: Compatibility database and representative engine/game matrix
+  why_now: Risk-first progression requires compatibility database and representative
+    engine/game matrix before broader capability claims.
+  requirements:
+  - COMPAT-001
+  - COMPAT-002
+  - COMPAT-003
+  - COMPAT-004
+  - COMPAT-005
+  - COMPAT-006
+  - COMPAT-007
+  - COMPAT-008
+  - COMPAT-009
+  - COMPAT-010
+  - COMPAT-011
+  - COMPAT-012
+  - COMPAT-013
+  technology_decisions:
+  - TD-021
+  prerequisite_phases:
+  - PHASE-037
+  prerequisite_gates:
+  - GATE-028
+  repositories_allowed:
+  - platform
+  - windows
+  - host
+  - evals
+  - docs
+  expected_areas: []
+  implementation_tasks:
+  - Compatibility database and representative engine/game matrix
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - Unity/Unreal/custom/legacy matrix
+  - taxonomy validation
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-026
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-039
+  title: Performance optimization under preserved semantics
+  status: NOT_STARTED
+  objective: Performance optimization under preserved semantics
+  why_now: Risk-first progression requires performance optimization under preserved
+    semantics before broader capability claims.
+  requirements: []
+  technology_decisions: []
+  prerequisite_phases:
+  - PHASE-038
+  prerequisite_gates:
+  - GATE-026
+  repositories_allowed:
+  - platform
+  - windows
+  - host
+  - evals
+  - docs
+  expected_areas: []
+  implementation_tasks:
+  - Performance optimization with semantic equivalence
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - baseline regression suite
+  - optimization equivalence/property tests
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-026
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-040
+  title: Official anti-cheat trust pilot preparation
+  status: NOT_STARTED
+  objective: Official anti-cheat trust pilot preparation
+  why_now: Risk-first progression requires official anti-cheat trust pilot preparation
+    before broader capability claims.
+  requirements:
+  - ANTICHEAT-001
+  - ANTICHEAT-002
+  - ANTICHEAT-003
+  - ANTICHEAT-004
+  - ANTICHEAT-005
+  - ANTICHEAT-006
+  - ANTICHEAT-007
+  - ANTICHEAT-008
+  technology_decisions:
+  - TD-016
+  prerequisite_phases:
+  - PHASE-039
+  prerequisite_gates:
+  - GATE-026
+  repositories_allowed:
+  - platform
+  - windows
+  - host
+  - evals
+  - docs
+  expected_areas: []
+  implementation_tasks:
+  - Official anti-cheat trust pilot preparation
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - third-party policy classification tests
+  - no-evasion review
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-029
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-041
+  title: Optional compute and PCIe-over-network research branch
+  status: NOT_STARTED
+  objective: Optional compute and PCIe-over-network research branch
+  why_now: Risk-first progression requires optional compute and pcie-over-network
+    research branch before broader capability claims.
+  requirements:
+  - GPU-009
+  - VISION-009
+  technology_decisions: []
+  prerequisite_phases:
+  - PHASE-040
+  prerequisite_gates:
+  - GATE-029
+  repositories_allowed:
+  - platform
+  - windows
+  - host
+  - evals
+  - docs
+  expected_areas: []
+  implementation_tasks:
+  - Optional compute/PCIe research branch
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - isolated research proof; no v1 dependency
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-030
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED
+- id: PHASE-042
+  title: Architecture-preserving v1 productization
+  status: NOT_STARTED
+  objective: Architecture-preserving v1 productization
+  why_now: Risk-first progression requires architecture-preserving v1 productization
+    before broader capability claims.
+  requirements:
+  - RELEASE-002
+  - RELEASE-003
+  - RELEASE-004
+  technology_decisions:
+  - TD-034
+  prerequisite_phases:
+  - PHASE-041
+  prerequisite_gates:
+  - GATE-030
+  repositories_allowed:
+  - platform
+  - windows
+  - host
+  - evals
+  - docs
+  expected_areas: []
+  implementation_tasks:
+  - Architecture-preserving v1 productization
+  out_of_scope:
+  - Unrelated future phases
+  - Product GUI/marketplace/account polish unless explicitly named
+  forbidden_shortcuts:
+  - Per-game patches
+  - Launcher-specific integration
+  - DLL injection as primary architecture
+  - Hidden local GPU fallback presented as remote success
+  - Skipping required hardware proof
+  tests_required:
+  - release candidate full matrix
+  - rollback/reproducibility/provenance
+  hardware_tests_required: true
+  expected_artifacts:
+  - code/config changes
+  - test results
+  - attempt/evidence bundle
+  - phase report
+  - fresh BREAKER report
+  proof_gate: GATE-028
+  done_criteria:
+  - All linked requirements in phase scope meet acceptance criteria.
+  - All required tests executed and passed.
+  - Builder Assumption Challenge completed.
+  - Fresh independent BREAKER accepted the target commit.
+  - Proof gate PASS with immutable evidence where this phase owns/advances the gate.
+  failure_conditions:
+  - Required test not executed
+  - Environment/upstream blocker prevents proof
+  - Fresh BREAKER finds unresolved blocking defect
+  - Architecture invariant would be violated
+  rollback: Revert phase changes or restore last known-good driver/runtime build;
+    preserve failed-attempt evidence.
+  blocker_reporting: Use BLOCKED_ENVIRONMENT, BLOCKED_ARCHITECTURE, BLOCKED_UPSTREAM,
+    FAILED or PROOF_NOT_ESTABLISHED with evidence; never DONE by inference.
+  review_requirements:
+  - Builder Assumption Challenge
+  - Fresh BREAKER
+  - Boundary Audit for every changed stable interface
+  next_phase_conditions:
+  - Current proof gate PASS and all blocking findings VERIFIED

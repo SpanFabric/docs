@@ -1,0 +1,235 @@
+schema_version: '1.0'
+repositories:
+- id: REPO-PLATFORM
+  name: platform
+  purpose: Protocol schemas, shared state machines, client service core, transport
+    abstraction and generated bindings.
+  owns:
+  - RGPU_SESSION
+  - RGPU_OBJECT
+  - RGPU_RESOURCE
+  - RGPU_COMMAND_STREAM envelopes
+  - RGPU_FENCE
+  - RGPU_TRANSPORT ABI
+  interfaces:
+  - protocol schemas
+  - generated bindings
+  - service/host common contracts
+  dependencies:
+  - MsQuic
+  build: CMake/Ninja + language-specific generated bindings; exact implementation
+    language proven/selected per TDs.
+  ci:
+  - unit
+  - contract
+  - protocol
+  - fuzz
+  - source-view drift
+  release: protocol/runtime libraries
+  codex_scope: No WDDM kernel code and no vendor backend implementation.
+- id: REPO-WINDOWS
+  name: windows
+  purpose: Windows WDDM KMD/UMD/ICD integration, local client service integration,
+    adapter/resource/presentation/recovery behavior.
+  owns:
+  - WDDM adapter
+  - KMD
+  - Windows UMD/ICD adaptations
+  - RGPU_DRIVER_ABI
+  - Windows presentation integration
+  interfaces:
+  - RGPU_DRIVER_ABI
+  - platform protocol bindings
+  dependencies:
+  - platform
+  - controlled Triton/Mesa forks
+  build: Visual Studio/WDK/CMake as upstream requires; sacrificial hardware runner
+    required for proof.
+  ci:
+  - static/unit
+  - driver build
+  - hardware-gated driver tests
+  release: Windows driver/runtime package
+  codex_scope: No game/launcher hooks or production signing secret access.
+- id: REPO-HOST
+  name: host
+  purpose: Remote host daemon, resource/VRAM authority, command decoders, scheduler,
+    vendor-neutral backend and frame return.
+  owns:
+  - session host
+  - VRAM manager
+  - cache service
+  - RGPU_BACKEND
+  - decoders
+  - GPU scheduler
+  - frame export
+  interfaces:
+  - platform protocol
+  - backend ABI
+  dependencies:
+  - platform
+  - controlled Neptune/DXVK forks
+  - Mesa/virgl/gfxstream components
+  build: Linux-first host toolchain initially; Windows host only by future TD.
+  ci:
+  - unit
+  - contract
+  - renderer integration
+  - GPU hardware matrix
+  release: host daemon/container/package
+  codex_scope: Vendor specifics stay behind RGPU_BACKEND.
+- id: REPO-EVALS
+  name: evals
+  purpose: Immutable proof workloads, hardware runner controller, WAN profiles, compatibility
+    database, evidence tooling and benchmarks.
+  owns:
+  - test matrices
+  - evidence schemas consumption
+  - hardware/WAN runner
+  - benchmark definitions
+  - compatibility records
+  interfaces:
+  - evidence bundle
+  - compatibility schema
+  - runner lease API
+  dependencies:
+  - platform/windows/host release artifacts
+  build: Python/PowerShell/shell + test workload toolchains.
+  ci:
+  - schema
+  - determinism
+  - runner simulation
+  - non-hardware tests
+  release: test harness/evidence formats
+  codex_scope: Benchmarks may not be changed to make regressions disappear.
+- id: REPO-DOCS
+  name: docs
+  purpose: 'Canonical project governance after bootstrap: requirements, architecture,
+    TDs, gates, phases, upstream registry and generated views.'
+  owns:
+  - machine-readable governance
+  - architecture docs
+  - TDs
+  - phase/gate specs
+  - release/governance policy
+  interfaces:
+  - canonical YAML schemas consumed by Steward/CI
+  dependencies: []
+  build: Documentation generators/validators.
+  ci:
+  - traceability
+  - generated-view drift
+  - license/upstream metadata
+  release: versioned project governance bundle
+  codex_scope: Changes to accepted TDs/invariants require governance process.
+- id: REPO-GITHUB
+  name: .github
+  purpose: Organization-wide CI/review templates and central Project Steward automation/state
+    projections.
+  owns:
+  - workflow templates
+  - review routing
+  - Steward runtime/config
+  interfaces:
+  - reads docs canonical governance; reports findings/statuses
+  dependencies:
+  - docs
+  build: GitHub Actions/workflow tooling.
+  ci:
+  - workflow lint
+  - Steward policy tests
+  release: organization policy/workflow versions
+  codex_scope: Must not duplicate normative requirements/TDs as independent truth.
+boundaries:
+- id: BOUNDARY-RGPU-DRIVER-ABI
+  name: RGPU_DRIVER_ABI
+  producer: Windows KMD/UMD
+  consumer: Client service
+  source_of_truth: Versioned Windows driver/object state and explicit ABI messages
+  validation_owner: windows
+  trust_owner: windows/service privilege boundary
+  version_owner: windows
+  concurrency: Bounded local queues; cancellation/device removal explicit
+  transactions: No implicit distributed transaction
+  retry_idempotency: Sequence/operation IDs; do not blindly retry ambiguous mutations
+  failure_semantics: Version mismatch fails closed; service failure maps to controlled
+    device loss
+  future_compatibility: Versioned ABI and feature negotiation
+- id: BOUNDARY-RGPU-SESSION
+  name: RGPU_SESSION
+  producer: Client service
+  consumer: Host session manager
+  source_of_truth: Negotiated authenticated session epoch
+  validation_owner: platform+host
+  trust_owner: security/session identity
+  version_owner: platform
+  concurrency: Concurrent logical streams share one explicit epoch
+  transactions: Session establishment atomic from caller perspective
+  retry_idempotency: Reconnect creates/revalidates epoch; replay protection
+  failure_semantics: Auth/version mismatch fails closed
+  future_compatibility: Major/minor protocol policy
+- id: BOUNDARY-RGPU-RESOURCE
+  name: RGPU_RESOURCE
+  producer: Client resource manager
+  consumer: Host VRAM/resource manager
+  source_of_truth: Host resource generation/residency; local state is shadow/projection
+  validation_owner: platform+host
+  trust_owner: host parser/quota boundary
+  version_owner: platform
+  concurrency: Generation/range updates ordered explicitly
+  transactions: Create/upload/commit modeled as explicit states
+  retry_idempotency: Content IDs and mutation generation/sequence
+  failure_semantics: OOM/corruption/stale epoch structured; no silent local substitution
+  future_compatibility: Capability/format metadata versioned
+- id: BOUNDARY-RGPU-COMMAND
+  name: RGPU_COMMAND_STREAM
+  producer: API frontend
+  consumer: Host API decoder/backend
+  source_of_truth: API semantics plus queue order/object generations
+  validation_owner: owning frontend+host decoder
+  trust_owner: untrusted network parser before vendor driver
+  version_owner: platform + API namespace owner
+  concurrency: Per-queue ordering; cross-queue edges explicit
+  transactions: No global transaction; batches have bounded atomic decode semantics
+  retry_idempotency: Submission sequence; replay only when defined safe
+  failure_semantics: Malformed/unsupported command fails work/session safely
+  future_compatibility: Namespace/version/capability negotiation
+- id: BOUNDARY-RGPU-FENCE
+  name: RGPU_FENCE
+  producer: Remote GPU/host completion manager
+  consumer: Client/WDDM completion path
+  source_of_truth: Remote physical execution completion
+  validation_owner: platform+windows
+  trust_owner: authenticated host session
+  version_owner: platform
+  concurrency: Timeline monotonicity and queue ordering
+  transactions: Signal/completion event semantics
+  retry_idempotency: Duplicate completion idempotent; stale epoch rejected
+  failure_semantics: Timeout/device loss explicit; no optimistic success
+  future_compatibility: 64-bit timeline/epoch model
+- id: BOUNDARY-RGPU-TRANSPORT
+  name: RGPU_TRANSPORT
+  producer: Protocol layer
+  consumer: MsQuic/RDMA implementation
+  source_of_truth: Protocol/session semantics; transport owns bytes/congestion only
+  validation_owner: platform
+  trust_owner: mTLS/network boundary
+  version_owner: platform
+  concurrency: Multiple independent logical streams
+  transactions: None
+  retry_idempotency: Connection retry cannot replay semantic mutation absent idempotency
+  failure_semantics: Disconnect propagated to recovery state machine
+  future_compatibility: Replaceable transport ABI
+- id: BOUNDARY-GOVERNANCE
+  name: Canonical governance metadata
+  producer: docs/governance process
+  consumer: Codex/CI/Project Steward/humans
+  source_of_truth: 12-machine-readable canonical YAML
+  validation_owner: docs + Steward
+  trust_owner: protected branch/review policy
+  version_owner: docs governance
+  concurrency: Changes via PR; generated views must match same commit
+  transactions: Governance update PR must leave graph internally valid
+  retry_idempotency: Regeneration deterministic
+  failure_semantics: Validator failure blocks merge; no fallback to stale Markdown
+  future_compatibility: Schema-versioned canonical entities

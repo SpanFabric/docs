@@ -1,0 +1,2 @@
+# Architecture Review
+The BuilderKit preserves the Research-3 hybrid architecture: WDDM/virtio-derived Windows adapter, semantic WAN protocol, remote-authoritative VRAM, remote host renderer/vendor backend, local GPU coexistence and proof-gated presentation/D3D12/recovery. No Juice/proprietary unavailable binary is in the critical path. The major architectural unknowns remain intentionally represented as PROOF_REQUIRED TDs and early gates rather than assumptions.

@@ -1,0 +1,19 @@
+schema_version: '1.0'
+states:
+- PROPOSED
+- APPROVED
+- EXPIRED
+- REVOKED
+required:
+- waiver_id
+- state
+- owner
+- scope
+- rationale
+- affected_ids
+- approved_by
+- review_or_expiry
+rules:
+- Waiver never changes gate/test result to PASS.
+- Critical safety/evidence invariants may be non-waivable by policy.
+- Expired/revoked waivers remain historical records.

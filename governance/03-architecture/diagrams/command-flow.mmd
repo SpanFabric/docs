@@ -1,0 +1,12 @@
+flowchart LR
+A[API command recording] --> B[Local object shadow]
+B --> C[Queue batch]
+C --> D{Needs resource payload?}
+D -- No --> E[Command stream]
+D -- Yes --> F[Resource stream/cache lookup]
+E --> G[QUIC independent streams]
+F --> G
+G --> H[Host validated decoder]
+H --> I[GPU queue]
+I --> J[Async completion]
+J --> K[Priority completion stream]

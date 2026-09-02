@@ -1,0 +1,13 @@
+# Terminology
+- **SpanGPU adapter:** Windows WDDM adapter representing remote execution capability.
+- **KMD / UMD / ICD:** Windows kernel-mode driver, Direct3D user-mode driver, installable client driver.
+- **Resource authority:** component whose state decides resource identity/lifetime/version; remote host is authoritative for remote VRAM.
+- **Shadow state:** local non-authoritative representation used to avoid WAN round trips.
+- **Session epoch:** unique logical execution epoch; stale messages/resources from older epochs are rejected.
+- **Attempt ID:** immutable identifier for one builder/gate/recovery/review execution.
+- **Evidence ID:** immutable reference to logs/traces/artifacts/results from an attempt.
+- **Builder:** Codex session implementing the phase.
+- **BREAKER:** separate fresh Codex session attempting to falsify implementation without builder reasoning history.
+- **Proof gate:** evidence-backed stop/go criterion for a dangerous architecture assumption.
+- **Controlled fork:** upstream source copied/forked under SpanGPU governance, pinned and maintained with explicit patch/upstream policy.
+- **Allowed / required / observed:** respectively what a component may support, what a workload/session needs, and what was actually negotiated/measured. They are never interchangeable.

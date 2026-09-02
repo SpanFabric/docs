@@ -1,0 +1,106 @@
+schema_version: '1.0'
+profiles:
+- id: LAN
+  rtt_ms: 0
+  jitter_ms: 0
+  loss_pct: 0
+  bandwidth_mbps: null
+  reorder_pct: 0
+  disconnect: none
+- id: RTT-1
+  rtt_ms: 1
+  jitter_ms: 0
+  loss_pct: 0
+  bandwidth_mbps: null
+  reorder_pct: 0
+  disconnect: none
+- id: RTT-5
+  rtt_ms: 5
+  jitter_ms: 0
+  loss_pct: 0
+  bandwidth_mbps: null
+  reorder_pct: 0
+  disconnect: none
+- id: RTT-10
+  rtt_ms: 10
+  jitter_ms: 0
+  loss_pct: 0
+  bandwidth_mbps: null
+  reorder_pct: 0
+  disconnect: none
+- id: RTT-20
+  rtt_ms: 20
+  jitter_ms: 0
+  loss_pct: 0
+  bandwidth_mbps: null
+  reorder_pct: 0
+  disconnect: none
+- id: RTT-30
+  rtt_ms: 30
+  jitter_ms: 0
+  loss_pct: 0
+  bandwidth_mbps: null
+  reorder_pct: 0
+  disconnect: none
+- id: RTT-40
+  rtt_ms: 40
+  jitter_ms: 0
+  loss_pct: 0
+  bandwidth_mbps: null
+  reorder_pct: 0
+  disconnect: none
+- id: LOSS-1
+  rtt_ms: 10
+  jitter_ms: 1
+  loss_pct: 1
+  bandwidth_mbps: null
+  reorder_pct: 0
+  disconnect: none
+- id: JITTER-5
+  rtt_ms: 10
+  jitter_ms: 5
+  loss_pct: 0
+  bandwidth_mbps: null
+  reorder_pct: 0
+  disconnect: none
+- id: BW-100
+  rtt_ms: 10
+  jitter_ms: 1
+  loss_pct: 0
+  bandwidth_mbps: 100
+  reorder_pct: 0
+  disconnect: none
+- id: REORDER-1
+  rtt_ms: 10
+  jitter_ms: 1
+  loss_pct: 0
+  bandwidth_mbps: null
+  reorder_pct: 1
+  disconnect: none
+- id: TEMP-DISCONNECT
+  rtt_ms: 10
+  jitter_ms: 1
+  loss_pct: 0
+  bandwidth_mbps: null
+  reorder_pct: 0
+  disconnect: 2s deterministic interruption
+- id: HARD-DISCONNECT
+  rtt_ms: 10
+  jitter_ms: 0
+  loss_pct: 0
+  bandwidth_mbps: null
+  reorder_pct: 0
+  disconnect: persistent until new attempt
+required_metrics:
+- frame_time_ms
+- gpu_utilization_pct
+- client_cpu_pct
+- host_cpu_pct
+- bytes_per_frame
+- resource_upload_bytes
+- cache_hit_rate
+- command_stream_bytes
+- rtt_sensitive_operations
+- stall_time_ms
+- fence_latency_ms
+- reconnect_time_ms

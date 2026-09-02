@@ -1,0 +1,91 @@
+project:
+  name: SpanGPU
+  builderkit_version: 2026.09.02-v1.2.3-spanfabric
+  status: READY_FOR_PHASE_00
+  research_status: COMPLETE_INPUT_FROZEN
+  architecture_status: RECOMMENDED_PROOF_GATED
+  implementation_status: NOT_STARTED
+  organization: SpanFabric
+north_star: Local Windows app/CPU/RAM/storage/input; remote physical GPU execution
+  and remote-authoritative VRAM; normal WDDM adapter; WAN first-class; no per-game/launcher/injection
+  foundation.
+selected_architecture: Hybrid WDDM/virtio-derived Windows frontend + semantic WAN
+  command/resource protocol + remote host renderer/vendor backend, with remote-authoritative
+  VRAM and legitimate Windows presentation proof gate.
+current_phase: PHASE-000
+current_gate: GATE-000
+builderkit_acceptance_gate: GATE-BK-000
+completed_phases: []
+completed_gates:
+- GATE-BK-000
+blocked_items: []
+provisional_decisions:
+- TD-002
+- TD-004
+- TD-006
+- TD-007
+- TD-008
+- TD-009
+- TD-011
+- TD-012
+- TD-015
+- TD-017
+- TD-022
+- TD-023
+- TD-024
+- TD-026
+- TD-034
+critical_risks:
+- RISK-001
+- RISK-002
+- RISK-003
+- RISK-004
+- RISK-005
+- RISK-006
+- RISK-007
+- RISK-008
+- RISK-009
+- RISK-010
+- RISK-011
+- RISK-012
+- RISK-013
+- RISK-015
+- RISK-016
+- RISK-018
+- RISK-019
+- RISK-020
+- RISK-021
+- RISK-022
+- RISK-023
+- RISK-024
+- RISK-025
+- RISK-026
+- RISK-027
+repositories:
+- platform
+- windows
+- host
+- evals
+- docs
+- .github
+controlled_forks:
+- UP-001
+- UP-002
+- UP-003
+- UP-004
+next_required_action: 'Execute PHASE-000 Stage A only: prepare pinned validator environment,
+  run validators and all bootstrap dry-runs, seal pre-bootstrap evidence, then stop
+  for a fresh PRE-APPLY BREAKER. GitHub mutation remains forbidden until that BREAKER
+  accepts.'
+github_organization: SpanFabric
+local_workspace_root: D:\Projekte\SpanGPU
+builderkit_source: '%USERPROFILE%\Downloads\SpanGPU-BuilderKit.zip'
+branding_asset_source: 00-project/branding/SpanFabric-logo.png
+primary_repository: platform
+phase_000_bootstrap:
+  pre_apply_breaker_required: true
+  pre_apply_breaker_status: NOT_RUN
+  github_mutation_allowed: false
+  prebootstrap_evidence_root: D:\Projekte\SpanGPU\_evidence-prebootstrap
+  materialization_manifest: 11-bootstrap/materialization-manifest.yaml
+  post_apply_breaker_required: true

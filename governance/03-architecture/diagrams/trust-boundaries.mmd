@@ -1,0 +1,9 @@
+flowchart LR
+A[Application] --> B[UMD/KMD boundary]
+B --> C[Privileged client service]
+C -->|mTLS/QUIC untrusted network| D[Host session/parser]
+D --> E[Renderer/backend]
+E --> F[Vendor driver/GPU]
+G[Persistent cache] --- D
+H[Evidence store] --- C
+H --- D

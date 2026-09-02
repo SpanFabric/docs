@@ -1,0 +1,62 @@
+schema_version: '1.0'
+format: JSONL_APPEND_ONLY
+path_template: <workspace>/_bootstrap-state/materialization-journal/<attempt_id>.jsonl
+attempt_id_reuse: FORBIDDEN
+preflight_failure_creates_journal: false
+required_common_fields:
+- event
+- time_utc
+events:
+  APPLY_STARTED:
+    required:
+    - attempt_id
+    - builderkit_version
+    - plan_sha256
+  REPOSITORY_BEGIN:
+    required:
+    - repository
+  FILE_WRITE_BEGIN:
+    required:
+    - repository
+    - path
+    - source_sha256
+  FILE_WRITE_OK:
+    required:
+    - repository
+    - path
+    - sha256
+  FILE_ADOPT_EXACT:
+    required:
+    - repository
+    - path
+    - sha256
+  FILE_UNCHANGED:
+    required:
+    - repository
+    - path
+    - sha256
+  STATE_WRITE_BEGIN:
+    required:
+    - repository
+    - path
+  STATE_WRITE_OK:
+    required:
+    - repository
+    - sha256
+  REPOSITORY_COMPLETE:
+    required:
+    - repository
+  APPLY_FAILED:
+    required:
+    - attempt_id
+    - error_type
+    - error
+  APPLY_COMPLETE:
+    required:
+    - attempt_id
+recovery:
+  retry_requires_new_attempt_id: true
+  automatic_delete: false
+  adopt_unmanaged_only_if_exact_desired_sha256: true
+  managed_drift: FAIL_CLOSED
+repository_state_commit: ONLY_AFTER_ALL_DESIRED_FILES_HASH_VERIFIED

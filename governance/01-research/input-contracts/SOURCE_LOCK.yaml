@@ -1,0 +1,6 @@
+schema_version: '1.0'
+files:
+- path: 01-research/input-contracts/PROVENANCE.md
+  sha256: 73085c4b4d90c80acb48d6db174b64a6112bf690c2ce5f2ec23b4d5116066dc7
+note: Frozen user-provided planning contracts included so the BuilderKit does not
+  depend on hidden chat context.

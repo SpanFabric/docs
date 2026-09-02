@@ -1,0 +1,30 @@
+schema_version: '1.0'
+categories:
+- category: first-real-game
+  anti_cheat: false
+  requirements:
+  - unmodified
+  - known D3D11 API
+  - Steam proof separately
+- category: Unity
+  target: representative versions
+- category: Unreal
+  target: representative versions
+- category: custom-engine
+  target: at least one
+- category: legacy-DX
+  target: DX9/DX10
+- category: modern-DX12
+  target: after GATE-024
+- category: Vulkan-game
+  target: after GATE-021
+- category: hardware-ray-tracing
+  target: after D3D12/Vulkan RT capability proof
+result_taxonomy:
+- SUPPORTED
+- SUPPORTED_WITH_LIMITATIONS
+- SPANGPU_BUG
+- THIRD_PARTY_BLOCKED
+- UNSUPPORTED_ARCHITECTURE
+- UNKNOWN
+- NOT_TESTED

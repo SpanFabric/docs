@@ -1,0 +1,1742 @@
+schema_version: '1.0'
+gates:
+- id: GATE-BK-000
+  kind: builderkit
+  title: BuilderKit acceptance
+  status: PASS
+  objective: Prove the packaged BuilderKit is self-contained, internally consistent,
+    semantically traceable, safe to bootstrap and free of hidden-conversation dependencies.
+  rationale: The BuilderKit is project control-plane infrastructure. Partial generation
+    or stale metadata would recreate known Codex failure modes before implementation
+    begins.
+  prerequisites: []
+  environment: Clean local workspace with Python 3 and PyYAML; no GPU hardware required.
+  hardware: None.
+  procedure:
+  - Run validate-builderkit.py
+  - Run validate-traceability.py
+  - Run validate-upstreams.py
+  - Parse all YAML/JSON
+  - Verify source-view synchronization
+  - Scan placeholders/secrets/binaries/zero-byte/temp files
+  - Verify ZIP integrity and SHA-256
+  - Run fresh semantic consistency checks over North Star, invariants, phases and
+    proof gates.
+  expected_result: All fatal validation rules pass; only explicitly structured PROOF_REQUIRED
+    decisions remain unresolved.
+  metrics:
+  - validator exit codes
+  - entity counts
+  - unresolved reference count
+  - placeholder count
+  - secret scan count
+  - ZIP CRC errors
+  artifacts:
+  - validation-report.json
+  - builderkit-manifest.json
+  - SpanGPU-BuilderKit.zip
+  - SpanGPU-BuilderKit.zip.sha256
+  pass_rule: All fatal validators exit 0, ZIP integrity passes, manifest hashes match
+    and no prohibited content/secret/proprietary binary is present.
+  fail_rule: Any fatal semantic/reference/packaging/source-of-truth violation or unsafe
+    script default produces FAIL and BuilderKit is not distributable.
+  blocked_rule: Missing Python/PyYAML/ZIP support is BLOCKED_ENVIRONMENT; do not report
+    PASS.
+  next_action: Set PROJECT_STATE current_phase=PHASE-000 and current_gate=GATE-000.
+- id: GATE-000
+  kind: implementation
+  title: Reproducible OSS baseline builds
+  status: NOT_RUN
+  objective: All selected source baselines, toolchains, validators and evidence storage
+    reproduce from pinned metadata; licensing and project bootstrap are validated.
+  rationale: Reproducible OSS baseline builds is a risk-first proof required before
+    later claims depend on it.
+  prerequisites: []
+  environment: As defined by owning phase and test matrix.
+  hardware: Required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: All selected source baselines, toolchains, validators and evidence
+    storage reproduce from pinned metadata; licensing and project bootstrap are validated.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Proceed to next risk-first phase only after PASS.
+  owning_phases:
+  - PHASE-000
+  - PHASE-001
+  - PHASE-002
+  - PHASE-003
+  requirements:
+  - VISION-001
+  - VISION-002
+  - VISION-003
+  - VISION-004
+  - VISION-005
+  - VISION-006
+  - VISION-007
+  - VISION-008
+  - VISION-009
+  - VISION-010
+  - TEST-001
+  - TEST-002
+  - TEST-003
+  - TEST-004
+  - TEST-005
+  - TEST-006
+  - TEST-007
+  - TEST-008
+  - TEST-009
+  - TEST-010
+  - TEST-011
+  - TEST-012
+  - TEST-013
+  - TEST-014
+  - TEST-015
+  - TEST-016
+  - TEST-017
+  - TEST-018
+  - CI-001
+  - CI-002
+  - CI-003
+  - CI-004
+  - CI-005
+  - CI-006
+  - CI-007
+  - CI-008
+  - CI-009
+  - CI-010
+  - CI-011
+  - CI-012
+  - UPSTREAM-001
+  - UPSTREAM-002
+  - UPSTREAM-003
+  - UPSTREAM-004
+  - UPSTREAM-005
+  - UPSTREAM-006
+  - UPSTREAM-007
+  - UPSTREAM-008
+  - UPSTREAM-009
+  - UPSTREAM-010
+  - UPSTREAM-011
+  - UPSTREAM-012
+  - UPSTREAM-013
+  - UPSTREAM-014
+  - LICENSE-001
+  - LICENSE-002
+  - LICENSE-003
+  - LICENSE-004
+  - LICENSE-005
+  - LICENSE-006
+  - LICENSE-007
+  - LICENSE-008
+  - LICENSE-009
+  - LICENSE-010
+  - BUILD-001
+  - BUILD-002
+  - BUILD-003
+  - BUILD-004
+  - BUILD-005
+  - BUILD-006
+  - BUILD-007
+  - BUILD-008
+  - BUILD-009
+  - BUILD-010
+  - BUILD-011
+  - OPS-001
+  - OPS-002
+  - OPS-003
+  - OPS-004
+  - OPS-005
+  - OPS-006
+  - OPS-007
+  - OPS-008
+  - OPS-009
+  - OPS-010
+  - OPS-011
+  - OPS-012
+  - DOC-001
+  - DOC-002
+  - DOC-003
+  - DOC-004
+  - DOC-005
+  - DOC-006
+  - DOC-007
+  - DOC-008
+  - DOC-009
+  - DOC-010
+  - DOC-011
+  - DOC-012
+  - DOC-013
+  - DOC-014
+  - DOC-015
+  - DOC-016
+  - DOC-017
+  - DOC-018
+  - EVIDENCE-003
+  - EVIDENCE-004
+  - EVIDENCE-006
+  - LAB-001
+  - LAB-002
+  - LAB-003
+  - LAB-004
+- id: GATE-001
+  kind: implementation
+  title: Windows enumerates SpanGPU adapter
+  status: NOT_RUN
+  objective: A Windows 11 test machine enumerates SpanGPU as a secondary hardware-accelerated
+    adapter beside the local GPU without instability.
+  rationale: Windows enumerates SpanGPU adapter is a risk-first proof required before
+    later claims depend on it.
+  prerequisites:
+  - GATE-000
+  environment: As defined by owning phase and test matrix.
+  hardware: Required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: A Windows 11 test machine enumerates SpanGPU as a secondary hardware-accelerated
+    adapter beside the local GPU without instability.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Proceed to next risk-first phase only after PASS.
+  owning_phases:
+  - PHASE-004
+  requirements:
+  - FUNC-001
+  - FUNC-002
+  - FUNC-003
+  - FUNC-004
+  - FUNC-005
+  - FUNC-006
+  - FUNC-007
+  - FUNC-008
+  - FUNC-009
+  - FUNC-010
+  - WIN-001
+  - WIN-002
+  - WIN-003
+  - WIN-004
+  - WIN-005
+  - WIN-006
+  - WIN-007
+  - WIN-008
+  - WIN-009
+  - WIN-010
+  - WDDM-001
+  - WDDM-002
+  - WDDM-003
+  - WDDM-004
+  - WDDM-005
+  - WDDM-006
+  - WDDM-007
+  - WDDM-008
+  - WDDM-009
+  - WDDM-010
+  - WDDM-011
+  - WDDM-012
+- id: GATE-002
+  kind: implementation
+  title: Basic allocation lifecycle
+  status: NOT_RUN
+  objective: Create/map/stage/destroy representative allocations repeatedly without
+    leaks, invalid state or kernel faults.
+  rationale: Basic allocation lifecycle is a risk-first proof required before later
+    claims depend on it.
+  prerequisites:
+  - GATE-001
+  environment: As defined by owning phase and test matrix.
+  hardware: Required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: Create/map/stage/destroy representative allocations repeatedly
+    without leaks, invalid state or kernel faults.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Proceed to next risk-first phase only after PASS.
+  owning_phases:
+  - PHASE-005
+  - PHASE-006
+  requirements: []
+- id: GATE-003
+  kind: implementation
+  title: Remote triangle end-to-end
+  status: NOT_RUN
+  objective: An unmodified D3D11 sample submits through SpanGPU and the physical
+    remote GPU renders the expected frame with traceable command/resource evidence.
+  rationale: Remote triangle end-to-end is a risk-first proof required before later
+    claims depend on it.
+  prerequisites:
+  - GATE-002
+  environment: As defined by owning phase and test matrix.
+  hardware: Required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: An unmodified D3D11 sample submits through SpanGPU and the physical
+    remote GPU renders the expected frame with traceable command/resource evidence.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Proceed to next risk-first phase only after PASS.
+  owning_phases:
+  - PHASE-007
+  - PHASE-008
+  - PHASE-009
+  - PHASE-010
+  requirements:
+  - GFX-001
+  - GFX-002
+  - GFX-003
+  - GFX-004
+  - GFX-005
+  - GFX-006
+  - GFX-007
+  - GFX-008
+  - GFX-009
+  - GFX-010
+  - PROTO-001
+  - PROTO-002
+  - PROTO-003
+  - PROTO-004
+  - PROTO-005
+  - PROTO-006
+  - PROTO-007
+  - PROTO-008
+  - PROTO-009
+  - PROTO-010
+  - PROTO-011
+  - PROTO-012
+  - PROTO-013
+  - TRANSPORT-001
+  - TRANSPORT-002
+  - TRANSPORT-003
+  - TRANSPORT-004
+  - TRANSPORT-005
+  - TRANSPORT-006
+  - TRANSPORT-007
+  - TRANSPORT-008
+  - TRANSPORT-009
+  - TRANSPORT-010
+  - TRANSPORT-011
+  - HOST-001
+  - HOST-002
+  - HOST-003
+  - HOST-004
+  - HOST-005
+  - HOST-006
+  - HOST-007
+  - HOST-008
+  - HOST-009
+  - HOST-010
+  - HOST-011
+  - HOST-012
+  - GPU-001
+  - GPU-002
+  - GPU-003
+  - GPU-004
+  - GPU-005
+  - GPU-006
+  - GPU-007
+  - GPU-008
+  - GPU-009
+  - GPU-010
+- id: GATE-004
+  kind: implementation
+  title: Unmodified third-party D3D application
+  status: NOT_RUN
+  objective: A third-party D3D application not built for SpanGPU selects/uses the
+    adapter and renders correctly.
+  rationale: Unmodified third-party D3D application is a risk-first proof required
+    before later claims depend on it.
+  prerequisites:
+  - GATE-003
+  environment: As defined by owning phase and test matrix.
+  hardware: Required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: A third-party D3D application not built for SpanGPU selects/uses
+    the adapter and renders correctly.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Proceed to next risk-first phase only after PASS.
+  owning_phases:
+  - PHASE-011
+  requirements: []
+- id: GATE-005
+  kind: implementation
+  title: D3D11 correctness baseline
+  status: NOT_RUN
+  objective: Representative D3D11 feature/conformance tests and stress cases pass
+    through the remote path.
+  rationale: D3D11 correctness baseline is a risk-first proof required before later
+    claims depend on it.
+  prerequisites:
+  - GATE-004
+  environment: As defined by owning phase and test matrix.
+  hardware: Required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: Representative D3D11 feature/conformance tests and stress cases
+    pass through the remote path.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Proceed to next risk-first phase only after PASS.
+  owning_phases:
+  - PHASE-012
+  requirements:
+  - DX-001
+  - DX-002
+  - DX-003
+  - DX-004
+  - DX-005
+  - DX-006
+  - DX-007
+  - DX-008
+  - DX-009
+  - DX-010
+- id: GATE-006
+  kind: implementation
+  title: Windows presentation path
+  status: NOT_RUN
+  objective: Remote-rendered output reaches the local Windows desktop/fullscreen presentation
+    path without a launcher/plugin or standalone streaming-window substitution.
+  rationale: Windows presentation path is a risk-first proof required before later
+    claims depend on it.
+  prerequisites:
+  - GATE-005
+  environment: As defined by owning phase and test matrix.
+  hardware: Required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: Remote-rendered output reaches the local Windows desktop/fullscreen
+    presentation path without a launcher/plugin or standalone streaming-window substitution.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Proceed to next risk-first phase only after PASS.
+  owning_phases:
+  - PHASE-013
+  requirements: []
+- id: GATE-007
+  kind: implementation
+  title: Remote-authoritative VRAM
+  status: NOT_RUN
+  objective: Resource ownership, uploads, mutations, eviction and readback operate
+    with remote host authority and no hidden shared-memory assumption.
+  rationale: Remote-authoritative VRAM is a risk-first proof required before later
+    claims depend on it.
+  prerequisites:
+  - GATE-011
+  environment: As defined by owning phase and test matrix.
+  hardware: Required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: Resource ownership, uploads, mutations, eviction and readback operate
+    with remote host authority and no hidden shared-memory assumption.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Proceed to next risk-first phase only after PASS.
+  owning_phases:
+  - PHASE-016
+  requirements:
+  - VRAM-001
+  - VRAM-002
+  - VRAM-003
+  - VRAM-004
+  - VRAM-005
+  - VRAM-006
+  - VRAM-007
+  - VRAM-008
+  - VRAM-009
+  - VRAM-010
+  - VRAM-011
+  - VRAM-012
+  - MEM-001
+  - MEM-002
+  - MEM-003
+  - MEM-004
+  - MEM-005
+  - MEM-006
+  - MEM-007
+  - MEM-008
+  - MEM-009
+  - MEM-010
+- id: GATE-008
+  kind: implementation
+  title: Persistent/cacheable resources
+  status: NOT_RUN
+  objective: Repeated workloads reuse identical immutable resources and measurably
+    reduce upload bytes while preserving correctness.
+  rationale: Persistent/cacheable resources is a risk-first proof required before
+    later claims depend on it.
+  prerequisites:
+  - GATE-007
+  environment: As defined by owning phase and test matrix.
+  hardware: Required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: Repeated workloads reuse identical immutable resources and measurably
+    reduce upload bytes while preserving correctness.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Proceed to next risk-first phase only after PASS.
+  owning_phases:
+  - PHASE-017
+  requirements:
+  - CACHE-001
+  - CACHE-002
+  - CACHE-003
+  - CACHE-004
+  - CACHE-005
+  - CACHE-006
+  - CACHE-007
+  - CACHE-008
+  - CACHE-009
+  - CACHE-010
+  - CACHE-011
+  - CACHE-012
+- id: GATE-009
+  kind: implementation
+  title: Asynchronous queues and virtual fences
+  status: NOT_RUN
+  objective: Multiple command batches/frames can be in flight; ordinary submissions
+    do not serialize on WAN RTT and semantic waits remain correct.
+  rationale: Asynchronous queues and virtual fences is a risk-first proof required
+    before later claims depend on it.
+  prerequisites:
+  - GATE-008
+  environment: As defined by owning phase and test matrix.
+  hardware: Required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: Multiple command batches/frames can be in flight; ordinary submissions
+    do not serialize on WAN RTT and semantic waits remain correct.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Proceed to next risk-first phase only after PASS.
+  owning_phases:
+  - PHASE-018
+  - PHASE-019
+  requirements:
+  - SYNC-001
+  - SYNC-002
+  - SYNC-003
+  - SYNC-004
+  - SYNC-005
+  - SYNC-006
+  - SYNC-007
+  - SYNC-008
+  - SYNC-009
+  - SYNC-010
+  - SYNC-011
+  - SYNC-012
+- id: GATE-010
+  kind: implementation
+  title: First unmodified real game
+  status: NOT_RUN
+  objective: A representative real game renders on SpanGPU with no per-game binary
+    modification.
+  rationale: First unmodified real game is a risk-first proof required before later
+    claims depend on it.
+  prerequisites:
+  - GATE-006
+  environment: As defined by owning phase and test matrix.
+  hardware: Required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: A representative real game renders on SpanGPU with no per-game
+    binary modification.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Proceed to next risk-first phase only after PASS.
+  owning_phases:
+  - PHASE-014
+  requirements: []
+- id: GATE-011
+  kind: implementation
+  title: Steam-launched game without integration
+  status: NOT_RUN
+  objective: The same architecture works when the game is launched normally through
+    Steam without Steam-specific SpanGPU integration.
+  rationale: Steam-launched game without integration is a risk-first proof required
+    before later claims depend on it.
+  prerequisites:
+  - GATE-010
+  environment: As defined by owning phase and test matrix.
+  hardware: Required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: The same architecture works when the game is launched normally
+    through Steam without Steam-specific SpanGPU integration.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Proceed to next risk-first phase only after PASS.
+  owning_phases:
+  - PHASE-015
+  requirements: []
+- id: GATE-012
+  kind: implementation
+  title: Local and remote GPU coexistence
+  status: NOT_RUN
+  objective: Local adapter remains functional while SpanGPU is active; adapter selection
+    and desktop stability are verified.
+  rationale: Local and remote GPU coexistence is a risk-first proof required before
+    later claims depend on it.
+  prerequisites:
+  - GATE-020
+  environment: As defined by owning phase and test matrix.
+  hardware: Required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: Local adapter remains functional while SpanGPU is active; adapter
+    selection and desktop stability are verified.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Proceed to next risk-first phase only after PASS.
+  owning_phases:
+  - PHASE-028
+  requirements:
+  - MULTIGPU-001
+  - MULTIGPU-002
+  - MULTIGPU-003
+  - MULTIGPU-004
+  - MULTIGPU-005
+  - MULTIGPU-006
+  - MULTIGPU-007
+  - MULTIGPU-008
+- id: GATE-013
+  kind: implementation
+  title: WAN 5 ms RTT
+  status: NOT_RUN
+  objective: Correctness and frame-pipeline telemetry remain healthy at controlled
+    5 ms RTT.
+  rationale: WAN 5 ms RTT is a risk-first proof required before later claims depend
+    on it.
+  prerequisites:
+  - GATE-009
+  environment: As defined by owning phase and test matrix.
+  hardware: Required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: Correctness and frame-pipeline telemetry remain healthy at controlled
+    5 ms RTT.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Proceed to next risk-first phase only after PASS.
+  owning_phases:
+  - PHASE-020
+  requirements:
+  - WAN-001
+  - WAN-002
+  - WAN-003
+  - WAN-004
+  - WAN-005
+  - WAN-006
+  - WAN-007
+  - WAN-008
+  - WAN-009
+  - WAN-010
+  - WAN-011
+  - WAN-012
+  - PERF-001
+  - PERF-002
+  - PERF-003
+  - PERF-004
+  - PERF-005
+  - PERF-006
+  - PERF-007
+  - PERF-008
+  - PERF-009
+  - PERF-010
+  - PERF-011
+  - PERF-012
+  - PERF-013
+  - PERF-014
+  - OBS-001
+  - OBS-002
+  - OBS-003
+  - OBS-004
+  - OBS-005
+  - OBS-006
+  - OBS-007
+  - OBS-008
+  - OBS-009
+  - OBS-010
+  - OBS-011
+- id: GATE-014
+  kind: implementation
+  title: WAN 10 ms RTT
+  status: NOT_RUN
+  objective: Interactive D3D11 workload remains usable at 10 ms RTT with no hidden
+    per-submit roundtrip.
+  rationale: WAN 10 ms RTT is a risk-first proof required before later claims depend
+    on it.
+  prerequisites:
+  - GATE-013
+  environment: As defined by owning phase and test matrix.
+  hardware: Required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: Interactive D3D11 workload remains usable at 10 ms RTT with no
+    hidden per-submit roundtrip.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Proceed to next risk-first phase only after PASS.
+  owning_phases:
+  - PHASE-021
+  requirements: []
+- id: GATE-015
+  kind: implementation
+  title: WAN 20 ms RTT
+  status: NOT_RUN
+  objective: Representative workload remains meaningfully interactive at 20 ms RTT;
+    stalls are attributable in telemetry.
+  rationale: WAN 20 ms RTT is a risk-first proof required before later claims depend
+    on it.
+  prerequisites:
+  - GATE-014
+  environment: As defined by owning phase and test matrix.
+  hardware: Required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: Representative workload remains meaningfully interactive at 20
+    ms RTT; stalls are attributable in telemetry.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Proceed to next risk-first phase only after PASS.
+  owning_phases:
+  - PHASE-022
+  requirements: []
+- id: GATE-016
+  kind: implementation
+  title: WAN 40 ms characterization
+  status: NOT_RUN
+  objective: 40 ms RTT behavior is characterized with explicit supported/limited result;
+    no correctness corruption is permitted even if performance is poor.
+  rationale: WAN 40 ms characterization is a risk-first proof required before later
+    claims depend on it.
+  prerequisites:
+  - GATE-015
+  environment: As defined by owning phase and test matrix.
+  hardware: Required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: 40 ms RTT behavior is characterized with explicit supported/limited
+    result; no correctness corruption is permitted even if performance is poor.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Proceed to next risk-first phase only after PASS.
+  owning_phases:
+  - PHASE-023
+  requirements: []
+- id: GATE-017
+  kind: implementation
+  title: Loss/jitter/reordering resilience
+  status: NOT_RUN
+  objective: Defined loss, jitter, bandwidth caps and transport reordering conditions
+    do not corrupt protocol/resource state.
+  rationale: Loss/jitter/reordering resilience is a risk-first proof required before
+    later claims depend on it.
+  prerequisites:
+  - GATE-016
+  environment: As defined by owning phase and test matrix.
+  hardware: Required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: Defined loss, jitter, bandwidth caps and transport reordering conditions
+    do not corrupt protocol/resource state.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Proceed to next risk-first phase only after PASS.
+  owning_phases:
+  - PHASE-024
+  requirements: []
+- id: GATE-018
+  kind: implementation
+  title: Controlled remote-host failure
+  status: NOT_RUN
+  objective: Host daemon/GPU process failure produces deterministic client behavior,
+    evidence and bounded teardown.
+  rationale: Controlled remote-host failure is a risk-first proof required before
+    later claims depend on it.
+  prerequisites:
+  - GATE-017
+  environment: As defined by owning phase and test matrix.
+  hardware: Required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: Host daemon/GPU process failure produces deterministic client behavior,
+    evidence and bounded teardown.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Proceed to next risk-first phase only after PASS.
+  owning_phases:
+  - PHASE-025
+  requirements:
+  - RECOVERY-001
+  - RECOVERY-002
+  - RECOVERY-003
+  - RECOVERY-004
+  - RECOVERY-005
+  - RECOVERY-006
+  - RECOVERY-007
+  - RECOVERY-008
+  - RECOVERY-009
+  - RECOVERY-010
+  - RECOVERY-011
+  - RECOVERY-012
+- id: GATE-019
+  kind: implementation
+  title: Hard disconnect avoids BSOD/corruption
+  status: NOT_RUN
+  objective: Cable-pull/hard network loss does not BSOD the client or silently corrupt
+    future sessions.
+  rationale: Hard disconnect avoids BSOD/corruption is a risk-first proof required
+    before later claims depend on it.
+  prerequisites:
+  - GATE-018
+  environment: As defined by owning phase and test matrix.
+  hardware: Required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: Cable-pull/hard network loss does not BSOD the client or silently
+    corrupt future sessions.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Proceed to next risk-first phase only after PASS.
+  owning_phases:
+  - PHASE-026
+  requirements: []
+- id: GATE-020
+  kind: implementation
+  title: Reconnect/recovery semantics
+  status: NOT_RUN
+  objective: Where supported, recovery uses a new attempt/session provenance and re-establishes
+    only validated state; otherwise clean restart is required.
+  rationale: Reconnect/recovery semantics is a risk-first proof required before later
+    claims depend on it.
+  prerequisites:
+  - GATE-019
+  environment: As defined by owning phase and test matrix.
+  hardware: Required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: Where supported, recovery uses a new attempt/session provenance
+    and re-establishes only validated state; otherwise clean restart is required.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Proceed to next risk-first phase only after PASS.
+  owning_phases:
+  - PHASE-027
+  requirements: []
+- id: GATE-021
+  kind: implementation
+  title: Vulkan remote path
+  status: NOT_RUN
+  objective: An unmodified Vulkan application renders remotely through the common
+    session/resource architecture.
+  rationale: Vulkan remote path is a risk-first proof required before later claims
+    depend on it.
+  prerequisites:
+  - GATE-012
+  environment: As defined by owning phase and test matrix.
+  hardware: Required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: An unmodified Vulkan application renders remotely through the common
+    session/resource architecture.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Proceed to next risk-first phase only after PASS.
+  owning_phases:
+  - PHASE-029
+  requirements:
+  - VK-001
+  - VK-002
+  - VK-003
+  - VK-004
+  - VK-005
+  - VK-006
+  - VK-007
+  - VK-008
+  - VK-009
+  - VK-010
+- id: GATE-022
+  kind: implementation
+  title: OpenGL remote path
+  status: NOT_RUN
+  objective: An unmodified representative OpenGL application renders remotely, preferably
+    through the selected Mesa consolidation strategy.
+  rationale: OpenGL remote path is a risk-first proof required before later claims
+    depend on it.
+  prerequisites:
+  - GATE-021
+  environment: As defined by owning phase and test matrix.
+  hardware: Required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: An unmodified representative OpenGL application renders remotely,
+    preferably through the selected Mesa consolidation strategy.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Proceed to next risk-first phase only after PASS.
+  owning_phases:
+  - PHASE-030
+  requirements:
+  - GL-001
+  - GL-002
+  - GL-003
+  - GL-004
+  - GL-005
+  - GL-006
+  - GL-007
+  - GL-008
+- id: GATE-023
+  kind: implementation
+  title: DX9/DX10 legacy path
+  status: NOT_RUN
+  objective: Representative DX9 and DX10 applications pass the defined compatibility
+    matrix without per-game integration.
+  rationale: DX9/DX10 legacy path is a risk-first proof required before later claims
+    depend on it.
+  prerequisites:
+  - GATE-022
+  environment: As defined by owning phase and test matrix.
+  hardware: Required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: Representative DX9 and DX10 applications pass the defined compatibility
+    matrix without per-game integration.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Proceed to next risk-first phase only after PASS.
+  owning_phases:
+  - PHASE-031
+  requirements: []
+- id: GATE-024
+  kind: implementation
+  title: D3D12 architecture proof
+  status: NOT_RUN
+  objective: A bounded D3D12 proof demonstrates whether the common WDDM/session/VRAM/fence
+    core can support D3D12 without architectural replacement.
+  rationale: D3D12 architecture proof is a risk-first proof required before later
+    claims depend on it.
+  prerequisites:
+  - GATE-023
+  environment: As defined by owning phase and test matrix.
+  hardware: Required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: A bounded D3D12 proof demonstrates whether the common WDDM/session/VRAM/fence
+    core can support D3D12 without architectural replacement.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Proceed to next risk-first phase only after PASS.
+  owning_phases:
+  - PHASE-032
+  - PHASE-033
+  requirements: []
+- id: GATE-025
+  kind: implementation
+  title: NVIDIA and AMD host backends
+  status: NOT_RUN
+  objective: The same client/protocol operates against at least one NVIDIA and one
+    AMD host path with capability negotiation.
+  rationale: NVIDIA and AMD host backends is a risk-first proof required before later
+    claims depend on it.
+  prerequisites:
+  - GATE-024
+  environment: As defined by owning phase and test matrix.
+  hardware: Required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: The same client/protocol operates against at least one NVIDIA and
+    one AMD host path with capability negotiation.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Proceed to next risk-first phase only after PASS.
+  owning_phases:
+  - PHASE-034
+  requirements: []
+- id: GATE-026
+  kind: implementation
+  title: Long-duration soak
+  status: NOT_RUN
+  objective: Extended resource churn, resize/fullscreen transitions, queue pressure
+    and repeated sessions complete without leaks, hangs or unbounded drift.
+  rationale: Long-duration soak is a risk-first proof required before later claims
+    depend on it.
+  prerequisites:
+  - GATE-025
+  environment: As defined by owning phase and test matrix.
+  hardware: Required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: Extended resource churn, resize/fullscreen transitions, queue pressure
+    and repeated sessions complete without leaks, hangs or unbounded drift.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Proceed to next risk-first phase only after PASS.
+  owning_phases:
+  - PHASE-035
+  - PHASE-038
+  - PHASE-039
+  requirements:
+  - COMPAT-001
+  - COMPAT-002
+  - COMPAT-003
+  - COMPAT-004
+  - COMPAT-005
+  - COMPAT-006
+  - COMPAT-007
+  - COMPAT-008
+  - COMPAT-009
+  - COMPAT-010
+  - COMPAT-011
+  - COMPAT-012
+  - COMPAT-013
+  - LAB-005
+- id: GATE-027
+  kind: implementation
+  title: Security baseline
+  status: NOT_RUN
+  objective: Authentication, encryption, replay handling, malformed-protocol fuzzing,
+    privilege boundaries and session isolation meet documented acceptance criteria.
+  rationale: Security baseline is a risk-first proof required before later claims
+    depend on it.
+  prerequisites:
+  - GATE-026
+  environment: As defined by owning phase and test matrix.
+  hardware: Not necessarily required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: Authentication, encryption, replay handling, malformed-protocol
+    fuzzing, privilege boundaries and session isolation meet documented acceptance
+    criteria.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Proceed to next risk-first phase only after PASS.
+  owning_phases:
+  - PHASE-036
+  requirements:
+  - SEC-001
+  - SEC-002
+  - SEC-003
+  - SEC-004
+  - SEC-005
+  - SEC-006
+  - SEC-007
+  - SEC-008
+  - SEC-009
+  - SEC-010
+  - SEC-011
+  - SEC-012
+  - SEC-013
+  - SEC-014
+- id: GATE-028
+  kind: implementation
+  title: Signed/Secure Boot path
+  status: NOT_RUN
+  objective: A production-like signed driver deployment path works under Secure Boot
+    on designated hardware; test-signing is no longer the only path.
+  rationale: Signed/Secure Boot path is a risk-first proof required before later claims
+    depend on it.
+  prerequisites:
+  - GATE-027
+  environment: As defined by owning phase and test matrix.
+  hardware: Required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: A production-like signed driver deployment path works under Secure
+    Boot on designated hardware; test-signing is no longer the only path.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Proceed to next risk-first phase only after PASS.
+  owning_phases:
+  - PHASE-037
+  - PHASE-042
+  requirements:
+  - TRUST-001
+  - TRUST-002
+  - TRUST-003
+  - TRUST-004
+  - TRUST-005
+  - TRUST-006
+  - TRUST-007
+  - TRUST-008
+  - TRUST-009
+  - TRUST-010
+  - RELEASE-001
+  - RELEASE-002
+  - RELEASE-003
+  - RELEASE-004
+- id: GATE-029
+  kind: implementation
+  title: Official anti-cheat pilot
+  status: NOT_RUN
+  objective: At least one anti-cheat/vendor pilot is tested only with authorization/cooperation;
+    rejection is recorded as THIRD_PARTY_BLOCKED rather than bypassed.
+  rationale: Official anti-cheat pilot is a risk-first proof required before later
+    claims depend on it.
+  prerequisites:
+  - GATE-028
+  environment: As defined by owning phase and test matrix.
+  hardware: Required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: At least one anti-cheat/vendor pilot is tested only with authorization/cooperation;
+    rejection is recorded as THIRD_PARTY_BLOCKED rather than bypassed.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Proceed to next risk-first phase only after PASS.
+  owning_phases:
+  - PHASE-040
+  requirements:
+  - ANTICHEAT-001
+  - ANTICHEAT-002
+  - ANTICHEAT-003
+  - ANTICHEAT-004
+  - ANTICHEAT-005
+  - ANTICHEAT-006
+  - ANTICHEAT-007
+  - ANTICHEAT-008
+- id: GATE-030
+  kind: implementation
+  title: Optional compute/PCIe research decision
+  status: NOT_RUN
+  objective: Compute remoting and/or stock-client-driver PCIe research produces evidence
+    sufficient to accept, isolate or reject the future path without changing v1 core.
+  rationale: Optional compute/PCIe research decision is a risk-first proof required
+    before later claims depend on it.
+  prerequisites:
+  - GATE-029
+  environment: As defined by owning phase and test matrix.
+  hardware: Required
+  procedure:
+  - Execute all tests linked by owning phase(s).
+  - Create immutable attempt/evidence bundle bound to target commit/environment/hardware.
+  - Run Builder Assumption Challenge.
+  - Run fresh independent BREAKER against the target commit/evidence.
+  - Record gate verdict without mutating prior attempts.
+  expected_result: Compute remoting and/or stock-client-driver PCIe research produces
+    evidence sufficient to accept, isolate or reject the future path without changing
+    v1 core.
+  metrics:
+  - Gate-specific correctness metrics
+  - Crash/TDR/error counters where applicable
+  - Performance/network metrics where applicable
+  artifacts:
+  - attempt metadata
+  - raw logs/traces/dumps as applicable
+  - derived metrics with provenance
+  - builder report
+  - fresh BREAKER report
+  - gate report
+  pass_rule: All required acceptance criteria/tests execute and pass, no unresolved
+    blocking findings remain, fresh BREAKER accepts, and immutable evidence references
+    the exact target commit.
+  fail_rule: Reproducible requirement/invariant violation, unresolved blocking finding
+    or executed proof failing acceptance criteria produces FAIL.
+  blocked_rule: Required environment/hardware/upstream unavailable produces explicit
+    BLOCKED_* or PROOF_NOT_ESTABLISHED, never PASS.
+  next_action: Record research decision without changing v1 core unless a new TD is
+    accepted.
+  owning_phases:
+  - PHASE-041
+  requirements: []

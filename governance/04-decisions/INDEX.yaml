@@ -1,0 +1,138 @@
+schema_version: '1.0'
+decisions:
+- id: TD-001
+  title: Client abstraction boundary
+  status: ACCEPTED
+  proof_requirement: GATE-001
+- id: TD-002
+  title: WDDM client strategy
+  status: PROOF_REQUIRED
+  proof_requirement: GATE-001
+- id: TD-003
+  title: virtio reuse boundary
+  status: ACCEPTED
+  proof_requirement: GATE-003
+- id: TD-004
+  title: Graphics command streaming model
+  status: PROVISIONAL
+  proof_requirement: GATE-005
+- id: TD-005
+  title: Default WAN transport
+  status: ACCEPTED
+  proof_requirement: GATE-014
+- id: TD-006
+  title: Protocol serialization format
+  status: PROOF_REQUIRED
+  proof_requirement: GATE-003
+- id: TD-007
+  title: Remote VRAM ownership model
+  status: PROOF_REQUIRED
+  proof_requirement: GATE-007
+- id: TD-008
+  title: Synchronization model
+  status: PROOF_REQUIRED
+  proof_requirement: GATE-009
+- id: TD-009
+  title: Persistent resource caching
+  status: PROVISIONAL
+  proof_requirement: GATE-008
+- id: TD-010
+  title: Host backend abstraction
+  status: ACCEPTED
+  proof_requirement: GATE-025
+- id: TD-011
+  title: Local/remote GPU coexistence
+  status: PROOF_REQUIRED
+  proof_requirement: GATE-012
+- id: TD-012
+  title: Presentation architecture
+  status: PROOF_REQUIRED
+  proof_requirement: GATE-006
+- id: TD-013
+  title: Vendor neutrality boundary
+  status: ACCEPTED
+  proof_requirement: GATE-025
+- id: TD-014
+  title: Controlled fork strategy
+  status: ACCEPTED
+  proof_requirement: GATE-000
+- id: TD-015
+  title: Security baseline
+  status: PROVISIONAL
+  proof_requirement: GATE-027
+- id: TD-016
+  title: Anti-cheat trust strategy
+  status: ACCEPTED
+  proof_requirement: GATE-029
+- id: TD-017
+  title: Failure and recovery semantics
+  status: PROOF_REQUIRED
+  proof_requirement: GATE-020
+- id: TD-018
+  title: Observability contract
+  status: ACCEPTED
+  proof_requirement: GATE-003
+- id: TD-019
+  title: Protocol compatibility/versioning
+  status: ACCEPTED
+  proof_requirement: GATE-003
+- id: TD-020
+  title: Hardware test strategy
+  status: ACCEPTED
+  proof_requirement: GATE-000
+- id: TD-021
+  title: Graphics API rollout
+  status: ACCEPTED
+  proof_requirement: GATE-005
+- id: TD-022
+  title: D3D12 implementation path
+  status: PROOF_REQUIRED
+  proof_requirement: GATE-024
+- id: TD-023
+  title: Initial host operating system
+  status: PROVISIONAL
+  proof_requirement: GATE-003
+- id: TD-024
+  title: Stock-client-driver PCIe research branch
+  status: PROVISIONAL
+  proof_requirement: GATE-030
+- id: TD-025
+  title: Codex verification workflow
+  status: ACCEPTED
+  proof_requirement: GATE-000
+- id: TD-026
+  title: Project licensing strategy
+  status: PROOF_REQUIRED
+  proof_requirement: GATE-000
+- id: TD-027
+  title: Governance source of truth
+  status: ACCEPTED
+  proof_requirement: GATE-000
+- id: TD-028
+  title: Evidence and attempt state model
+  status: ACCEPTED
+  proof_requirement: GATE-000
+- id: TD-029
+  title: Canonical governance source and generated views
+  status: ACCEPTED
+  proof_requirement: GATE-BK-000
+- id: TD-030
+  title: Evidence bundle and provenance model
+  status: ACCEPTED
+  proof_requirement: GATE-BK-000
+- id: TD-031
+  title: Finding and waiver lifecycle
+  status: ACCEPTED
+  proof_requirement: GATE-BK-000
+- id: TD-032
+  title: Hardware runner isolation model
+  status: ACCEPTED
+  proof_requirement: GATE-000
+- id: TD-033
+  title: Driver signing separation
+  status: ACCEPTED
+  proof_requirement: GATE-028
+- id: TD-034
+  title: Release provenance and staged rollout
+  status: PROVISIONAL
+  proof_requirement: GATE-028

@@ -1,0 +1,259 @@
+schema_version: '1.0'
+phases:
+- id: PHASE-000
+  title: BuilderKit, organization and evidence bootstrap
+  status: NOT_STARTED
+  proof_gate: GATE-000
+  prerequisite_phases: []
+- id: PHASE-001
+  title: Pin and reproduce upstream baselines
+  status: NOT_STARTED
+  proof_gate: GATE-000
+  prerequisite_phases:
+  - PHASE-000
+- id: PHASE-002
+  title: Windows driver toolchain and recoverable hardware runner
+  status: NOT_STARTED
+  proof_gate: GATE-000
+  prerequisite_phases:
+  - PHASE-001
+- id: PHASE-003
+  title: Import controlled forks and establish patch provenance
+  status: NOT_STARTED
+  proof_gate: GATE-000
+  prerequisite_phases:
+  - PHASE-002
+- id: PHASE-004
+  title: Secondary SpanGPU adapter enumeration proof
+  status: NOT_STARTED
+  proof_gate: GATE-001
+  prerequisite_phases:
+  - PHASE-003
+- id: PHASE-005
+  title: Allocation/resource lifecycle proof
+  status: NOT_STARTED
+  proof_gate: GATE-002
+  prerequisite_phases:
+  - PHASE-004
+- id: PHASE-006
+  title: Versioned KMD-to-client-service ABI
+  status: NOT_STARTED
+  proof_gate: GATE-002
+  prerequisite_phases:
+  - PHASE-005
+- id: PHASE-007
+  title: Host daemon and vendor-backend boundary
+  status: NOT_STARTED
+  proof_gate: GATE-003
+  prerequisite_phases:
+  - PHASE-006
+- id: PHASE-008
+  title: QUIC control/session/capability negotiation
+  status: NOT_STARTED
+  proof_gate: GATE-003
+  prerequisite_phases:
+  - PHASE-007
+- id: PHASE-009
+  title: D3D11 command/resource loopback and serialization benchmark
+  status: NOT_STARTED
+  proof_gate: GATE-003
+  prerequisite_phases:
+  - PHASE-008
+- id: PHASE-010
+  title: Remote D3D11 triangle
+  status: NOT_STARTED
+  proof_gate: GATE-003
+  prerequisite_phases:
+  - PHASE-009
+- id: PHASE-011
+  title: Third-party D3D11 application proof
+  status: NOT_STARTED
+  proof_gate: GATE-004
+  prerequisite_phases:
+  - PHASE-010
+- id: PHASE-012
+  title: D3D11 correctness and stress baseline
+  status: NOT_STARTED
+  proof_gate: GATE-005
+  prerequisite_phases:
+  - PHASE-011
+- id: PHASE-013
+  title: Windows presentation architecture proof
+  status: NOT_STARTED
+  proof_gate: GATE-006
+  prerequisite_phases:
+  - PHASE-012
+- id: PHASE-014
+  title: First unmodified game
+  status: NOT_STARTED
+  proof_gate: GATE-010
+  prerequisite_phases:
+  - PHASE-013
+- id: PHASE-015
+  title: Steam launcher-independence proof
+  status: NOT_STARTED
+  proof_gate: GATE-011
+  prerequisite_phases:
+  - PHASE-014
+- id: PHASE-016
+  title: Remote-authoritative VRAM model
+  status: NOT_STARTED
+  proof_gate: GATE-007
+  prerequisite_phases:
+  - PHASE-015
+- id: PHASE-017
+  title: Content-addressed resource cache
+  status: NOT_STARTED
+  proof_gate: GATE-008
+  prerequisite_phases:
+  - PHASE-016
+- id: PHASE-018
+  title: Virtual fences and queue ordering
+  status: NOT_STARTED
+  proof_gate: GATE-009
+  prerequisite_phases:
+  - PHASE-017
+- id: PHASE-019
+  title: Batching, frames-in-flight and backpressure
+  status: NOT_STARTED
+  proof_gate: GATE-009
+  prerequisite_phases:
+  - PHASE-018
+- id: PHASE-020
+  title: WAN observability and deterministic network profiles
+  status: NOT_STARTED
+  proof_gate: GATE-013
+  prerequisite_phases:
+  - PHASE-019
+- id: PHASE-021
+  title: 5 ms and 10 ms WAN validation
+  status: NOT_STARTED
+  proof_gate: GATE-014
+  prerequisite_phases:
+  - PHASE-020
+- id: PHASE-022
+  title: 20 ms WAN validation
+  status: NOT_STARTED
+  proof_gate: GATE-015
+  prerequisite_phases:
+  - PHASE-021
+- id: PHASE-023
+  title: 40 ms WAN characterization
+  status: NOT_STARTED
+  proof_gate: GATE-016
+  prerequisite_phases:
+  - PHASE-022
+- id: PHASE-024
+  title: Loss, jitter, bandwidth and ordering resilience
+  status: NOT_STARTED
+  proof_gate: GATE-017
+  prerequisite_phases:
+  - PHASE-023
+- id: PHASE-025
+  title: Remote-host failure semantics
+  status: NOT_STARTED
+  proof_gate: GATE-018
+  prerequisite_phases:
+  - PHASE-024
+- id: PHASE-026
+  title: Hard disconnect, TDR and device-loss containment
+  status: NOT_STARTED
+  proof_gate: GATE-019
+  prerequisite_phases:
+  - PHASE-025
+- id: PHASE-027
+  title: Attempt-scoped reconnect and recovery
+  status: NOT_STARTED
+  proof_gate: GATE-020
+  prerequisite_phases:
+  - PHASE-026
+- id: PHASE-028
+  title: Local/remote multi-adapter coexistence
+  status: NOT_STARTED
+  proof_gate: GATE-012
+  prerequisite_phases:
+  - PHASE-027
+- id: PHASE-029
+  title: Vulkan frontend using common SpanGPU core
+  status: NOT_STARTED
+  proof_gate: GATE-021
+  prerequisite_phases:
+  - PHASE-028
+- id: PHASE-030
+  title: OpenGL frontend/consolidation
+  status: NOT_STARTED
+  proof_gate: GATE-022
+  prerequisite_phases:
+  - PHASE-029
+- id: PHASE-031
+  title: DX9/DX10 compatibility frontend
+  status: NOT_STARTED
+  proof_gate: GATE-023
+  prerequisite_phases:
+  - PHASE-030
+- id: PHASE-032
+  title: D3D12 bounded architecture proof
+  status: NOT_STARTED
+  proof_gate: GATE-024
+  prerequisite_phases:
+  - PHASE-031
+- id: PHASE-033
+  title: D3D12 implementation track
+  status: NOT_STARTED
+  proof_gate: GATE-024
+  prerequisite_phases:
+  - PHASE-032
+- id: PHASE-034
+  title: AMD host backend and multi-vendor capability model
+  status: NOT_STARTED
+  proof_gate: GATE-025
+  prerequisite_phases:
+  - PHASE-033
+- id: PHASE-035
+  title: Long-duration stability and resource-churn soak
+  status: NOT_STARTED
+  proof_gate: GATE-026
+  prerequisite_phases:
+  - PHASE-034
+- id: PHASE-036
+  title: Protocol/service security hardening
+  status: NOT_STARTED
+  proof_gate: GATE-027
+  prerequisite_phases:
+  - PHASE-035
+- id: PHASE-037
+  title: Driver signing, Secure Boot and release trust path
+  status: NOT_STARTED
+  proof_gate: GATE-028
+  prerequisite_phases:
+  - PHASE-036
+- id: PHASE-038
+  title: Compatibility database and representative engine/game matrix
+  status: NOT_STARTED
+  proof_gate: GATE-026
+  prerequisite_phases:
+  - PHASE-037
+- id: PHASE-039
+  title: Performance optimization under preserved semantics
+  status: NOT_STARTED
+  proof_gate: GATE-026
+  prerequisite_phases:
+  - PHASE-038
+- id: PHASE-040
+  title: Official anti-cheat trust pilot preparation
+  status: NOT_STARTED
+  proof_gate: GATE-029
+  prerequisite_phases:
+  - PHASE-039
+- id: PHASE-041
+  title: Optional compute and PCIe-over-network research branch
+  status: NOT_STARTED
+  proof_gate: GATE-030
+  prerequisite_phases:
+  - PHASE-040
+- id: PHASE-042
+  title: Architecture-preserving v1 productization
+  status: NOT_STARTED
+  proof_gate: GATE-028
+  prerequisite_phases:
+  - PHASE-041

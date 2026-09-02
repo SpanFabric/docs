@@ -1,0 +1,17 @@
+sequenceDiagram
+participant App
+participant UMD
+participant KMD
+participant Svc as Client Service
+participant Host
+participant GPU
+App->>UMD: API calls
+UMD->>KMD: WDDM submission/resource ops
+KMD->>Svc: versioned local ABI descriptors
+Svc->>Host: async command/resource streams
+Host->>GPU: execute
+GPU-->>Host: completion/surface
+Host-->>Svc: prioritized completion/frame
+Svc-->>KMD: completion/device state
+KMD-->>UMD: WDDM completion
+UMD-->>App: API-observable result

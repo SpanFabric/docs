@@ -1,0 +1,2 @@
+# Planning Input Provenance
+The BuilderKit incorporates the completed SpanGPU landscape research, source-code deep dive, integration/gap analysis, BuilderKit planning contract and final gap-completion review. Their substantive findings are normalized into `12-machine-readable/research-findings.yaml`, requirements, TDs, risks, gates, phases and architecture documents. Raw conversational prompts are intentionally not required at implementation time and are not part of the normative source of truth.

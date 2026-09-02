@@ -1,0 +1,1495 @@
+schema_version: '1.0'
+decisions:
+- id: TD-001
+  title: Client abstraction boundary
+  status: ACCEPTED
+  context: SpanGPU needs an explicit project-wide decision for client abstraction
+    boundary.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-003
+  - RF-013
+  - RF-017
+  - RF-018
+  decision: Use a normal WDDM adapter with API UMD/ICDs above a common SpanGPU session/resource
+    layer; no launcher/game integration.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks:
+  - RISK-001
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-001
+  affected_requirements:
+  - VISION-001
+  - VISION-002
+  - VISION-003
+  - VISION-004
+  - VISION-005
+  - VISION-006
+  - VISION-007
+  - VISION-008
+  - VISION-009
+  - VISION-010
+  - FUNC-001
+  - FUNC-002
+  - FUNC-003
+  - FUNC-004
+  - FUNC-005
+  - FUNC-006
+  - FUNC-007
+  - FUNC-008
+  - FUNC-009
+  - FUNC-010
+- id: TD-002
+  title: WDDM client strategy
+  status: PROOF_REQUIRED
+  context: SpanGPU needs an explicit project-wide decision for wddm client strategy.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-001
+  - RF-003
+  - RF-013
+  - RF-016
+  - RF-017
+  decision: Start from Triton/virtio-win WDDM code as a controlled fork and prove
+    it can operate as a stable secondary render adapter outside its original VM-local
+    assumptions.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks:
+  - RISK-001
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-001
+  affected_requirements:
+  - WIN-001
+  - WIN-002
+  - WIN-003
+  - WIN-004
+  - WIN-005
+  - WIN-006
+  - WIN-007
+  - WIN-008
+  - WIN-009
+  - WIN-010
+  - WDDM-001
+  - WDDM-002
+  - WDDM-003
+  - WDDM-004
+  - WDDM-005
+  - WDDM-006
+  - WDDM-007
+  - WDDM-008
+  - WDDM-009
+  - WDDM-010
+  - WDDM-011
+  - WDDM-012
+- id: TD-003
+  title: virtio reuse boundary
+  status: ACCEPTED
+  context: SpanGPU needs an explicit project-wide decision for virtio reuse boundary.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-003
+  - RF-004
+  - RF-006
+  - RF-007
+  - RF-008
+  decision: Reuse virtio/Triton device, object and WDDM patterns, but do not expose
+    virtqueue/shared-memory semantics as the public WAN protocol.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks:
+  - RISK-010
+  - RISK-021
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-003
+  affected_requirements:
+  - VISION-009
+  - WDDM-012
+  - TRANSPORT-011
+- id: TD-004
+  title: Graphics command streaming model
+  status: PROVISIONAL
+  context: SpanGPU needs an explicit project-wide decision for graphics command
+    streaming model.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-001
+  - RF-006
+  - RF-008
+  - RF-010
+  - RF-012
+  decision: Use API-specific command namespaces above common object/resource/fence
+    envelopes, borrowing from Neptune, Venus and gfxstream.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks: []
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-005
+  affected_requirements:
+  - GFX-001
+  - GFX-002
+  - GFX-003
+  - GFX-004
+  - GFX-005
+  - GFX-006
+  - GFX-007
+  - GFX-008
+  - GFX-009
+  - GFX-010
+  - VK-001
+  - VK-002
+  - VK-003
+  - VK-004
+  - VK-005
+  - VK-006
+  - VK-007
+  - VK-008
+  - VK-009
+  - VK-010
+  - GL-001
+  - GL-002
+  - GL-003
+  - GL-004
+  - GL-005
+  - GL-006
+  - GL-007
+  - GL-008
+- id: TD-005
+  title: Default WAN transport
+  status: ACCEPTED
+  context: SpanGPU needs an explicit project-wide decision for default wan transport.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-002
+  - RF-004
+  - RF-007
+  - RF-009
+  - RF-014
+  decision: Use MsQuic as the default replaceable QUIC/TLS transport; keep transport
+    ABI independent of graphics protocol.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks: []
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-014
+  affected_requirements:
+  - TRANSPORT-001
+  - TRANSPORT-002
+  - TRANSPORT-003
+  - TRANSPORT-004
+  - TRANSPORT-005
+  - TRANSPORT-006
+  - TRANSPORT-007
+  - TRANSPORT-008
+  - TRANSPORT-009
+  - TRANSPORT-010
+  - TRANSPORT-011
+  - WAN-001
+  - WAN-002
+  - WAN-003
+  - WAN-004
+  - WAN-005
+  - WAN-006
+  - WAN-007
+  - WAN-008
+  - WAN-009
+  - WAN-010
+  - WAN-011
+  - WAN-012
+- id: TD-006
+  title: Protocol serialization format
+  status: PROOF_REQUIRED
+  context: SpanGPU needs an explicit project-wide decision for protocol serialization
+    format.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-008
+  decision: Select a deterministic versioned binary envelope only after benchmarking
+    generated/handwritten candidates against command-rate, decode-cost and evolution
+    requirements.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks:
+  - RISK-010
+  - RISK-021
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-003
+  affected_requirements: []
+- id: TD-007
+  title: Remote VRAM ownership model
+  status: PROOF_REQUIRED
+  context: SpanGPU needs an explicit project-wide decision for remote vram ownership
+    model.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-002
+  - RF-009
+  - RF-010
+  - RF-016
+  - RF-017
+  decision: Make remote host resource state authoritative; local mappings become explicit
+    staging/shadow state rather than WAN-coherent memory.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks:
+  - RISK-003
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-007
+  affected_requirements:
+  - VRAM-001
+  - VRAM-002
+  - VRAM-003
+  - VRAM-004
+  - VRAM-005
+  - VRAM-006
+  - VRAM-007
+  - VRAM-008
+  - VRAM-009
+  - VRAM-010
+  - VRAM-011
+  - VRAM-012
+  - MEM-001
+  - MEM-002
+  - MEM-003
+  - MEM-004
+  - MEM-005
+  - MEM-006
+  - MEM-007
+  - MEM-008
+  - MEM-009
+  - MEM-010
+- id: TD-008
+  title: Synchronization model
+  status: PROOF_REQUIRED
+  context: SpanGPU needs an explicit project-wide decision for synchronization model.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-006
+  decision: Use queue-scoped ordering and virtual timeline/fence completions with
+    asynchronous completion propagation; block only when API semantics require it.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks:
+  - RISK-004
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-009
+  affected_requirements:
+  - SYNC-001
+  - SYNC-002
+  - SYNC-003
+  - SYNC-004
+  - SYNC-005
+  - SYNC-006
+  - SYNC-007
+  - SYNC-008
+  - SYNC-009
+  - SYNC-010
+  - SYNC-011
+  - SYNC-012
+- id: TD-009
+  title: Persistent resource caching
+  status: PROVISIONAL
+  context: SpanGPU needs an explicit project-wide decision for persistent resource
+    caching.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-006
+  - RF-024
+  decision: Use content-addressed immutable payload identities plus versioned mutable
+    resource metadata; begin session-local, preserve persistent-cache compatibility.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks:
+  - RISK-009
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-008
+  affected_requirements:
+  - CACHE-001
+  - CACHE-002
+  - CACHE-003
+  - CACHE-004
+  - CACHE-005
+  - CACHE-006
+  - CACHE-007
+  - CACHE-008
+  - CACHE-009
+  - CACHE-010
+  - CACHE-011
+  - CACHE-012
+- id: TD-010
+  title: Host backend abstraction
+  status: ACCEPTED
+  context: SpanGPU needs an explicit project-wide decision for host backend abstraction.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-002
+  - RF-005
+  - RF-007
+  - RF-009
+  - RF-018
+  decision: Decode SpanGPU commands into vendor-neutral host renderer interfaces
+    and use stock NVIDIA/AMD host drivers behind them.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks:
+  - RISK-011
+  - RISK-017
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-025
+  affected_requirements:
+  - HOST-001
+  - HOST-002
+  - HOST-003
+  - HOST-004
+  - HOST-005
+  - HOST-006
+  - HOST-007
+  - HOST-008
+  - HOST-009
+  - HOST-010
+  - HOST-011
+  - HOST-012
+  - GPU-001
+  - GPU-002
+  - GPU-003
+  - GPU-004
+  - GPU-005
+  - GPU-006
+  - GPU-007
+  - GPU-008
+  - GPU-009
+  - GPU-010
+- id: TD-011
+  title: Local/remote GPU coexistence
+  status: PROOF_REQUIRED
+  context: SpanGPU needs an explicit project-wide decision for local/remote gpu
+    coexistence.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-001
+  - RF-002
+  - RF-006
+  - RF-008
+  - RF-010
+  decision: SpanGPU enumerates as an additional adapter; local GPU remains available
+    for desktop/decode/fallback where application semantics permit.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks: []
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-012
+  affected_requirements:
+  - MULTIGPU-001
+  - MULTIGPU-002
+  - MULTIGPU-003
+  - MULTIGPU-004
+  - MULTIGPU-005
+  - MULTIGPU-006
+  - MULTIGPU-007
+  - MULTIGPU-008
+- id: TD-012
+  title: Presentation architecture
+  status: PROOF_REQUIRED
+  context: SpanGPU needs an explicit project-wide decision for presentation architecture.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-019
+  - RF-025
+  - RF-029
+  decision: Presentation must integrate remote-rendered surfaces into a legitimate
+    Windows graphics/display path; external streaming-window hacks do not satisfy
+    the gate.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks:
+  - RISK-002
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-006
+  affected_requirements: []
+- id: TD-013
+  title: Vendor neutrality boundary
+  status: ACCEPTED
+  context: SpanGPU needs an explicit project-wide decision for vendor neutrality
+    boundary.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-017
+  - RF-018
+  - RF-028
+  decision: Protocol/core resource semantics stay vendor-neutral; capability negotiation
+    exposes vendor-specific optional features without leaking them into generic transport.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks:
+  - RISK-011
+  - RISK-017
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-025
+  affected_requirements:
+  - GFX-009
+  - GPU-006
+  - GPU-007
+- id: TD-014
+  title: Controlled fork strategy
+  status: ACCEPTED
+  context: SpanGPU needs an explicit project-wide decision for controlled fork strategy.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-012
+  - RF-015
+  - RF-017
+  - RF-026
+  - RF-029
+  decision: Critical WDDM/UMD/host renderer code is maintained as controlled pinned
+    forks with explicit patch queues and manual upstream adoption.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks:
+  - RISK-007
+  - RISK-008
+  - RISK-018
+  - RISK-020
+  - RISK-024
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-000
+  affected_requirements:
+  - UPSTREAM-001
+  - UPSTREAM-002
+  - UPSTREAM-003
+  - UPSTREAM-004
+  - UPSTREAM-005
+  - UPSTREAM-006
+  - UPSTREAM-007
+  - UPSTREAM-008
+  - UPSTREAM-009
+  - UPSTREAM-010
+  - UPSTREAM-011
+  - UPSTREAM-012
+  - UPSTREAM-013
+  - UPSTREAM-014
+- id: TD-015
+  title: Security baseline
+  status: PROVISIONAL
+  context: SpanGPU needs an explicit project-wide decision for security baseline.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-015
+  - RF-017
+  decision: Mutual authenticated encryption, least-privilege service boundaries, replay
+    resistance and session isolation are mandatory before hostile-network claims.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks:
+  - RISK-013
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-027
+  affected_requirements:
+  - SEC-001
+  - SEC-002
+  - SEC-003
+  - SEC-004
+  - SEC-005
+  - SEC-006
+  - SEC-007
+  - SEC-008
+  - SEC-009
+  - SEC-010
+  - SEC-011
+  - SEC-012
+  - SEC-013
+  - SEC-014
+  - TRUST-001
+  - TRUST-002
+  - TRUST-003
+  - TRUST-004
+  - TRUST-005
+  - TRUST-006
+  - TRUST-007
+  - TRUST-008
+  - TRUST-009
+  - TRUST-010
+- id: TD-016
+  title: Anti-cheat trust strategy
+  status: ACCEPTED
+  context: SpanGPU needs an explicit project-wide decision for anti-cheat trust
+    strategy.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-028
+  decision: Pursue only documented drivers, signing, Secure Boot/attestation and vendor
+    cooperation; third-party rejection is a compatibility state, never a bypass trigger.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks:
+  - RISK-016
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-029
+  affected_requirements:
+  - ANTICHEAT-001
+  - ANTICHEAT-002
+  - ANTICHEAT-003
+  - ANTICHEAT-004
+  - ANTICHEAT-005
+  - ANTICHEAT-006
+  - ANTICHEAT-007
+  - ANTICHEAT-008
+- id: TD-017
+  title: Failure and recovery semantics
+  status: PROOF_REQUIRED
+  context: SpanGPU needs an explicit project-wide decision for failure and recovery
+    semantics.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-003
+  - RF-004
+  - RF-005
+  - RF-006
+  - RF-007
+  decision: Network/host loss must converge to controlled device loss or bounded recovery
+    with attempt-scoped provenance, no stale-state reuse and no BSOD.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks:
+  - RISK-019
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-020
+  affected_requirements:
+  - RECOVERY-001
+  - RECOVERY-002
+  - RECOVERY-003
+  - RECOVERY-004
+  - RECOVERY-005
+  - RECOVERY-006
+  - RECOVERY-007
+  - RECOVERY-008
+  - RECOVERY-009
+  - RECOVERY-010
+  - RECOVERY-011
+  - RECOVERY-012
+- id: TD-018
+  title: Observability contract
+  status: ACCEPTED
+  context: SpanGPU needs an explicit project-wide decision for observability contract.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-030
+  decision: Every proof path emits correlation IDs, queue/fence timings, cache/resource
+    metrics, network metrics, device-loss state and immutable evidence bundles.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks:
+  - RISK-010
+  - RISK-021
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-003
+  affected_requirements:
+  - PERF-001
+  - PERF-002
+  - PERF-003
+  - PERF-004
+  - PERF-005
+  - PERF-006
+  - PERF-007
+  - PERF-008
+  - PERF-009
+  - PERF-010
+  - PERF-011
+  - PERF-012
+  - PERF-013
+  - PERF-014
+  - OBS-001
+  - OBS-002
+  - OBS-003
+  - OBS-004
+  - OBS-005
+  - OBS-006
+  - OBS-007
+  - OBS-008
+  - OBS-009
+  - OBS-010
+  - OBS-011
+- id: TD-019
+  title: Protocol compatibility/versioning
+  status: ACCEPTED
+  context: SpanGPU needs an explicit project-wide decision for protocol compatibility/versioning.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-030
+  decision: Handshake negotiates protocol, feature, API and backend capabilities;
+    incompatible major versions fail closed with explicit diagnostics.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks:
+  - RISK-010
+  - RISK-021
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-003
+  affected_requirements:
+  - PROTO-001
+  - PROTO-002
+  - PROTO-003
+  - PROTO-004
+  - PROTO-005
+  - PROTO-006
+  - PROTO-007
+  - PROTO-008
+  - PROTO-009
+  - PROTO-010
+  - PROTO-011
+  - PROTO-012
+  - PROTO-013
+- id: TD-020
+  title: Hardware test strategy
+  status: ACCEPTED
+  context: SpanGPU needs an explicit project-wide decision for hardware test strategy.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-010
+  - RF-017
+  - RF-026
+  - RF-028
+  decision: Kernel/graphics claims require isolated recoverable Windows hardware runners
+    and separate GPU hosts; CI-only simulation cannot substitute required hardware
+    evidence.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks:
+  - RISK-007
+  - RISK-008
+  - RISK-018
+  - RISK-020
+  - RISK-024
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-000
+  affected_requirements:
+  - TEST-001
+  - TEST-002
+  - TEST-003
+  - TEST-004
+  - TEST-005
+  - TEST-006
+  - TEST-007
+  - TEST-008
+  - TEST-009
+  - TEST-010
+  - TEST-011
+  - TEST-012
+  - TEST-013
+  - TEST-014
+  - TEST-015
+  - TEST-016
+  - TEST-017
+  - TEST-018
+  - BUILD-001
+  - BUILD-002
+  - BUILD-003
+  - BUILD-004
+  - BUILD-005
+  - BUILD-006
+  - BUILD-007
+  - BUILD-008
+  - BUILD-009
+  - BUILD-010
+  - BUILD-011
+  - OPS-001
+  - OPS-002
+  - OPS-003
+  - OPS-004
+  - OPS-005
+  - OPS-006
+  - OPS-007
+  - OPS-008
+  - OPS-009
+  - OPS-010
+  - OPS-011
+  - OPS-012
+- id: TD-021
+  title: Graphics API rollout
+  status: ACCEPTED
+  context: SpanGPU needs an explicit project-wide decision for graphics api rollout.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-001
+  - RF-010
+  - RF-012
+  - RF-019
+  - RF-027
+  decision: Prove D3D11 first, then Vulkan/OpenGL/legacy, with D3D12 isolated as a
+    separate proof-heavy track on the same core architecture.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks: []
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-005
+  affected_requirements:
+  - DX-001
+  - DX-002
+  - DX-003
+  - DX-004
+  - DX-005
+  - DX-006
+  - DX-007
+  - DX-008
+  - DX-009
+  - DX-010
+  - COMPAT-001
+  - COMPAT-002
+  - COMPAT-003
+  - COMPAT-004
+  - COMPAT-005
+  - COMPAT-006
+  - COMPAT-007
+  - COMPAT-008
+  - COMPAT-009
+  - COMPAT-010
+  - COMPAT-011
+  - COMPAT-012
+  - COMPAT-013
+- id: TD-022
+  title: D3D12 implementation path
+  status: PROOF_REQUIRED
+  context: SpanGPU needs an explicit project-wide decision for d3d12 implementation
+    path.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-019
+  - RF-020
+  decision: Do not assume Triton D3D11 architecture automatically extends to D3D12;
+    run a proof-only phase before committing to full implementation.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks:
+  - RISK-006
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-024
+  affected_requirements: []
+- id: TD-023
+  title: Initial host operating system
+  status: PROVISIONAL
+  context: SpanGPU needs an explicit project-wide decision for initial host operating
+    system.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-002
+  - RF-005
+  - RF-007
+  - RF-009
+  - RF-016
+  decision: Use Linux as the first reference host because Neptune/Vulkan OSS paths
+    are strongest there, but keep host OS outside protocol semantics.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks:
+  - RISK-010
+  - RISK-021
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-003
+  affected_requirements: []
+- id: TD-024
+  title: Stock-client-driver PCIe research branch
+  status: PROVISIONAL
+  context: SpanGPU needs an explicit project-wide decision for stock-client-driver
+    pcie research branch.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-016
+  decision: Keep PCIe-over-network/libvfio-user as an isolated future research track;
+    it must not block or contaminate the semantic WAN architecture.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks: []
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-030
+  affected_requirements: []
+- id: TD-025
+  title: Codex verification workflow
+  status: ACCEPTED
+  context: SpanGPU needs an explicit project-wide decision for codex verification
+    workflow.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-030
+  decision: Every non-trivial implementation phase follows PLAN/GLOBAL IMPACT → build/test
+    → builder assumption challenge → fresh independent BREAKER → fix/regression →
+    fresh BREAKER → acceptance.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks:
+  - RISK-007
+  - RISK-008
+  - RISK-018
+  - RISK-020
+  - RISK-024
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-000
+  affected_requirements:
+  - CI-001
+  - CI-002
+  - CI-003
+  - CI-004
+  - CI-005
+  - CI-006
+  - CI-007
+  - CI-008
+  - CI-009
+  - CI-010
+  - CI-011
+  - CI-012
+  - DOC-001
+  - DOC-002
+  - DOC-003
+  - DOC-004
+  - DOC-005
+  - DOC-006
+  - DOC-007
+  - DOC-008
+  - DOC-009
+  - DOC-010
+  - DOC-011
+  - DOC-012
+  - EVIDENCE-009
+- id: TD-026
+  title: Project licensing strategy
+  status: PROOF_REQUIRED
+  context: SpanGPU needs an explicit project-wide decision for project licensing
+    strategy.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-030
+  decision: Choose the SpanGPU project license only after Phase 00 completes file-level
+    compatibility review across controlled forks and copied/adapted code; provenance
+    is mandatory.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks:
+  - RISK-007
+  - RISK-008
+  - RISK-018
+  - RISK-020
+  - RISK-024
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-000
+  affected_requirements:
+  - LICENSE-001
+  - LICENSE-002
+  - LICENSE-003
+  - LICENSE-004
+  - LICENSE-005
+  - LICENSE-006
+  - LICENSE-007
+  - LICENSE-008
+  - LICENSE-009
+  - LICENSE-010
+- id: TD-027
+  title: Governance source of truth
+  status: ACCEPTED
+  context: SpanGPU needs an explicit project-wide decision for governance source
+    of truth.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-005
+  - RF-006
+  - RF-011
+  - RF-024
+  decision: Before bootstrap the BuilderKit is authoritative; after Phase 00 the SpanGPU/docs
+    repository owns requirements, TDs, gates, phases and architecture metadata, while
+    .github owns organization policy/workflows and never duplicates normative state.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks:
+  - RISK-007
+  - RISK-008
+  - RISK-018
+  - RISK-020
+  - RISK-024
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-000
+  affected_requirements:
+  - DOC-013
+- id: TD-028
+  title: Evidence and attempt state model
+  status: ACCEPTED
+  context: SpanGPU needs an explicit project-wide decision for evidence and attempt
+    state model.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-003
+  - RF-004
+  - RF-005
+  - RF-006
+  - RF-007
+  decision: 'Gate/phase/review state is append-only by attempt: builder attempt, validation
+    evidence, breaker attempt, findings, remediation and fresh breaker are separate
+    records linked to immutable commits/artifacts.'
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks:
+  - RISK-007
+  - RISK-008
+  - RISK-018
+  - RISK-020
+  - RISK-024
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-000
+  affected_requirements:
+  - DOC-014
+  - DOC-015
+  - DOC-016
+  - DOC-017
+  - DOC-018
+- id: TD-029
+  title: Canonical governance source and generated views
+  status: ACCEPTED
+  context: SpanGPU needs an explicit project-wide decision for canonical governance
+    source and generated views.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-030
+  decision: Use canonical YAML under 12-machine-readable for governance entities;
+    Markdown/JSON projections are generated/validated to prevent drift.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks:
+  - RISK-023
+  - RISK-025
+  - RISK-026
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-BK-000
+  affected_requirements:
+  - BOUNDARY-001
+  - BOUNDARY-002
+  - SOURCE-001
+  - SOURCE-002
+- id: TD-030
+  title: Evidence bundle and provenance model
+  status: ACCEPTED
+  context: SpanGPU needs an explicit project-wide decision for evidence bundle and
+    provenance model.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-030
+  decision: Every proof/review/recovery attempt emits immutable content-hashed evidence
+    bound to commit, environment, hardware and invocation identity.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks:
+  - RISK-023
+  - RISK-025
+  - RISK-026
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-BK-000
+  affected_requirements:
+  - EVIDENCE-001
+  - EVIDENCE-002
+  - EVIDENCE-003
+  - EVIDENCE-005
+  - EVIDENCE-006
+  - EVIDENCE-007
+  - EVIDENCE-008
+- id: TD-031
+  title: Finding and waiver lifecycle
+  status: ACCEPTED
+  context: SpanGPU needs an explicit project-wide decision for finding and waiver
+    lifecycle.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-003
+  - RF-004
+  - RF-005
+  - RF-006
+  - RF-007
+  decision: Findings and waivers are append-only state machines; waivers cannot fabricate
+    proof and fixed findings require fresh independent verification.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks:
+  - RISK-023
+  - RISK-025
+  - RISK-026
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-BK-000
+  affected_requirements:
+  - FINDING-001
+  - FINDING-002
+  - FINDING-003
+  - WAIVER-001
+  - WAIVER-002
+- id: TD-032
+  title: Hardware runner isolation model
+  status: ACCEPTED
+  context: SpanGPU needs an explicit project-wide decision for hardware runner isolation
+    model.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-017
+  - RF-026
+  decision: Use exclusive runner leases, environment fingerprints, reset/contamination
+    checks and out-of-band recovery before hardware evidence is admissible.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks:
+  - RISK-007
+  - RISK-008
+  - RISK-018
+  - RISK-020
+  - RISK-024
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-000
+  affected_requirements:
+  - EVIDENCE-004
+  - LAB-001
+  - LAB-002
+  - LAB-003
+  - LAB-004
+  - LAB-005
+- id: TD-033
+  title: Driver signing separation
+  status: ACCEPTED
+  context: SpanGPU needs an explicit project-wide decision for driver signing separation.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-004
+  - RF-016
+  - RF-017
+  - RF-018
+  - RF-026
+  decision: Keep development/test signing completely separate from production driver
+    signing; BuilderKit contains policy only, never production signing secrets.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks:
+  - RISK-027
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-028
+  affected_requirements:
+  - RELEASE-001
+- id: TD-034
+  title: Release provenance and staged rollout
+  status: PROVISIONAL
+  context: SpanGPU needs an explicit project-wide decision for release provenance
+    and staged rollout.
+  researched_alternatives:
+  - Research 1–3 alternatives relevant to this boundary
+  - Greenfield implementation where reuse assumptions fail
+  - Defer behind proof gate rather than assume capability
+  evidence:
+  - RF-030
+  decision: Public releases will bind reproducible build/SBOM/license/gate evidence
+    and use staged rollout/rollback; exact distribution/signing infrastructure is
+    finalized at GATE-028.
+  consequences:
+  - Implementation and review must preserve architecture invariants.
+  - Failure of the linked proof may supersede this decision through a new TD; never
+    silently work around it.
+  risks:
+  - RISK-027
+  rejected_alternatives:
+  - Unavailable proprietary critical path
+  - Per-game/launcher-specific core integration
+  - Unproven assumption treated as accepted where status is PROOF_REQUIRED/PROVISIONAL
+  reversibility: Reversible by superseding TD with migration plan before dependent
+    proof-gated phases proceed.
+  migration_path: Stop dependent phase, preserve evidence, write superseding TD, update
+    canonical sources/traceability, rerun affected gates.
+  proof_requirement: GATE-028
+  affected_requirements:
+  - RELEASE-002
+  - RELEASE-003
+  - RELEASE-004

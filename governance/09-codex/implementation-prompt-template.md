@@ -1,0 +1,1 @@
+Implement only the named phase. Read canonical governance and AGENTS. Execute PLAN + GLOBAL IMPACT + pre-build missing-assumption pass before editing. Preserve all invariants. Run required tests/evidence. End at INDEPENDENT_REVIEW_PENDING, not DONE. Do not modify tests/requirements/gates merely to obtain green status.

@@ -1,0 +1,20 @@
+schema_version: '1.0'
+apis:
+- api: DX9
+  target: later
+  gate: GATE-023
+- api: DX10
+  target: later
+  gate: GATE-023
+- api: DX11
+  target: v1 proof-first
+  gate: GATE-005
+- api: DX12
+  target: v1.x/proof before commitment
+  gate: GATE-024
+- api: Vulkan
+  target: v1.x
+  gate: GATE-021
+- api: OpenGL
+  target: v1.x
+  gate: GATE-022

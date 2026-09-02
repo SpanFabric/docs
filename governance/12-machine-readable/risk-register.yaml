@@ -1,0 +1,276 @@
+schema_version: '1.0'
+risks:
+- id: RISK-001
+  severity: BLOCKER
+  description: Triton-derived adapter cannot operate safely as a normal secondary
+    Windows adapter
+  proof_gate: GATE-001
+  mitigation: Fall back to a new minimal WDDM adapter while retaining the same service/protocol
+    boundaries; do not tunnel launcher/API hooks.
+  status: OPEN
+  owner: Architecture/phase owner
+  failure_alternative: Fall back to a new minimal WDDM adapter while retaining the
+    same service/protocol boundaries; do not tunnel launcher/API hooks.
+- id: RISK-002
+  severity: BLOCKER
+  description: Presentation cannot integrate remote-rendered surfaces into a legitimate
+    Windows path
+  proof_gate: GATE-006
+  mitigation: Evaluate render-only cross-adapter/virtual display alternatives behind
+    TD-012; if none preserve North Star, architecture must be revised before game
+    scaling.
+  status: OPEN
+  owner: Architecture/phase owner
+  failure_alternative: Evaluate render-only cross-adapter/virtual display alternatives
+    behind TD-012; if none preserve North Star, architecture must be revised before
+    game scaling.
+- id: RISK-003
+  severity: HIGH
+  description: Remote VRAM/GPUVA semantics conflict with WDDM allocation expectations
+  proof_gate: GATE-007
+  mitigation: Use explicit staging/shadow allocations and narrow supported mapping
+    modes; document unsupported zero-copy semantics.
+  status: OPEN
+  owner: Architecture/phase owner
+  failure_alternative: Use explicit staging/shadow allocations and narrow supported
+    mapping modes; document unsupported zero-copy semantics.
+- id: RISK-004
+  severity: BLOCKER
+  description: Fence/scheduler semantics force synchronous RTT in common workloads
+  proof_gate: GATE-009
+  mitigation: Redesign command granularity/queue proxy; set explicit supported RTT
+    limit if unavoidable.
+  status: OPEN
+  owner: Architecture/phase owner
+  failure_alternative: Redesign command granularity/queue proxy; set explicit supported
+    RTT limit if unavoidable.
+- id: RISK-005
+  severity: HIGH
+  description: Hard disconnect triggers TDR loop, hang or BSOD
+  proof_gate: GATE-019
+  mitigation: Fail closed to device removal, isolate network logic from KMD, automate
+    rollback and crash-dump analysis.
+  status: OPEN
+  owner: Architecture/phase owner
+  failure_alternative: Fail closed to device removal, isolate network logic from KMD,
+    automate rollback and crash-dump analysis.
+- id: RISK-006
+  severity: HIGH
+  description: D3D12 requires incompatible WDDM/UMD architecture
+  proof_gate: GATE-024
+  mitigation: Keep D3D12 proof isolated; if core replacement is required, revise TD-021
+    before full implementation rather than layering hacks.
+  status: OPEN
+  owner: Architecture/phase owner
+  failure_alternative: Keep D3D12 proof isolated; if core replacement is required,
+    revise TD-021 before full implementation rather than layering hacks.
+- id: RISK-007
+  severity: HIGH
+  description: Controlled forks diverge beyond maintainability
+  proof_gate: GATE-000
+  mitigation: Patch ownership, divergence metrics, upstream monitoring and takeover
+    policy; minimize changes outside owned seams.
+  status: OPEN
+  owner: Architecture/phase owner
+  failure_alternative: Patch ownership, divergence metrics, upstream monitoring and
+    takeover policy; minimize changes outside owned seams.
+- id: RISK-008
+  severity: HIGH
+  description: Upstream license/provenance conflicts prevent intended redistribution
+  proof_gate: GATE-000
+  mitigation: File-level license inventory and license TD before copying/adapting
+    code; dependency/reference when copying is unsafe.
+  status: OPEN
+  owner: Architecture/phase owner
+  failure_alternative: File-level license inventory and license TD before copying/adapting
+    code; dependency/reference when copying is unsafe.
+- id: RISK-009
+  severity: HIGH
+  description: Persistent cache returns stale/corrupt resources
+  proof_gate: GATE-008
+  mitigation: Content hashes, immutable payloads, versioned mutable metadata, corruption/fault
+    tests and authoritative host validation.
+  status: OPEN
+  owner: Architecture/phase owner
+  failure_alternative: Content hashes, immutable payloads, versioned mutable metadata,
+    corruption/fault tests and authoritative host validation.
+- id: RISK-010
+  severity: HIGH
+  description: Protocol version skew silently corrupts state
+  proof_gate: GATE-003
+  mitigation: Fail-closed capability/version negotiation; compatibility tests for
+    N/N-1 where supported.
+  status: OPEN
+  owner: Architecture/phase owner
+  failure_alternative: Fail-closed capability/version negotiation; compatibility tests
+    for N/N-1 where supported.
+- id: RISK-011
+  severity: HIGH
+  description: Different GPU capability sets change observable graphics semantics
+  proof_gate: GATE-025
+  mitigation: Explicit capability negotiation, deterministic feature rejection and
+    per-backend conformance matrix.
+  status: OPEN
+  owner: Architecture/phase owner
+  failure_alternative: Explicit capability negotiation, deterministic feature rejection
+    and per-backend conformance matrix.
+- id: RISK-012
+  severity: HIGH
+  description: Client/host retry creates duplicate or ambiguous mutations
+  proof_gate: GATE-017
+  mitigation: Attempt IDs, idempotency keys, monotonic sequence/epoch model and ambiguous-completion
+    tests.
+  status: OPEN
+  owner: Architecture/phase owner
+  failure_alternative: Attempt IDs, idempotency keys, monotonic sequence/epoch model
+    and ambiguous-completion tests.
+- id: RISK-013
+  severity: HIGH
+  description: Host/client trust boundary exposes DMA-like or protocol attack surface
+  proof_gate: GATE-027
+  mitigation: No raw client memory authority; bounded parsers, fuzzing, auth, least
+    privilege and per-session quotas.
+  status: OPEN
+  owner: Architecture/phase owner
+  failure_alternative: No raw client memory authority; bounded parsers, fuzzing, auth,
+    least privilege and per-session quotas.
+- id: RISK-014
+  severity: MEDIUM
+  description: 40 ms WAN cannot deliver acceptable gaming latency
+  proof_gate: GATE-016
+  mitigation: Keep correctness; characterize workload support honestly, optimize pipeline,
+    and define latency tiers rather than fake universal performance.
+  status: OPEN
+  owner: Architecture/phase owner
+  failure_alternative: Keep correctness; characterize workload support honestly, optimize
+    pipeline, and define latency tiers rather than fake universal performance.
+- id: RISK-015
+  severity: HIGH
+  description: Windows update breaks WDDM fork
+  proof_gate: GATE-026
+  mitigation: Version matrix, signed rollback packages, upstream tracking and staged
+    release rings.
+  status: OPEN
+  owner: Architecture/phase owner
+  failure_alternative: Version matrix, signed rollback packages, upstream tracking
+    and staged release rings.
+- id: RISK-016
+  severity: HIGH
+  description: Anti-cheat rejects virtual adapter despite technically correct driver
+  proof_gate: GATE-029
+  mitigation: Report THIRD_PARTY_BLOCKED, pursue official cooperation; never conceal
+    adapter.
+  status: OPEN
+  owner: Architecture/phase owner
+  failure_alternative: Report THIRD_PARTY_BLOCKED, pursue official cooperation; never
+    conceal adapter.
+- id: RISK-017
+  severity: MEDIUM
+  description: Linux-first host assumptions leak into protocol
+  proof_gate: GATE-025
+  mitigation: Backend contract tests and no host-OS-specific fields in stable protocol.
+  status: OPEN
+  owner: Architecture/phase owner
+  failure_alternative: Backend contract tests and no host-OS-specific fields in stable
+    protocol.
+- id: RISK-018
+  severity: HIGH
+  description: Codex marks phases complete without hardware proof
+  proof_gate: GATE-000
+  mitigation: Machine-readable state machine, required evidence references, fresh
+    breaker and Project Steward rejection of incomplete proof.
+  status: OPEN
+  owner: Architecture/phase owner
+  failure_alternative: Machine-readable state machine, required evidence references,
+    fresh breaker and Project Steward rejection of incomplete proof.
+- id: RISK-019
+  severity: HIGH
+  description: Recovery reuses stale session/resource state from prior attempt
+  proof_gate: GATE-020
+  mitigation: Unique attempt/session epochs, immutable evidence/provenance and fail-closed
+    resource revalidation.
+  status: OPEN
+  owner: Architecture/phase owner
+  failure_alternative: Unique attempt/session epochs, immutable evidence/provenance
+    and fail-closed resource revalidation.
+- id: RISK-020
+  severity: HIGH
+  description: Builder and reviewer share assumptions and miss systemic defect
+  proof_gate: GATE-000
+  mitigation: Fresh independent BREAKER with no builder reasoning history and explicit
+    assumption challenge.
+  status: OPEN
+  owner: Architecture/phase owner
+  failure_alternative: Fresh independent BREAKER with no builder reasoning history
+    and explicit assumption challenge.
+- id: RISK-021
+  severity: HIGH
+  description: Allowed capability set is confused with exact required capability set
+  proof_gate: GATE-003
+  mitigation: Schemas separate allowed/required/observed capabilities and contract
+    tests assert exact negotiation rules.
+  status: OPEN
+  owner: Architecture/phase owner
+  failure_alternative: Schemas separate allowed/required/observed capabilities and
+    contract tests assert exact negotiation rules.
+- id: RISK-022
+  severity: HIGH
+  description: Retry-until-green hides nondeterministic race
+  proof_gate: GATE-026
+  mitigation: Record attempt history, forbid blind reruns, require diagnosed mechanism
+    and regression proof before rerun acceptance.
+  status: OPEN
+  owner: Architecture/phase owner
+  failure_alternative: Record attempt history, forbid blind reruns, require diagnosed
+    mechanism and regression proof before rerun acceptance.
+- id: RISK-023
+  severity: HIGH
+  description: Generated Markdown/YAML/JSON governance views drift and Codex follows
+    stale copy
+  proof_gate: GATE-BK-000
+  mitigation: Canonical YAML + generated/validated views; CI source-view drift check.
+  status: OPEN
+  owner: Architecture/phase owner
+  failure_alternative: Canonical YAML + generated/validated views; CI source-view
+    drift check.
+- id: RISK-024
+  severity: HIGH
+  description: Hardware evidence is contaminated by concurrent job or stale driver/network
+    state
+  proof_gate: GATE-000
+  mitigation: Exclusive leases, fingerprint/reset checks, contamination detection
+    and runner quarantine.
+  status: OPEN
+  owner: Architecture/phase owner
+  failure_alternative: Exclusive leases, fingerprint/reset checks, contamination detection
+    and runner quarantine.
+- id: RISK-025
+  severity: HIGH
+  description: Fresh BREAKER unintentionally receives builder reasoning and reproduces
+    builder assumptions
+  proof_gate: GATE-BK-000
+  mitigation: Explicit handoff manifest containing only requirements/invariants/commit/diff/evidence;
+    separate session/attempt identity.
+  status: OPEN
+  owner: Architecture/phase owner
+  failure_alternative: Explicit handoff manifest containing only requirements/invariants/commit/diff/evidence;
+    separate session/attempt identity.
+- id: RISK-026
+  severity: HIGH
+  description: Waiver/exception is used to mask missing proof
+  proof_gate: GATE-BK-000
+  mitigation: Waiver schema prohibits PASS override; validators and Steward enforce.
+  status: OPEN
+  owner: Architecture/phase owner
+  failure_alternative: Waiver schema prohibits PASS override; validators and Steward
+    enforce.
+- id: RISK-027
+  severity: HIGH
+  description: Release/test signing credentials cross trust boundary
+  proof_gate: GATE-028
+  mitigation: Separate signing identities, no secrets in BuilderKit, release key isolation
+    and audit.
+  status: OPEN
+  owner: Architecture/phase owner
+  failure_alternative: Separate signing identities, no secrets in BuilderKit, release
+    key isolation and audit.

@@ -1,0 +1,27 @@
+schema_version: '1.0'
+required:
+- boundary_id
+- change_attempt
+- producer
+- consumer
+- source_of_truth
+- producer_guarantees
+- consumer_assumptions
+- validation_owner
+- trust_or_authorization_owner
+- version_owner
+- concurrency
+- transactions
+- retry_idempotency
+- failure_semantics
+- migration_future_compatibility
+- tests
+mandatory_when:
+- cross-process ABI changes
+- cross-machine protocol changes
+- privilege/trust boundary changes
+- persistent state/schema changes
+- producer or consumer guarantees change
+- version/capability negotiation changes
+- retry/recovery semantics change
+- repository contract changes

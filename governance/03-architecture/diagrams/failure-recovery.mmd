@@ -1,0 +1,11 @@
+stateDiagram-v2
+Active --> Suspect: timeout/link/host/GPU fault
+Suspect --> EvidenceCapture
+EvidenceCapture --> DeviceLost: state continuity unprovable
+EvidenceCapture --> ReconnectAuth: policy permits recovery
+ReconnectAuth --> NewEpoch: auth/caps pass
+NewEpoch --> RevalidateResources
+RevalidateResources --> Active: proof succeeds
+ReconnectAuth --> DeviceLost: fail/timeout
+RevalidateResources --> DeviceLost: mismatch/ambiguity
+DeviceLost --> [*]

@@ -1,0 +1,102 @@
+schema_version: '1.0'
+licenses:
+- upstream_id: UP-001
+  declared_license: BSD-3-Clause
+  verification_status: REQUIRES_BASELINE_FILE_LEVEL_VERIFY
+  distribution_notes: Preserve notices and validate selected files/linking during
+    PHASE-001.
+- upstream_id: UP-002
+  declared_license: MIT-family Mesa licensing; verify file-level notices
+  verification_status: REQUIRES_BASELINE_FILE_LEVEL_VERIFY
+  distribution_notes: Preserve notices and validate selected files/linking during
+    PHASE-001.
+- upstream_id: UP-003
+  declared_license: MIT
+  verification_status: REQUIRES_BASELINE_FILE_LEVEL_VERIFY
+  distribution_notes: Preserve notices and validate selected files/linking during
+    PHASE-001.
+- upstream_id: UP-004
+  declared_license: zlib/libpng family; verify branch file licenses
+  verification_status: REQUIRES_BASELINE_FILE_LEVEL_VERIFY
+  distribution_notes: Preserve notices and validate selected files/linking during
+    PHASE-001.
+- upstream_id: UP-005
+  declared_license: BSD-3-Clause
+  verification_status: REQUIRES_BASELINE_FILE_LEVEL_VERIFY
+  distribution_notes: Preserve notices and validate selected files/linking during
+    PHASE-001.
+- upstream_id: UP-006
+  declared_license: MIT and component notices
+  verification_status: REQUIRES_BASELINE_FILE_LEVEL_VERIFY
+  distribution_notes: Preserve notices and validate selected files/linking during
+    PHASE-001.
+- upstream_id: UP-007
+  declared_license: MIT
+  verification_status: REQUIRES_BASELINE_FILE_LEVEL_VERIFY
+  distribution_notes: Preserve notices and validate selected files/linking during
+    PHASE-001.
+- upstream_id: UP-008
+  declared_license: Apache-2.0
+  verification_status: REQUIRES_BASELINE_FILE_LEVEL_VERIFY
+  distribution_notes: Preserve notices and validate selected files/linking during
+    PHASE-001.
+- upstream_id: UP-009
+  declared_license: MIT
+  verification_status: REQUIRES_BASELINE_FILE_LEVEL_VERIFY
+  distribution_notes: Preserve notices and validate selected files/linking during
+    PHASE-001.
+- upstream_id: UP-010
+  declared_license: BSD/GPL component mix; verify selected provider/files
+  verification_status: REQUIRES_BASELINE_FILE_LEVEL_VERIFY
+  distribution_notes: Preserve notices and validate selected files/linking during
+    PHASE-001.
+- upstream_id: UP-011
+  declared_license: GPL-2.0-or-later and component licenses
+  verification_status: REQUIRES_BASELINE_FILE_LEVEL_VERIFY
+  distribution_notes: Preserve notices and validate selected files/linking during
+    PHASE-001.
+- upstream_id: UP-012
+  declared_license: Apache-2.0
+  verification_status: REQUIRES_BASELINE_FILE_LEVEL_VERIFY
+  distribution_notes: Preserve notices and validate selected files/linking during
+    PHASE-001.
+- upstream_id: UP-013
+  declared_license: BSD-3-Clause
+  verification_status: REQUIRES_BASELINE_FILE_LEVEL_VERIFY
+  distribution_notes: Preserve notices and validate selected files/linking during
+    PHASE-001.
+- upstream_id: UP-014
+  declared_license: Proprietary Windows platform documentation/API
+  verification_status: REQUIRES_BASELINE_FILE_LEVEL_VERIFY
+  distribution_notes: Preserve notices and validate selected files/linking during
+    PHASE-001.
+- upstream_id: UP-015
+  declared_license: Proprietary/commercial
+  verification_status: REQUIRES_BASELINE_FILE_LEVEL_VERIFY
+  distribution_notes: Preserve notices and validate selected files/linking during
+    PHASE-001.
+- upstream_id: UP-016
+  declared_license: Vendor-specific/proprietary components
+  verification_status: REQUIRES_BASELINE_FILE_LEVEL_VERIFY
+  distribution_notes: Preserve notices and validate selected files/linking during
+    PHASE-001.
+- upstream_id: UP-017
+  declared_license: OASIS specification terms
+  verification_status: REQUIRES_BASELINE_FILE_LEVEL_VERIFY
+  distribution_notes: Preserve notices and validate selected files/linking during
+    PHASE-001.
+- upstream_id: UP-018
+  declared_license: Research publication; source availability/license must be verified
+  verification_status: REQUIRES_BASELINE_FILE_LEVEL_VERIFY
+  distribution_notes: Preserve notices and validate selected files/linking during
+    PHASE-001.
+- upstream_id: UP-019
+  declared_license: MIT for public repo; separate proprietary terms/binaries
+  verification_status: REQUIRES_BASELINE_FILE_LEVEL_VERIFY
+  distribution_notes: Preserve notices and validate selected files/linking during
+    PHASE-001.
+- upstream_id: UP-020
+  declared_license: VERIFY_AT_BOOTSTRAP
+  verification_status: REQUIRES_BASELINE_FILE_LEVEL_VERIFY
+  distribution_notes: Preserve notices and validate selected files/linking during
+    PHASE-001.

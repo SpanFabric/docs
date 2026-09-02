@@ -1,0 +1,47 @@
+# Implementation Phases
+
+> Canonical source: `12-machine-readable/phases.yaml`. Risk-first; no product polish before architecture proofs.
+
+- **PHASE-000** — BuilderKit, organization and evidence bootstrap — `NOT_STARTED` — proof `GATE-000`
+- **PHASE-001** — Pin and reproduce upstream baselines — `NOT_STARTED` — proof `GATE-000`
+- **PHASE-002** — Windows driver toolchain and recoverable hardware runner — `NOT_STARTED` — proof `GATE-000`
+- **PHASE-003** — Import controlled forks and establish patch provenance — `NOT_STARTED` — proof `GATE-000`
+- **PHASE-004** — Secondary SpanGPU adapter enumeration proof — `NOT_STARTED` — proof `GATE-001`
+- **PHASE-005** — Allocation/resource lifecycle proof — `NOT_STARTED` — proof `GATE-002`
+- **PHASE-006** — Versioned KMD-to-client-service ABI — `NOT_STARTED` — proof `GATE-002`
+- **PHASE-007** — Host daemon and vendor-backend boundary — `NOT_STARTED` — proof `GATE-003`
+- **PHASE-008** — QUIC control/session/capability negotiation — `NOT_STARTED` — proof `GATE-003`
+- **PHASE-009** — D3D11 command/resource loopback and serialization benchmark — `NOT_STARTED` — proof `GATE-003`
+- **PHASE-010** — Remote D3D11 triangle — `NOT_STARTED` — proof `GATE-003`
+- **PHASE-011** — Third-party D3D11 application proof — `NOT_STARTED` — proof `GATE-004`
+- **PHASE-012** — D3D11 correctness and stress baseline — `NOT_STARTED` — proof `GATE-005`
+- **PHASE-013** — Windows presentation architecture proof — `NOT_STARTED` — proof `GATE-006`
+- **PHASE-014** — First unmodified game — `NOT_STARTED` — proof `GATE-010`
+- **PHASE-015** — Steam launcher-independence proof — `NOT_STARTED` — proof `GATE-011`
+- **PHASE-016** — Remote-authoritative VRAM model — `NOT_STARTED` — proof `GATE-007`
+- **PHASE-017** — Content-addressed resource cache — `NOT_STARTED` — proof `GATE-008`
+- **PHASE-018** — Virtual fences and queue ordering — `NOT_STARTED` — proof `GATE-009`
+- **PHASE-019** — Batching, frames-in-flight and backpressure — `NOT_STARTED` — proof `GATE-009`
+- **PHASE-020** — WAN observability and deterministic network profiles — `NOT_STARTED` — proof `GATE-013`
+- **PHASE-021** — 5 ms and 10 ms WAN validation — `NOT_STARTED` — proof `GATE-014`
+- **PHASE-022** — 20 ms WAN validation — `NOT_STARTED` — proof `GATE-015`
+- **PHASE-023** — 40 ms WAN characterization — `NOT_STARTED` — proof `GATE-016`
+- **PHASE-024** — Loss, jitter, bandwidth and ordering resilience — `NOT_STARTED` — proof `GATE-017`
+- **PHASE-025** — Remote-host failure semantics — `NOT_STARTED` — proof `GATE-018`
+- **PHASE-026** — Hard disconnect, TDR and device-loss containment — `NOT_STARTED` — proof `GATE-019`
+- **PHASE-027** — Attempt-scoped reconnect and recovery — `NOT_STARTED` — proof `GATE-020`
+- **PHASE-028** — Local/remote multi-adapter coexistence — `NOT_STARTED` — proof `GATE-012`
+- **PHASE-029** — Vulkan frontend using common SpanGPU core — `NOT_STARTED` — proof `GATE-021`
+- **PHASE-030** — OpenGL frontend/consolidation — `NOT_STARTED` — proof `GATE-022`
+- **PHASE-031** — DX9/DX10 compatibility frontend — `NOT_STARTED` — proof `GATE-023`
+- **PHASE-032** — D3D12 bounded architecture proof — `NOT_STARTED` — proof `GATE-024`
+- **PHASE-033** — D3D12 implementation track — `NOT_STARTED` — proof `GATE-024`
+- **PHASE-034** — AMD host backend and multi-vendor capability model — `NOT_STARTED` — proof `GATE-025`
+- **PHASE-035** — Long-duration stability and resource-churn soak — `NOT_STARTED` — proof `GATE-026`
+- **PHASE-036** — Protocol/service security hardening — `NOT_STARTED` — proof `GATE-027`
+- **PHASE-037** — Driver signing, Secure Boot and release trust path — `NOT_STARTED` — proof `GATE-028`
+- **PHASE-038** — Compatibility database and representative engine/game matrix — `NOT_STARTED` — proof `GATE-026`
+- **PHASE-039** — Performance optimization under preserved semantics — `NOT_STARTED` — proof `GATE-026`
+- **PHASE-040** — Official anti-cheat trust pilot preparation — `NOT_STARTED` — proof `GATE-029`
+- **PHASE-041** — Optional compute and PCIe-over-network research branch — `NOT_STARTED` — proof `GATE-030`
+- **PHASE-042** — Architecture-preserving v1 productization — `NOT_STARTED` — proof `GATE-028`

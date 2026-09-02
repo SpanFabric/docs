@@ -1,0 +1,33 @@
+schema_version: '1.0'
+canonical_governance_owner: SpanFabric/docs
+runtime_owner: SpanFabric/.github
+triggers:
+- pull_request
+- important_push
+- phase_completion
+- gate_result
+- upstream_change
+- release_candidate
+- scheduled_review
+checks:
+- requirement_drift
+- architecture_invariants
+- technology_decision_drift
+- cross_repo_contracts
+- evidence_freshness
+- finding_lifecycle
+- waiver_lifecycle
+- dependency_drift
+- license_drift
+- security_regressions
+- compatibility_regressions
+- no_fake_success
+success_rules:
+  green_builder_tests: INDEPENDENT_REVIEW_PENDING
+  hardware_required_but_not_run: PROOF_NOT_ESTABLISHED
+  blocked_test_execution: BLOCKED_ENVIRONMENT_OR_UPSTREAM
+  phase_done_requires_fresh_breaker: true
+history:
+  attempts_append_only: true
+  findings_not_deleted: true
+  waivers_explicit_and_expiring: true

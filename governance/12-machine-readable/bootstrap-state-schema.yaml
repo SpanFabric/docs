@@ -1,0 +1,38 @@
+schema_version: '1.0'
+states:
+- NOT_STARTED
+- DRY_RUN_READY
+- PRE_APPLY_REVIEW_PENDING
+- PRE_APPLY_ACCEPTED
+- APPLYING
+- PARTIAL_APPLY
+- MATERIALIZING
+- VALIDATING
+- INDEPENDENT_REVIEW_PENDING
+- FAILED
+- BLOCKED_ENVIRONMENT
+- BLOCKED_ARCHITECTURE
+required:
+- attempt_id
+- builderkit_version
+- organization
+- workspace_root
+- state
+- observed_repositories
+- planned_repositories
+- evidence_manifest_sha256
+retry_semantics: Every retry uses a new attempt_id; existing repositories are rediscovered
+  and never deleted automatically.
+partial_failure: Preserve created repositories and local clones; next attempt verifies
+  exact ownership/origin and continues missing work only.
+fixed_targets:
+  organization: SpanFabric
+  workspace_root: D:\Projekte\SpanGPU
+  policy: MISMATCH_FAILS_BEFORE_MUTATION
+materialization:
+  global_preflight_before_writes: true
+  apply_requires_attempt_id: true
+  journal: APPEND_ONLY_PER_ATTEMPT
+  preflight_failure_writes: 0
+  repository_state_commit: AFTER_FULL_REPOSITORY_HASH_VERIFICATION
+  recovery: NEW_ATTEMPT_FORWARD_ONLY

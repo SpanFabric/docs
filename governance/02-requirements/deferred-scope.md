@@ -1,0 +1,36 @@
+# Deferred Scope
+
+- **ANTICHEAT-001 No bypass development** — horizon `v1.x`
+- **ANTICHEAT-002 Third-party acceptance separate status** — horizon `v1.x`
+- **ANTICHEAT-003 Official pilot only** — horizon `v1.x`
+- **ANTICHEAT-004 Driver transparency** — horizon `v1.x`
+- **ANTICHEAT-005 Integrity-compatible architecture** — horizon `v1.x`
+- **ANTICHEAT-006 No injection dependency** — horizon `v1.x`
+- **ANTICHEAT-007 Policy change monitoring** — horizon `v1.x`
+- **ANTICHEAT-008 Compatibility evidence preserves cause** — horizon `v1.x`
+- **COMPAT-013 Representative engine matrix** — horizon `later`
+- **DX-001 DX9 long-term support** — horizon `v1.x`
+- **DX-002 DX10 long-term support** — horizon `v1.x`
+- **DX-006 DX12 separate proof decision** — horizon `v1.x`
+- **DX-007 DX12 no hidden fallback** — horizon `v1.x`
+- **GL-001 OpenGL normal ICD path** — horizon `v1.x`
+- **GL-002 Zink consolidation evaluated** — horizon `v1.x`
+- **GL-003 Legacy GL compatibility tracked** — horizon `v1.x`
+- **GL-004 GL context lifetime remote-safe** — horizon `v1.x`
+- **GL-005 GL synchronization mapped** — horizon `v1.x`
+- **GL-006 GL mapped resource behavior explicit** — horizon `v1.x`
+- **GL-007 GL extension exposure truthful** — horizon `v1.x`
+- **GL-008 GL third-party app proof** — horizon `v1.x`
+- **MULTIGPU-005 Remote multi-GPU extensible** — horizon `later`
+- **TRUST-003 TPM/attestation extensibility** — horizon `later`
+- **TRUST-010 Vendor cooperation optional to core** — horizon `later`
+- **VK-001 Vulkan ICD integration** — horizon `v1.x`
+- **VK-002 Venus reuse evaluated at source level** — horizon `v1.x`
+- **VK-003 Vulkan object identity** — horizon `v1.x`
+- **VK-004 Vulkan queue ordering** — horizon `v1.x`
+- **VK-005 Vulkan memory mapping rules explicit** — horizon `v1.x`
+- **VK-006 Vulkan capability filtering** — horizon `v1.x`
+- **VK-007 Vulkan CTS subset before game claims** — horizon `v1.x`
+- **VK-008 Vulkan external memory scoped** — horizon `v1.x`
+- **VK-009 Vulkan device lost mapping** — horizon `v1.x`
+- **VK-010 Vulkan evidence captures driver stack** — horizon `v1.x`

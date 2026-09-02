@@ -1,0 +1,440 @@
+schema_version: '1.0'
+upstreams:
+- id: UP-001
+  name: Triton KMD / osy kvm-guest-drivers-windows
+  repository: https://github.com/osy/kvm-guest-drivers-windows
+  license: BSD-3-Clause
+  classification: controlled_fork
+  baseline:
+    status: UNPINNED_REQUIRES_BOOTSTRAP
+  used_components:
+  - viogpu/viogpu3d
+  - viogpu/shared
+  expected_modifications: Heavy SpanGPU patch set
+  patch_strategy: Patch queue owned by SpanGPU; origin=controlled fork, upstream=source
+    project; no automatic merge.
+  upstream_remote: https://github.com/osy/kvm-guest-drivers-windows
+  update_policy: Scheduled metadata/diff detection; license/security/impact review;
+    build/tests; update PR; manual adoption gate. Critical forks never auto-merge.
+  compatibility_tests:
+  - clean build or source verification during PHASE-001
+  - SpanGPU regression selection based on used components
+  replacement_strategy: Stable SpanGPU-owned interface allows replacement; record
+    exit plan before critical adoption.
+  risk: HIGH
+  rationale: Critical WDDM starting point; heavy SpanGPU boundary modifications
+    expected.
+- id: UP-002
+  name: Triton Mesa UMD
+  repository: https://github.com/osy/virtio-win-mesa
+  license: MIT-family Mesa licensing; verify file-level notices
+  classification: controlled_fork
+  baseline:
+    status: UNPINNED_REQUIRES_BOOTSTRAP
+  used_components:
+  - D3D10/11 UMD/Gallium frontend
+  expected_modifications: Heavy SpanGPU patch set
+  patch_strategy: Patch queue owned by SpanGPU; origin=controlled fork, upstream=source
+    project; no automatic merge.
+  upstream_remote: https://github.com/osy/virtio-win-mesa
+  update_policy: Scheduled metadata/diff detection; license/security/impact review;
+    build/tests; update PR; manual adoption gate. Critical forks never auto-merge.
+  compatibility_tests:
+  - clean build or source verification during PHASE-001
+  - SpanGPU regression selection based on used components
+  replacement_strategy: Stable SpanGPU-owned interface allows replacement; record
+    exit plan before critical adoption.
+  risk: HIGH
+  rationale: D3D11 client starting point; keep patch provenance.
+- id: UP-003
+  name: Neptune virglrenderer
+  repository: https://github.com/utmapp/virglrenderer
+  license: MIT
+  classification: controlled_fork
+  baseline:
+    status: UNPINNED_REQUIRES_BOOTSTRAP
+  used_components:
+  - Neptune D3D host decoding
+  - renderer integration
+  expected_modifications: Heavy SpanGPU patch set
+  patch_strategy: Patch queue owned by SpanGPU; origin=controlled fork, upstream=source
+    project; no automatic merge.
+  upstream_remote: https://github.com/utmapp/virglrenderer
+  update_policy: Scheduled metadata/diff detection; license/security/impact review;
+    build/tests; update PR; manual adoption gate. Critical forks never auto-merge.
+  compatibility_tests:
+  - clean build or source verification during PHASE-001
+  - SpanGPU regression selection based on used components
+  replacement_strategy: Stable SpanGPU-owned interface allows replacement; record
+    exit plan before critical adoption.
+  risk: HIGH
+  rationale: Host D3D proof path; transport-local assumptions must be separated.
+- id: UP-004
+  name: DXVK Native UTM/osy branch
+  repository: https://github.com/osy/dxvk
+  license: zlib/libpng family; verify branch file licenses
+  classification: controlled_fork
+  baseline:
+    status: UNPINNED_REQUIRES_BOOTSTRAP
+  used_components:
+  - native/headless D3D-to-Vulkan host support
+  expected_modifications: Heavy SpanGPU patch set
+  patch_strategy: Patch queue owned by SpanGPU; origin=controlled fork, upstream=source
+    project; no automatic merge.
+  upstream_remote: https://github.com/osy/dxvk
+  update_policy: Scheduled metadata/diff detection; license/security/impact review;
+    build/tests; update PR; manual adoption gate. Critical forks never auto-merge.
+  compatibility_tests:
+  - clean build or source verification during PHASE-001
+  - SpanGPU regression selection based on used components
+  replacement_strategy: Stable SpanGPU-owned interface allows replacement; record
+    exit plan before critical adoption.
+  risk: HIGH
+  rationale: Initially pinned/forked because branch-specific behavior may be needed.
+- id: UP-005
+  name: upstream virtio-win
+  repository: https://github.com/virtio-win/kvm-guest-drivers-windows
+  license: BSD-3-Clause
+  classification: reference
+  baseline:
+    status: UNPINNED_REQUIRES_BOOTSTRAP
+  used_components:
+  - upstream Windows virtio driver changes
+  expected_modifications: None in SpanGPU-owned source
+  patch_strategy: No permanent fork unless a later TD changes classification.
+  upstream_remote: https://github.com/virtio-win/kvm-guest-drivers-windows
+  update_policy: Scheduled metadata/diff detection; license/security/impact review;
+    build/tests; update PR; manual adoption gate. Critical forks never auto-merge.
+  compatibility_tests:
+  - clean build or source verification during PHASE-001
+  - SpanGPU regression selection based on used components
+  replacement_strategy: Stable SpanGPU-owned interface allows replacement; record
+    exit plan before critical adoption.
+  risk: LOW/REFERENCE
+  rationale: Monitor and selectively backport into controlled KMD fork.
+- id: UP-006
+  name: Mesa / Venus / Zink
+  repository: https://gitlab.freedesktop.org/mesa/mesa
+  license: MIT and component notices
+  classification: adapted
+  baseline:
+    status: UNPINNED_REQUIRES_BOOTSTRAP
+  used_components:
+  - Venus Vulkan frontend/object model
+  - Zink/OpenGL
+  - common Mesa utilities
+  expected_modifications: Selective adaptation/integration
+  patch_strategy: No permanent fork unless a later TD changes classification.
+  upstream_remote: https://gitlab.freedesktop.org/mesa/mesa
+  update_policy: Scheduled metadata/diff detection; license/security/impact review;
+    build/tests; update PR; manual adoption gate. Critical forks never auto-merge.
+  compatibility_tests:
+  - clean build or source verification during PHASE-001
+  - SpanGPU regression selection based on used components
+  replacement_strategy: Stable SpanGPU-owned interface allows replacement; record
+    exit plan before critical adoption.
+  risk: MEDIUM
+  rationale: Prefer bounded patch queue/component adaptation; avoid unnecessary full
+    fork divergence.
+- id: UP-007
+  name: virglrenderer upstream
+  repository: https://gitlab.freedesktop.org/virgl/virglrenderer
+  license: MIT
+  classification: reference
+  baseline:
+    status: UNPINNED_REQUIRES_BOOTSTRAP
+  used_components:
+  - renderer architecture
+  - Venus host
+  expected_modifications: None in SpanGPU-owned source
+  patch_strategy: No permanent fork unless a later TD changes classification.
+  upstream_remote: https://gitlab.freedesktop.org/virgl/virglrenderer
+  update_policy: Scheduled metadata/diff detection; license/security/impact review;
+    build/tests; update PR; manual adoption gate. Critical forks never auto-merge.
+  compatibility_tests:
+  - clean build or source verification during PHASE-001
+  - SpanGPU regression selection based on used components
+  replacement_strategy: Stable SpanGPU-owned interface allows replacement; record
+    exit plan before critical adoption.
+  risk: LOW/REFERENCE
+  rationale: Track upstream against Neptune fork.
+- id: UP-008
+  name: gfxstream
+  repository: https://github.com/google/gfxstream
+  license: Apache-2.0
+  classification: adapted
+  baseline:
+    status: UNPINNED_REQUIRES_BOOTSTRAP
+  used_components:
+  - API codegen
+  - encoder/decoder patterns
+  - end-to-end test patterns
+  expected_modifications: Selective adaptation/integration
+  patch_strategy: No permanent fork unless a later TD changes classification.
+  upstream_remote: https://github.com/google/gfxstream
+  update_policy: Scheduled metadata/diff detection; license/security/impact review;
+    build/tests; update PR; manual adoption gate. Critical forks never auto-merge.
+  compatibility_tests:
+  - clean build or source verification during PHASE-001
+  - SpanGPU regression selection based on used components
+  replacement_strategy: Stable SpanGPU-owned interface allows replacement; record
+    exit plan before critical adoption.
+  risk: MEDIUM
+  rationale: Selective reuse/adaptation behind SpanGPU protocol.
+- id: UP-009
+  name: MsQuic
+  repository: https://github.com/microsoft/msquic
+  license: MIT
+  classification: dependency
+  baseline:
+    status: UNPINNED_REQUIRES_BOOTSTRAP
+  used_components:
+  - QUIC/TLS transport
+  expected_modifications: Normal dependency integration
+  patch_strategy: No permanent fork unless a later TD changes classification.
+  upstream_remote: https://github.com/microsoft/msquic
+  update_policy: Scheduled metadata/diff detection; license/security/impact review;
+    build/tests; update PR; manual adoption gate. Critical forks never auto-merge.
+  compatibility_tests:
+  - clean build or source verification during PHASE-001
+  - SpanGPU regression selection based on used components
+  replacement_strategy: Stable SpanGPU-owned interface allows replacement; record
+    exit plan before critical adoption.
+  risk: MEDIUM
+  rationale: Normal replaceable dependency; protocol must not depend on MsQuic internals.
+- id: UP-010
+  name: libfabric
+  repository: https://github.com/ofiwg/libfabric
+  license: BSD/GPL component mix; verify selected provider/files
+  classification: dependency
+  baseline:
+    status: UNPINNED_REQUIRES_BOOTSTRAP
+  used_components:
+  - optional controlled-network/RDMA transport
+  expected_modifications: Normal dependency integration
+  patch_strategy: No permanent fork unless a later TD changes classification.
+  upstream_remote: https://github.com/ofiwg/libfabric
+  update_policy: Scheduled metadata/diff detection; license/security/impact review;
+    build/tests; update PR; manual adoption gate. Critical forks never auto-merge.
+  compatibility_tests:
+  - clean build or source verification during PHASE-001
+  - SpanGPU regression selection based on used components
+  replacement_strategy: Stable SpanGPU-owned interface allows replacement; record
+    exit plan before critical adoption.
+  risk: MEDIUM
+  rationale: Optional fast-path dependency, not WAN correctness baseline.
+- id: UP-011
+  name: QEMU
+  repository: https://gitlab.com/qemu-project/qemu
+  license: GPL-2.0-or-later and component licenses
+  classification: dependency
+  baseline:
+    status: UNPINNED_REQUIRES_BOOTSTRAP
+  used_components:
+  - development/test harness
+  - virtio-gpu reference device
+  expected_modifications: Normal dependency integration
+  patch_strategy: No permanent fork unless a later TD changes classification.
+  upstream_remote: https://gitlab.com/qemu-project/qemu
+  update_policy: Scheduled metadata/diff detection; license/security/impact review;
+    build/tests; update PR; manual adoption gate. Critical forks never auto-merge.
+  compatibility_tests:
+  - clean build or source verification during PHASE-001
+  - SpanGPU regression selection based on used components
+  replacement_strategy: Stable SpanGPU-owned interface allows replacement; record
+    exit plan before critical adoption.
+  risk: MEDIUM
+  rationale: External dev/test dependency; do not copy GPL core into permissive SpanGPU
+    code without explicit TD.
+- id: UP-012
+  name: LUPINE
+  repository: https://github.com/lupinemachines/lupine
+  license: Apache-2.0
+  classification: adapted
+  baseline:
+    status: UNPINNED_REQUIRES_BOOTSTRAP
+  used_components:
+  - GPU-over-IP sessions
+  - RPC/handle patterns
+  - future compute ideas
+  expected_modifications: Selective adaptation/integration
+  patch_strategy: No permanent fork unless a later TD changes classification.
+  upstream_remote: https://github.com/lupinemachines/lupine
+  update_policy: Scheduled metadata/diff detection; license/security/impact review;
+    build/tests; update PR; manual adoption gate. Critical forks never auto-merge.
+  compatibility_tests:
+  - clean build or source verification during PHASE-001
+  - SpanGPU regression selection based on used components
+  replacement_strategy: Stable SpanGPU-owned interface allows replacement; record
+    exit plan before critical adoption.
+  risk: MEDIUM
+  rationale: Selective code/architecture source, not graphics client core.
+- id: UP-013
+  name: libvfio-user
+  repository: https://gitlab.com/qemu-project/libvfio-user
+  license: BSD-3-Clause
+  classification: reference
+  baseline:
+    status: UNPINNED_REQUIRES_BOOTSTRAP
+  used_components:
+  - future PCIe/device remoting research
+  expected_modifications: None in SpanGPU-owned source
+  patch_strategy: No permanent fork unless a later TD changes classification.
+  upstream_remote: https://gitlab.com/qemu-project/libvfio-user
+  update_policy: Scheduled metadata/diff detection; license/security/impact review;
+    build/tests; update PR; manual adoption gate. Critical forks never auto-merge.
+  compatibility_tests:
+  - clean build or source verification during PHASE-001
+  - SpanGPU regression selection based on used components
+  replacement_strategy: Stable SpanGPU-owned interface allows replacement; record
+    exit plan before critical adoption.
+  risk: LOW/REFERENCE
+  rationale: Reference/experimental branch only.
+- id: UP-014
+  name: Microsoft GPU-PV
+  repository: https://learn.microsoft.com/en-us/windows-hardware/drivers/display/gpu-paravirtualization
+  license: Proprietary Windows platform documentation/API
+  classification: reference
+  baseline:
+    status: UNPINNED_REQUIRES_BOOTSTRAP
+  used_components:
+  - WDDM virtualization architecture concepts
+  expected_modifications: None in SpanGPU-owned source
+  patch_strategy: No permanent fork unless a later TD changes classification.
+  upstream_remote: https://learn.microsoft.com/en-us/windows-hardware/drivers/display/gpu-paravirtualization
+  update_policy: Scheduled metadata/diff detection; license/security/impact review;
+    build/tests; update PR; manual adoption gate. Critical forks never auto-merge.
+  compatibility_tests:
+  - clean build or source verification during PHASE-001
+  - SpanGPU regression selection based on used components
+  replacement_strategy: Stable SpanGPU-owned interface allows replacement; record
+    exit plan before critical adoption.
+  risk: LOW/REFERENCE
+  rationale: Architectural reference, not redistributable dependency.
+- id: UP-015
+  name: NVIDIA vGPU
+  repository: https://docs.nvidia.com/vgpu/
+  license: Proprietary/commercial
+  classification: reference
+  baseline:
+    status: UNPINNED_REQUIRES_BOOTSTRAP
+  used_components:
+  - scheduler/trust/virtualization concepts
+  expected_modifications: None in SpanGPU-owned source
+  patch_strategy: No permanent fork unless a later TD changes classification.
+  upstream_remote: https://docs.nvidia.com/vgpu/
+  update_policy: Scheduled metadata/diff detection; license/security/impact review;
+    build/tests; update PR; manual adoption gate. Critical forks never auto-merge.
+  compatibility_tests:
+  - clean build or source verification during PHASE-001
+  - SpanGPU regression selection based on used components
+  replacement_strategy: Stable SpanGPU-owned interface allows replacement; record
+    exit plan before critical adoption.
+  risk: LOW/REFERENCE
+  rationale: Reference only; do not make required dependency.
+- id: UP-016
+  name: AMD virtualization / SR-IOV
+  repository: https://www.amd.com/
+  license: Vendor-specific/proprietary components
+  classification: reference
+  baseline:
+    status: UNPINNED_REQUIRES_BOOTSTRAP
+  used_components:
+  - host virtualization concepts
+  expected_modifications: None in SpanGPU-owned source
+  patch_strategy: No permanent fork unless a later TD changes classification.
+  upstream_remote: https://www.amd.com/
+  update_policy: Scheduled metadata/diff detection; license/security/impact review;
+    build/tests; update PR; manual adoption gate. Critical forks never auto-merge.
+  compatibility_tests:
+  - clean build or source verification during PHASE-001
+  - SpanGPU regression selection based on used components
+  replacement_strategy: Stable SpanGPU-owned interface allows replacement; record
+    exit plan before critical adoption.
+  risk: LOW/REFERENCE
+  rationale: Reference only.
+- id: UP-017
+  name: Virtio specification
+  repository: https://docs.oasis-open.org/virtio/
+  license: OASIS specification terms
+  classification: reference
+  baseline:
+    status: UNPINNED_REQUIRES_BOOTSTRAP
+  used_components:
+  - device/protocol concepts
+  expected_modifications: None in SpanGPU-owned source
+  patch_strategy: No permanent fork unless a later TD changes classification.
+  upstream_remote: https://docs.oasis-open.org/virtio/
+  update_policy: Scheduled metadata/diff detection; license/security/impact review;
+    build/tests; update PR; manual adoption gate. Critical forks never auto-merge.
+  compatibility_tests:
+  - clean build or source verification during PHASE-001
+  - SpanGPU regression selection based on used components
+  replacement_strategy: Stable SpanGPU-owned interface allows replacement; record
+    exit plan before critical adoption.
+  risk: LOW/REFERENCE
+  rationale: Normative reference for reused virtio semantics only.
+- id: UP-018
+  name: PCIe-over-network 2026 prototype
+  repository: https://leoustc.com/blog-2026-08-16-pcie-over-network/
+  license: Research publication; source availability/license must be verified
+  classification: reference
+  baseline:
+    status: UNPINNED_REQUIRES_BOOTSTRAP
+  used_components:
+  - future stock-driver research
+  expected_modifications: None in SpanGPU-owned source
+  patch_strategy: No permanent fork unless a later TD changes classification.
+  upstream_remote: https://leoustc.com/blog-2026-08-16-pcie-over-network/
+  update_policy: Scheduled metadata/diff detection; license/security/impact review;
+    build/tests; update PR; manual adoption gate. Critical forks never auto-merge.
+  compatibility_tests:
+  - clean build or source verification during PHASE-001
+  - SpanGPU regression selection based on used components
+  replacement_strategy: Stable SpanGPU-owned interface allows replacement; record
+    exit plan before critical adoption.
+  risk: LOW/REFERENCE
+  rationale: Do not treat blog proof as production code.
+- id: UP-019
+  name: Juice Labs public repository
+  repository: https://github.com/Juice-Labs/Juice-Labs
+  license: MIT for public repo; separate proprietary terms/binaries
+  classification: rejected
+  baseline:
+    status: UNPINNED_REQUIRES_BOOTSTRAP
+  used_components:
+  - none in critical runtime
+  expected_modifications: None in SpanGPU-owned source
+  patch_strategy: No permanent fork unless a later TD changes classification.
+  upstream_remote: https://github.com/Juice-Labs/Juice-Labs
+  update_policy: Scheduled metadata/diff detection; license/security/impact review;
+    build/tests; update PR; manual adoption gate. Critical forks never auto-merge.
+  compatibility_tests:
+  - clean build or source verification during PHASE-001
+  - SpanGPU regression selection based on used components
+  replacement_strategy: Stable SpanGPU-owned interface allows replacement; record
+    exit plan before critical adoption.
+  risk: LOW/REFERENCE
+  rationale: Reference/competitive analysis only; incomplete proprietary GPU/data
+    plane and injection-based Windows path conflict with core requirements.
+- id: UP-020
+  name: wgpu-remote
+  repository: https://github.com/melito/wgpu-remote
+  license: VERIFY_AT_BOOTSTRAP
+  classification: reference
+  baseline:
+    status: UNPINNED_REQUIRES_BOOTSTRAP
+  used_components:
+  - QUIC graphics RPC ideas
+  expected_modifications: None in SpanGPU-owned source
+  patch_strategy: No permanent fork unless a later TD changes classification.
+  upstream_remote: https://github.com/melito/wgpu-remote
+  update_policy: Scheduled metadata/diff detection; license/security/impact review;
+    build/tests; update PR; manual adoption gate. Critical forks never auto-merge.
+  compatibility_tests:
+  - clean build or source verification during PHASE-001
+  - SpanGPU regression selection based on used components
+  replacement_strategy: Stable SpanGPU-owned interface allows replacement; record
+    exit plan before critical adoption.
+  risk: LOW/REFERENCE
+  rationale: Research reference only; application API mismatch.

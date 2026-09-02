@@ -1,0 +1,30 @@
+schema_version: '1.0'
+required:
+- evidence_id
+- attempt_id
+- kind
+- target_commit
+- created_at
+- environment
+- invocation
+- raw_artifacts
+- verdict_state
+fields:
+  evidence_id: immutable unique ID
+  attempt_id: immutable unique execution ID
+  kind: builder|breaker|gate|hardware|benchmark|recovery|release|upstream
+  target_commit: full source commit SHA(s)
+  build_identity: artifact/build digest
+  created_at: RFC3339 timestamp
+  environment: environment fingerprint object
+  hardware: optional hardware fingerprint object
+  upstream_baselines: upstream IDs+refs/hashes
+  invocation: exact command/workflow/test selection and deterministic seed where relevant
+  raw_artifacts: list of URI/path, SHA-256, media type, size
+  derived_metrics: metric value/unit + derivation tool/version + raw input hashes
+  review: reviewer/breaker attempt and verdict reference
+  verdict_state: OBSERVED|PASS_CANDIDATE|FAIL|BLOCKED_ENVIRONMENT|BLOCKED_UPSTREAM|PROOF_NOT_ESTABLISHED
+  applicability: requirements/gates/criteria/version/hardware constraints
+  supersedes: older evidence IDs only; older records remain immutable
+  staleness: rules/reasons marking evidence non-current
+  retention: policy class and minimum retention

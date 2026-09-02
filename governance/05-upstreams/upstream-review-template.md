@@ -1,0 +1,13 @@
+# Upstream Adoption Review
+- Upstream ID / old baseline / proposed baseline
+- Exact diff range
+- License/NOTICE delta
+- Security delta
+- SpanGPU patch conflicts
+- Affected requirements/TDs/boundaries
+- Selected tests + rationale
+- Hardware test requirement
+- Builder attempt/evidence
+- Fresh BREAKER verdict
+- Adoption decision: ACCEPT / REJECT / BLOCKED
+- Rollback baseline

@@ -1,0 +1,27 @@
+branding:
+  organization: SpanFabric
+  product: SpanGPU
+  github_organization: SpanFabric
+  legacy_working_name: RemoteGPU
+  legacy_name_status: RETIRED_FOR_NEW_ARTIFACTS
+workspace:
+  windows_root: D:\Projekte\SpanGPU
+  parent_root: D:\Projekte
+  builderkit_expected_download: '%USERPROFILE%\Downloads\SpanGPU-BuilderKit.zip'
+  branding_image_expected_download: '00-project/branding/SpanFabric-logo.png'
+github:
+  organization: SpanFabric
+  repositories:
+  - platform
+  - windows
+  - host
+  - evals
+  - docs
+  - .github
+  primary_repository: platform
+  repository_creation: PHASE_00_BOOTSTRAP_VIA_GH_AFTER_DRY_RUN_AND_PERMISSION_CHECK
+  visibility: public
+constraints:
+  do_not_create_new_organization: true
+  do_not_guess_upstream_forks_before_phase_001: true
+  do_not_begin_gpu_feature_work_before_gate_000: true

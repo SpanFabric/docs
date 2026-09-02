@@ -1,0 +1,16 @@
+schema_version: '1.0'
+prebootstrap:
+  root: D:\Projekte\SpanGPU\_evidence-prebootstrap
+  append_only: true
+  attempt_directory: <attempt_id>
+  sealed_manifest: MANIFEST.json
+  overwrite: FORBIDDEN
+  retry: NEW_ATTEMPT_ID
+postbootstrap:
+  canonical_repository: evals
+  path: evidence/prebootstrap/<attempt_id>
+  import_requires_manifest_verification: true
+  commit_required_for_durability: true
+staleness:
+  old_attempts_remain_immutable: true
+  currentness_requires_explicit_supersession_reference: true

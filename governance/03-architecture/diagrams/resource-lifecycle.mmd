@@ -1,0 +1,12 @@
+stateDiagram-v2
+[*] --> LocalMetadata
+LocalMetadata --> RemoteCreated: create
+RemoteCreated --> Uploading: payload/cache miss
+RemoteCreated --> RemoteValid: cache hit validated
+Uploading --> RemoteValid: upload complete
+RemoteValid --> Resident: scheduled/use
+Resident --> RemoteValid: evicted from VRAM but resource valid
+RemoteValid --> Readback: CPU observation required
+Readback --> RemoteValid
+RemoteValid --> Destroyed
+Destroyed --> [*]

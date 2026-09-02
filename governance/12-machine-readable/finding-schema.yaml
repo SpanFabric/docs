@@ -1,0 +1,21 @@
+schema_version: '1.0'
+states:
+- OPEN
+- ACCEPTED
+- FIXED_PENDING_REVIEW
+- VERIFIED
+- REJECTED_WITH_EVIDENCE
+required:
+- finding_id
+- source_attempt
+- state
+- severity
+- failure_mechanism
+- violated_ids
+- impact
+- remediation
+- regression_evidence_required
+rules:
+- Finding history append-only.
+- BLOCKER/HIGH cannot VERIFIED without fresh breaker attempt.
+- REJECTED_WITH_EVIDENCE preserves original finding and rejection evidence.

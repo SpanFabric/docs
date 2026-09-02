@@ -1,0 +1,195 @@
+{
+  "schema_version": "1.0",
+  "phase_edges": [
+    {
+      "from": "PHASE-000",
+      "to": "PHASE-001"
+    },
+    {
+      "from": "PHASE-001",
+      "to": "PHASE-002"
+    },
+    {
+      "from": "PHASE-002",
+      "to": "PHASE-003"
+    },
+    {
+      "from": "PHASE-003",
+      "to": "PHASE-004"
+    },
+    {
+      "from": "PHASE-004",
+      "to": "PHASE-005"
+    },
+    {
+      "from": "PHASE-005",
+      "to": "PHASE-006"
+    },
+    {
+      "from": "PHASE-006",
+      "to": "PHASE-007"
+    },
+    {
+      "from": "PHASE-007",
+      "to": "PHASE-008"
+    },
+    {
+      "from": "PHASE-008",
+      "to": "PHASE-009"
+    },
+    {
+      "from": "PHASE-009",
+      "to": "PHASE-010"
+    },
+    {
+      "from": "PHASE-010",
+      "to": "PHASE-011"
+    },
+    {
+      "from": "PHASE-011",
+      "to": "PHASE-012"
+    },
+    {
+      "from": "PHASE-012",
+      "to": "PHASE-013"
+    },
+    {
+      "from": "PHASE-013",
+      "to": "PHASE-014"
+    },
+    {
+      "from": "PHASE-014",
+      "to": "PHASE-015"
+    },
+    {
+      "from": "PHASE-015",
+      "to": "PHASE-016"
+    },
+    {
+      "from": "PHASE-016",
+      "to": "PHASE-017"
+    },
+    {
+      "from": "PHASE-017",
+      "to": "PHASE-018"
+    },
+    {
+      "from": "PHASE-018",
+      "to": "PHASE-019"
+    },
+    {
+      "from": "PHASE-019",
+      "to": "PHASE-020"
+    },
+    {
+      "from": "PHASE-020",
+      "to": "PHASE-021"
+    },
+    {
+      "from": "PHASE-021",
+      "to": "PHASE-022"
+    },
+    {
+      "from": "PHASE-022",
+      "to": "PHASE-023"
+    },
+    {
+      "from": "PHASE-023",
+      "to": "PHASE-024"
+    },
+    {
+      "from": "PHASE-024",
+      "to": "PHASE-025"
+    },
+    {
+      "from": "PHASE-025",
+      "to": "PHASE-026"
+    },
+    {
+      "from": "PHASE-026",
+      "to": "PHASE-027"
+    },
+    {
+      "from": "PHASE-027",
+      "to": "PHASE-028"
+    },
+    {
+      "from": "PHASE-028",
+      "to": "PHASE-029"
+    },
+    {
+      "from": "PHASE-029",
+      "to": "PHASE-030"
+    },
+    {
+      "from": "PHASE-030",
+      "to": "PHASE-031"
+    },
+    {
+      "from": "PHASE-031",
+      "to": "PHASE-032"
+    },
+    {
+      "from": "PHASE-032",
+      "to": "PHASE-033"
+    },
+    {
+      "from": "PHASE-033",
+      "to": "PHASE-034"
+    },
+    {
+      "from": "PHASE-034",
+      "to": "PHASE-035"
+    },
+    {
+      "from": "PHASE-035",
+      "to": "PHASE-036"
+    },
+    {
+      "from": "PHASE-036",
+      "to": "PHASE-037"
+    },
+    {
+      "from": "PHASE-037",
+      "to": "PHASE-038"
+    },
+    {
+      "from": "PHASE-038",
+      "to": "PHASE-039"
+    },
+    {
+      "from": "PHASE-039",
+      "to": "PHASE-040"
+    },
+    {
+      "from": "PHASE-040",
+      "to": "PHASE-041"
+    },
+    {
+      "from": "PHASE-041",
+      "to": "PHASE-042"
+    }
+  ],
+  "repository_edges": [
+    {
+      "from": "windows",
+      "to": "platform"
+    },
+    {
+      "from": "host",
+      "to": "platform"
+    },
+    {
+      "from": "evals",
+      "to": "windows"
+    },
+    {
+      "from": "evals",
+      "to": "host"
+    },
+    {
+      "from": ".github",
+      "to": "docs"
+    }
+  ]
+}
