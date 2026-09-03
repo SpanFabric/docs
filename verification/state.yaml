@@ -3,20 +3,32 @@
   "bridge_version": "manual-verification-bridge-v1",
   "repository": "docs",
   "authority_mode": "MANUAL_AUTHORITY",
-  "status": "BUILDING",
-  "previous_status": "INDEPENDENT_REVIEW_PENDING",
+  "status": "INDEPENDENT_REVIEW_PENDING",
+  "previous_status": "BUILDING",
   "transition": {
-    "from": "INDEPENDENT_REVIEW_PENDING",
-    "to": "BUILDING",
+    "from": "BUILDING",
+    "to": "INDEPENDENT_REVIEW_PENDING",
     "authority": "BUILDER"
   },
   "risk": {
     "class": "R2",
     "reason": "Initial governance/CI bootstrap; model may raise but not lower deterministic floor."
   },
-  "review_subject_digest": "",
-  "review_subject_commit": "",
+  "review_subject_digest": "edc6cfc997f6d65e48fc94a0ac98560950f9dfd3b9220696ae026cf1dfbc3892",
+  "review_subject_commit": "5c19c5a9caf4f1d09ae52f2e79b1d9386e305ed6",
   "evidence": [
+    {
+      "id": "PROJECT-STATE-CORRECTION-BUILDER-20260903",
+      "type": "BUILDER_REPORT",
+      "producer": "BUILDER",
+      "role": "BUILDER",
+      "authority": "MANUAL_AUTHORITY",
+      "commit_sha": "5c19c5a9caf4f1d09ae52f2e79b1d9386e305ed6",
+      "review_subject_digest": "edc6cfc997f6d65e48fc94a0ac98560950f9dfd3b9220696ae026cf1dfbc3892",
+      "created_at": "2026-09-03T12:36:06Z",
+      "verdict": "BUILDER_GREEN",
+      "active": true
+    },
     {
       "id": "INITIAL-BASELINE-BOOTSTRAP-BUILDER-20260902",
       "type": "BUILDER_REPORT",
@@ -115,6 +127,7 @@
     "The first main commit contains the Manual Verification Bridge and is the explicit bootstrap baseline.",
     "The confirmed external Fresh BREAKER findings F-001 through F-004 remain historical remediation input.",
     "F-005 and F-006 have Builder remediation and technical evidence only; a new independent Fresh BREAKER is required.",
-    "The R2 canonical PROJECT_STATE correction is active Builder work; prior active Builder evidence is historical and cannot cover its new material review subject."
+    "The R2 canonical PROJECT_STATE correction has Builder evidence only; prior active Builder evidence is historical and cannot cover its new material review subject.",
+    "The correction establishes no Fresh BREAKER, Owner, merge, or post-merge authority."
   ]
 }
