@@ -3,19 +3,19 @@
   "bridge_version": "manual-verification-bridge-v1",
   "repository": "docs",
   "authority_mode": "MANUAL_AUTHORITY",
-  "status": "INDEPENDENT_REVIEW_PENDING",
-  "previous_status": "BUILDING",
+  "status": "BUILDING",
+  "previous_status": "INDEPENDENT_REVIEW_PENDING",
   "transition": {
-    "from": "BUILDING",
-    "to": "INDEPENDENT_REVIEW_PENDING",
+    "from": "INDEPENDENT_REVIEW_PENDING",
+    "to": "BUILDING",
     "authority": "BUILDER"
   },
   "risk": {
     "class": "R2",
     "reason": "Initial governance/CI bootstrap; model may raise but not lower deterministic floor."
   },
-  "review_subject_digest": "c75e5b31d8e5033670af31862543fb88956d28d0c630909a48da2711d7d7fcf2",
-  "review_subject_commit": "dd1481a0e8af1a4664e3dadff7d3c3d1272d529a",
+  "review_subject_digest": "",
+  "review_subject_commit": "",
   "evidence": [
     {
       "id": "INITIAL-BASELINE-BOOTSTRAP-BUILDER-20260902",
@@ -75,7 +75,7 @@
       "review_subject_digest": "c75e5b31d8e5033670af31862543fb88956d28d0c630909a48da2711d7d7fcf2",
       "created_at": "2026-09-02T20:57:45Z",
       "verdict": "BUILDER_GREEN",
-      "active": true
+      "active": false
     }
   ],
   "remediation_inputs": [
@@ -84,6 +84,12 @@
       "reference": "https://github.com/SpanFabric/docs/pull/1",
       "findings": ["F-001", "F-002", "F-003", "F-004"],
       "status": "REMEDIATED_PENDING_FRESH_BREAKER"
+    },
+    {
+      "kind": "EXTERNAL_FRESH_BREAKER_FINDINGS",
+      "reference": "https://github.com/SpanFabric/docs/pull/1",
+      "findings": ["F-005", "F-006"],
+      "status": "REMEDIATION_IN_PROGRESS"
     }
   ],
   "blockers": [],
@@ -95,6 +101,7 @@
   },
   "notes": [
     "The first main commit contains the Manual Verification Bridge and is the explicit bootstrap baseline.",
-    "The confirmed external Fresh BREAKER findings F-001 through F-004 are remediation input only; this Builder report requires a new independent BREAKER."
+    "The confirmed external Fresh BREAKER findings F-001 through F-004 remain historical remediation input.",
+    "F-005 and F-006 are active Builder remediation input; no Builder-authored Fresh BREAKER evidence is asserted."
   ]
 }
