@@ -3,19 +3,19 @@
   "bridge_version": "manual-verification-bridge-v1",
   "repository": "docs",
   "authority_mode": "MANUAL_AUTHORITY",
-  "status": "INDEPENDENT_REVIEW_PENDING",
-  "previous_status": "BUILDING",
+  "status": "BUILDING",
+  "previous_status": "INDEPENDENT_REVIEW_PENDING",
   "transition": {
-    "from": "BUILDING",
-    "to": "INDEPENDENT_REVIEW_PENDING",
+    "from": "INDEPENDENT_REVIEW_PENDING",
+    "to": "BUILDING",
     "authority": "BUILDER"
   },
   "risk": {
     "class": "R2",
     "reason": "Initial governance/CI bootstrap; model may raise but not lower deterministic floor."
   },
-  "review_subject_digest": "b7116e7a2889dd710d1dbdaba479aa5d97cf02157ed3ccfd1f710f0943e7c6bb",
-  "review_subject_commit": "0b2929fb676da44dd0d21a04d9584d0c5014dac2",
+  "review_subject_digest": "",
+  "review_subject_commit": "",
   "evidence": [
     {
       "id": "INITIAL-BASELINE-BOOTSTRAP-BUILDER-20260902",
@@ -39,7 +39,7 @@
       "review_subject_digest": "b7116e7a2889dd710d1dbdaba479aa5d97cf02157ed3ccfd1f710f0943e7c6bb",
       "created_at": "2026-09-03T08:28:02Z",
       "verdict": "BUILDER_GREEN",
-      "active": true
+      "active": false
     },
     {
       "id": "CI-HISTORY-BUILDER-20260902",
@@ -114,6 +114,7 @@
   "notes": [
     "The first main commit contains the Manual Verification Bridge and is the explicit bootstrap baseline.",
     "The confirmed external Fresh BREAKER findings F-001 through F-004 remain historical remediation input.",
-    "F-005 and F-006 have Builder remediation and technical evidence only; a new independent Fresh BREAKER is required."
+    "F-005 and F-006 have Builder remediation and technical evidence only; a new independent Fresh BREAKER is required.",
+    "The R2 canonical PROJECT_STATE correction is active Builder work; prior active Builder evidence is historical and cannot cover its new material review subject."
   ]
 }
