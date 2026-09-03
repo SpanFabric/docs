@@ -2,7 +2,7 @@ schema_version: '1.0'
 phases:
 - id: PHASE-000
   title: BuilderKit, organization and evidence bootstrap
-  status: NOT_STARTED
+  status: IN_PROGRESS
   proof_gate: GATE-000
   prerequisite_phases: []
 - id: PHASE-001

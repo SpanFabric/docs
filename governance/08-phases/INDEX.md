@@ -2,7 +2,7 @@
 
 > Canonical source: `12-machine-readable/phases.yaml`. Risk-first; no product polish before architecture proofs.
 
-- **PHASE-000** — BuilderKit, organization and evidence bootstrap — `NOT_STARTED` — proof `GATE-000`
+- **PHASE-000** — BuilderKit, organization and evidence bootstrap — `IN_PROGRESS` — proof `GATE-000`
 - **PHASE-001** — Pin and reproduce upstream baselines — `NOT_STARTED` — proof `GATE-000`
 - **PHASE-002** — Windows driver toolchain and recoverable hardware runner — `NOT_STARTED` — proof `GATE-000`
 - **PHASE-003** — Import controlled forks and establish patch provenance — `NOT_STARTED` — proof `GATE-000`

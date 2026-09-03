@@ -7,5 +7,8 @@ Builder chain-of-thought/reasoning narrative, confidence statements, intended re
 
 The BREAKER receives a new attempt ID and independently derives its attack plan.
 
-## Pre-apply Phase 00 exception
-Before the initial repository mutation, a fresh breaker reviews the sealed Stage-A dry-run attempt. It receives no builder reasoning history and may authorize apply only by an explicit ACCEPTED verdict tied to the attempt manifest hash. This pre-apply acceptance does not replace the final Phase-00 breaker.
+## Superseded Bootstrap provenance
+The historical BuilderKit pre-bootstrap review route is not a current exception to this
+contract. It is classified in `12-machine-readable/governance-entrypoints.yaml` as
+historical provenance and cannot grant mutation or phase authority. Current BREAKER
+work starts only from the `next_required_action` in `PROJECT_STATE.yaml`.

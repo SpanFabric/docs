@@ -1,0 +1,43 @@
+schema_version: '1.0'
+purpose: Distinguish the current authorization route from retained Bootstrap provenance.
+source_of_truth: governance/PROJECT_STATE.yaml
+active_entrypoints:
+- AGENTS.md
+- governance/PROJECT_STATE.yaml
+- governance/12-machine-readable/project.yaml
+- governance/12-machine-readable/governance-entrypoints.yaml
+- governance/12-machine-readable/phases.yaml
+- governance/12-machine-readable/phase-status-schema.yaml
+- governance/12-machine-readable/gates.yaml
+- governance/08-phases/PHASE-000-builderkit-organization-and-evidence-bootstrap.md
+- governance/08-phases/INDEX.yaml
+- governance/08-phases/INDEX.md
+- governance/09-codex/FIRST_CODEX_PROMPT.md
+- governance/09-codex/breaker-handoff-contract.md
+- .steward/verification-policy.yaml
+- verification/MANUAL_AUTHORITY.md
+historical_superseded:
+- governance/09-codex/PHASE000_RESUME_AFTER_PREAPPLY_BREAKER.md
+- governance/09-codex/pre-apply-breaker-template.md
+- governance/13-reports/implementation-readiness.md
+- governance/13-reports/v1.2.3-correction.md
+historical_evidence:
+- governance/13-reports/builderkit-acceptance.md
+- governance/13-reports/builderkit-correction-v1.2.0.md
+- governance/13-reports/v1.2.1-correction.md
+- governance/13-reports/v1.2.2-correction.md
+- governance/13-reports/validation-report.json
+- governance/13-reports/findings/F-000-04-materializer-apply-quarantine.md
+classification_rules:
+  active_entrypoints: Current operational or normative inputs. They must route through
+    PROJECT_STATE authorization and cannot authorize superseded Bootstrap actions.
+  historical_superseded: Retained non-sealed work instructions. They are provenance only,
+    are not executable entrypoints, and must carry a visible supersession banner.
+  historical_evidence: Retained sealed or report evidence. It is not rewritten merely to
+    add a banner and cannot become operational through a current link.
+invariants:
+- PROJECT_STATE owns the changing next_required_action and authorization state.
+- repositories_bootstrapped does not complete PHASE-000 or pass GATE-000.
+- The Manual Verification Bridge does not replace Fresh BREAKER, Owner, merge, or post-merge authority.
+- F-000-04 keeps materialize-repositories.py --apply quarantined and forbidden.
+- PHASE-001 remains unauthorized until the current phase and gate conditions are actually satisfied.

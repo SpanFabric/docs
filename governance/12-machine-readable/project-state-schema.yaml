@@ -26,7 +26,6 @@ project_required:
 - product_functionality_status
 - organization
 allowed_project_status:
-- READY_FOR_PHASE_00
 - PHASE_ACTIVE
 - INDEPENDENT_REVIEW_PENDING
 - BLOCKED_ENVIRONMENT

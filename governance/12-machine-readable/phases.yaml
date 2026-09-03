@@ -2,11 +2,11 @@ schema_version: '1.0'
 phases:
 - id: PHASE-000
   title: BuilderKit, organization and evidence bootstrap
-  status: NOT_STARTED
-  objective: Two-stage BuilderKit/organization/evidence bootstrap with fresh pre-apply
-    breaker before initial GitHub mutation.
-  why_now: Risk-first progression requires builderkit, organization and evidence bootstrap
-    before broader capability claims.
+  status: IN_PROGRESS
+  objective: Complete post-bootstrap verification, authority-controlled integration and
+    gate evaluation without replaying repository creation.
+  why_now: Bootstrap infrastructure exists, but its exact PR subjects still require fresh
+    independent review, external authority controls, controlled merge and post-merge proof.
   requirements:
   - VISION-001
   - VISION-002
@@ -125,18 +125,17 @@ phases:
   - docs
   - .github
   expected_areas:
-  - GitHub organization bootstrap
-  - local workspace bootstrap
-  - governance/evidence baseline
-  - CI skeletons
+  - exact current PR review subjects
+  - governance/evidence verification
+  - external GitHub authority controls
+  - controlled merge and post-merge proof
   implementation_tasks:
-  - 'Stage A: pinned validator environment, validators/tests, read-only discovery,
-    all dry-runs, sealed pre-bootstrap evidence.'
-  - Fresh pre-apply BREAKER must accept the exact sealed attempt before GitHub mutation.
-  - 'Stage B: create only missing repos, verify/clone workspace, canonical idempotent
-    materialization, CI/Steward/evidence baseline.'
-  - Run Phase-000 semantic tests, Builder Assumption Challenge, seal exact commit
-    evidence and stop for final fresh BREAKER.
+  - Resolve the six exact current PR heads and review-subject digests.
+  - Fresh independent BREAKER reviews the exact subjects.
+  - Complete external GitHub protection, required-check and independent-review controls.
+  - Obtain Owner Acceptance, cross the controlled merge boundary, and verify the exact
+    resulting merge SHA post-merge.
+  - Evaluate GATE-000 from independent immutable evidence before any PHASE-001 authorization.
   out_of_scope:
   - Unrelated future phases
   - Product GUI/marketplace/account polish unless explicitly named
@@ -149,6 +148,7 @@ phases:
   tests_required:
   - BuilderKit validator
   - Traceability validator
+  - Active governance semantic regression suite
   - Project state schema tests
   - Steward policy tests
   hardware_tests_required: false
@@ -183,7 +183,8 @@ phases:
   - Current proof gate PASS and all blocking findings VERIFIED
   forbidden_scope:
   - GPU feature implementation
-  - GitHub mutation during Stage A
+  - Replaying superseded BuilderKit bootstrap actions
+  - Authorizing the F-000-04 quarantined materializer Apply capability
   - ad-hoc governance copying
   - automatic destructive rollback
   tests:

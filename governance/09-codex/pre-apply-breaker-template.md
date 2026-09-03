@@ -1,3 +1,13 @@
+# HISTORICAL / SUPERSEDED
+
+**NOT AN ACTIVE ENTRYPOINT — DO NOT EXECUTE.**
+
+This retained template documents the superseded BuilderKit route. Current
+authorization is owned by `PROJECT_STATE.yaml`; use `FIRST_CODEX_PROMPT.md` and
+`12-machine-readable/governance-entrypoints.yaml` to find the active route.
+
+---
+
 # PHASE-000 PRE-APPLY FRESH BREAKER
 
 Start in a fresh Codex session. Do not receive builder reasoning history.
