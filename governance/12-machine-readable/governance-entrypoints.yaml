@@ -28,7 +28,7 @@ historical_evidence:
 - governance/13-reports/v1.2.2-correction.md
 - governance/13-reports/validation-report.json
 - governance/13-reports/findings/F-000-04-materializer-apply-quarantine.md
-explicit_provenance_references: []
+structured_provenance: []
 classification_rules:
   active_entrypoints: Current operational or normative inputs. They must route through
     PROJECT_STATE authorization and cannot authorize superseded Bootstrap actions.
@@ -36,9 +36,9 @@ classification_rules:
     are not executable entrypoints, and must carry a visible supersession banner.
   historical_evidence: Retained sealed or report evidence. It is not rewritten merely to
     add a banner and cannot become operational through a current link.
-  explicit_provenance_references: A historical target may be retained only through an
-    exact source/target pair declared here. This is a non-operative citation exception,
-    never an execution route.
+  structured_provenance: An exact source/historical_target provenance relationship may
+    be recorded here with relationship: provenance. It is metadata only and never an
+    exception or authorization for an executable/navigable route.
 invariants:
 - PROJECT_STATE owns the changing next_required_action and authorization state.
 - repositories_bootstrapped does not complete PHASE-000 or pass GATE-000.
