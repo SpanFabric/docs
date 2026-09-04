@@ -1,0 +1,94 @@
+{
+  "id": "F007-RLINK-001-CANONICAL-LINK-RESOLUTION-BUILDER-20260904",
+  "type": "REMEDIATION",
+  "producer": "BUILDER",
+  "role": "BUILDER",
+  "authority": "MANUAL_AUTHORITY",
+  "created_at": "2026-09-04T12:41:35Z",
+  "verdict": "BUILDER_GREEN",
+  "risk_class": "R2",
+  "finding": "F-007-RLINK-001",
+  "material_review_subject": {
+    "commit_sha": "9da0b7567aba797d62eb248c8ef63d030a2e3227",
+    "review_subject_digest": "7d2c7ec656004680e43beb049b401ce34062265ab0ae068663081ffb8d7a8f79",
+    "material_files": [
+      "governance/12-machine-readable/governance-entrypoints.yaml",
+      "scripts/active_governance_semantics.py",
+      "tests/verification/test_active_governance_semantics.py"
+    ]
+  },
+  "scope": "Replace raw full-path substring matching for active-governance links with canonical Git/POSIX repository-path resolution. Preserve historical artifacts, the Manual Verification Bridge, F-000-04 quarantine, F-001 through F-006, all non-Docs repositories, Owner authority, merge state, and phase authorization.",
+  "resolution_contract": {
+    "supported_forms": [
+      "inline Markdown [label](destination)",
+      "angle-bracket inline Markdown [label](<destination>)",
+      "explicit, collapsed, and shortcut Markdown reference links with a local definition",
+      "backtick-delimited repository-root-anchored direct governance paths"
+    ],
+    "algorithm": [
+      "Extract a declared executable reference from every active registry source.",
+      "Classify HTTP(S) as external documentation; do not treat it as a repository target.",
+      "For a local target, strip fragment/query, reject absolute paths, non-HTTP URI schemes, backslashes, percent encoding, control characters, empty path segments, root traversal, and repository-root resolution.",
+      "Resolve relative paths from the source directory using slash-only Git/POSIX segments and resolve governance/ or AGENTS.md as repository-root anchors.",
+      "Classify the one canonical repository-relative target as ACTIVE, HISTORICAL_REFERENCE, HISTORICAL_EVIDENCE, or UNCLASSIFIED.",
+      "Allow ACTIVE and external HTTP(S); reject all unclassified or historical executable routes unless an exact source/target pair is structured in explicit_provenance_references."
+    ],
+    "historical_behavior": "historical_superseded and historical_evidence remain immutable provenance. They are never executable from active governance. An explicit registry pair is a narrowly scoped non-operative citation, not a prose-derived exception."
+  },
+  "active_reference_audit": {
+    "result": "PASS",
+    "active_sources_scanned": 14,
+    "internal_executable_references": 3,
+    "historical_executable_routes": 0,
+    "unclassified_internal_executable_targets": 0,
+    "ambiguous_local_paths_silently_accepted": 0,
+    "entries": [
+      {
+        "source": "governance/09-codex/FIRST_CODEX_PROMPT.md",
+        "raw_destination": "AGENTS.md",
+        "canonical_target": "AGENTS.md",
+        "classification": "ACTIVE",
+        "result": "ALLOWED: active governance target"
+      },
+      {
+        "source": "governance/09-codex/FIRST_CODEX_PROMPT.md",
+        "raw_destination": "governance/PROJECT_STATE.yaml",
+        "canonical_target": "governance/PROJECT_STATE.yaml",
+        "classification": "ACTIVE",
+        "result": "ALLOWED: active governance target"
+      },
+      {
+        "source": "governance/09-codex/FIRST_CODEX_PROMPT.md",
+        "raw_destination": "governance/12-machine-readable/governance-entrypoints.yaml",
+        "canonical_target": "governance/12-machine-readable/governance-entrypoints.yaml",
+        "classification": "ACTIVE",
+        "result": "ALLOWED: active governance target"
+      }
+    ]
+  },
+  "regression_evidence": [
+    "python -B -m unittest tests/verification/test_active_governance_semantics.py -v: 26 passed",
+    "python -B -m unittest tests.verification.test_active_governance_semantics.ActiveGovernanceSemanticsTests.test_same_directory_markdown_historical_route_is_rejected -v: pass; this appends [resume](PHASE000_RESUME_AFTER_PREAPPLY_BREAKER.md) to a temporary copy of FIRST_CODEX_PROMPT.md and invokes the production validator",
+    "python -B -m unittest tests/verification/test_project_state_semantics.py -v: 2 passed",
+    "python -B -m unittest discover -s tests/verification -p test_*.py: 61 passed",
+    "python -B scripts/active_governance_semantics.py --repo-root . --audit: pass; 3 ACTIVE/ALLOWED routes only",
+    "python -B scripts/verify_review_state.py --check --base b622dd3d21cc1cebdf07d7de344ece1a32fb34bd: pass for the exact material digest",
+    "trusted materialized runner against origin/main b622dd3d21cc1cebdf07d7de344ece1a32fb34bd: pass; runner object 7309dc1e1d484188d7c7cb3c6cabd92cf4cfd4ac, validator object ac52f7c8521d860a57061791dec7a575f09067a4",
+    "pinned SpanGPU BuilderKit 2026.09.02-v1.2.3-spanfabric with PyYAML 6.0.3: validate-builderkit, validate-traceability, and validate-upstreams all passed"
+  ],
+  "non_regression": {
+    "f001_to_f006": "The unchanged six common Bridge components remained byte-identical at all six checked repository heads: verification-policy f59a145af0daa763bf4b7542d336f592d2f35dee; verify_review_state.py ac52f7c8521d860a57061791dec7a575f09067a4; trusted_verify_review_state.sh 7309dc1e1d484188d7c7cb3c6cabd92cf4cfd4ac; test_verify_review_state.py 318b0fd39e76af28b4aba8710ee98dbcf8e50d74; verification-gate.yml 09d7cc28c9a2f7b5df63f785787a6644adb449b0; MANUAL_AUTHORITY.md 1d6cbc1a2a45b40eac569dcce501507729ca3509.",
+    "project_state_and_phase": "PROJECT_STATE/projection semantic/schema suite passed; the active-governance suite preserves PHASE-000 IN_PROGRESS, GATE-000 NOT_PASSED, PHASE-001 NOT_AUTHORIZED, and F-000-04 QUARANTINED/FORBIDDEN."
+  },
+  "assumption_challenge": [
+    "Same-directory, ./, normalized ../, repository-relative, fragment, query, angle-bracket, explicit-reference, collapsed-reference, and shortcut-reference variants all enter the same production resolver and are rejected when canonical target classification is historical.",
+    "Percent-encoded paths, literal backslashes, root/unclassified local targets, absolute paths, and non-HTTP URI schemes fail closed before classification.",
+    "A historical provenance citation is possible only through the exact structured registry source/target pair; current registry declares no such exception.",
+    "Direct materialize-repositories.py --apply remains rejected, F-000-04 remains quarantine-only, and the Bridge controls were not changed."
+  ],
+  "limitations": [
+    "This is Builder evidence only. It is not Fresh BREAKER, Specialist, Owner, CI-hosting, merge, or post-merge evidence.",
+    "The external F-007-RLINK-001 finding remains immutable independent input. The prior F-007 Builder record is historical and cannot cover this material subject.",
+    "GitHub branch protection, exact-head CI, required review, mergeability, Owner Acceptance, merge, and post-merge verification remain external MANUAL_AUTHORITY boundaries."
+  ]
+}
