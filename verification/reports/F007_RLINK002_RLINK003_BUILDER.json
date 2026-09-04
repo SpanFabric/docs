@@ -1,0 +1,143 @@
+{
+  "id": "F007-RLINK-002-RLINK-003-BUILDER-20260904",
+  "type": "REMEDIATION",
+  "producer": "BUILDER",
+  "role": "BUILDER",
+  "authority": "MANUAL_AUTHORITY",
+  "created_at": "2026-09-04T19:50:57+02:00",
+  "verdict": "BUILDER_GREEN",
+  "risk_class": "R2",
+  "remediation_input": {
+    "finding_ids": [
+      "F-007-RLINK-002",
+      "F-007-RLINK-003"
+    ],
+    "source": "Task-supplied independent technical findings",
+    "authority_asserted_by_this_record": "NONE",
+    "durable_fresh_breaker_evidence_created": false,
+    "note": "This Builder record uses the supplied findings only as remediation input. It neither creates nor substitutes for a Fresh BREAKER report or verdict."
+  },
+  "previous_review_subject": {
+    "pr_head": "324778aca19aa8eb0201a4c9f1e027a8c3eefdc1",
+    "material_commit": "9da0b7567aba797d62eb248c8ef63d030a2e3227",
+    "review_subject_digest": "7d2c7ec656004680e43beb049b401ce34062265ab0ae068663081ffb8d7a8f79"
+  },
+  "material_review_subject": {
+    "commit_sha": "68579288baa22b18d555b17c71976dc00ac267f1",
+    "review_subject_digest": "36b244d5e7cf756486bf0fd982a81fb2ab0b9b7b3c5826e30ef4e359ea5c9d9a",
+    "material_file_count": 299,
+    "material_files": [
+      "governance/12-machine-readable/governance-entrypoints.yaml",
+      "scripts/active_governance_semantics.py",
+      "tests/verification/test_active_governance_semantics.py"
+    ]
+  },
+  "lifecycle": {
+    "begin_transition_commit": "1b5338b4de887da83ee0a55ea2a3f089a8a3750e",
+    "begin_transition": "INDEPENDENT_REVIEW_PENDING -> BUILDING by BUILDER",
+    "completion_transition": "BUILDING -> INDEPENDENT_REVIEW_PENDING by BUILDER",
+    "maximum_asserted_state": "INDEPENDENT_REVIEW_PENDING"
+  },
+  "parser_contract": {
+    "implementation": "One deterministic cursor-based Markdown-governance extractor; tests invoke the production extractor/resolver.",
+    "supported_inline_forms": [
+      "[label](target.md)",
+      "[label](target.md \"title\")",
+      "[label](target.md 'title')",
+      "[label](target.md (title))",
+      "[label](<target.md>)",
+      "[label](<target.md> \"title\")"
+    ],
+    "supported_reference_forms": [
+      "[label][id] plus [id]: target.md [title]",
+      "[label][] plus [label]: target.md [title]",
+      "[label] plus [label]: target.md [title]"
+    ],
+    "destination_identity": "Only the parsed destination is canonicalized. Optional title content is consumed syntactically and can neither alter nor create a target identity.",
+    "failure_semantics": "Malformed or unsupported path-shaped local Markdown is a GovernanceRouteError. Root traversal, repeated separators, backslashes, Windows/UNC paths, percent encoding, control characters, unsupported URI schemes, unclassified local targets, and historical local targets remain fail-closed."
+  },
+  "authorization_contract": {
+    "historical_navigation": "Every navigable/executable local reference whose canonical classification starts with HISTORICAL has allowed=false.",
+    "structured_provenance": "Registry field structured_provenance accepts exact canonical source/historical_target/relationship=provenance triples only. It is validated as metadata and never read by navigation authorization.",
+    "provenance_positive_case": "Structured provenance with no navigable local historical link validates successfully.",
+    "f00004": "An active link to PHASE000_RESUME_AFTER_PREAPPLY_BREAKER.md is extracted, canonicalized to HISTORICAL_REFERENCE, and rejected before that historical document can expose materialize-repositories.py --apply."
+  },
+  "required_reproductions": {
+    "title_bypass": {
+      "input": "[resume](PHASE000_RESUME_AFTER_PREAPPLY_BREAKER.md \"retained historical record\")",
+      "production_path": "EXTRACTED -> CANONICALIZED(governance/09-codex/PHASE000_RESUME_AFTER_PREAPPLY_BREAKER.md) -> HISTORICAL_REFERENCE -> REJECTED"
+    },
+    "provenance_attack": {
+      "metadata": "source=governance/09-codex/FIRST_CODEX_PROMPT.md, historical_target=governance/09-codex/PHASE000_RESUME_AFTER_PREAPPLY_BREAKER.md, relationship=provenance",
+      "input": "[Resume the historical execution instructions now](./PHASE000_RESUME_AFTER_PREAPPLY_BREAKER.md#stage-b)",
+      "production_path": "EXTRACTED -> CANONICALIZED(governance/09-codex/PHASE000_RESUME_AFTER_PREAPPLY_BREAKER.md) -> HISTORICAL_REFERENCE -> REJECTED; provenance remains separate metadata"
+    }
+  },
+  "active_reference_audit": {
+    "command": "python -B scripts/active_governance_semantics.py --repo-root . --audit",
+    "exit_code": 0,
+    "legitimate_active_routes": 3,
+    "external_references": 0,
+    "structured_provenance_metadata": 0,
+    "allowed_historical_navigable_routes": 0,
+    "unclassified_navigable_local_routes": 0,
+    "ignored_recognized_local_markdown_references": 0
+  },
+  "validation": [
+    {
+      "command": "python -B -m unittest tests/verification/test_active_governance_semantics.py -v",
+      "result": "37 tests passed",
+      "exit_code": 0
+    },
+    {
+      "command": "python -B -m unittest tests/verification/test_project_state_semantics.py -v",
+      "result": "2 tests passed",
+      "exit_code": 0
+    },
+    {
+      "command": "python -B -m unittest discover -s tests/verification -p \"test_*.py\" -v",
+      "result": "72 tests passed",
+      "exit_code": 0
+    },
+    {
+      "command": "pinned BuilderKit validate-builderkit.py with PyYAML 6.0.3",
+      "result": "PASS; requirements=396, decisions=34, phases=43, gates=32, upstreams=20, risks=27",
+      "exit_code": 0
+    },
+    {
+      "command": "pinned BuilderKit validate-traceability.py with PyYAML 6.0.3",
+      "result": "PASS",
+      "exit_code": 0
+    },
+    {
+      "command": "pinned BuilderKit validate-upstreams.py with PyYAML 6.0.3",
+      "result": "PASS",
+      "exit_code": 0
+    },
+    {
+      "command": "materialized trusted_verify_review_state.sh against origin/main b622dd3d21cc1cebdf07d7de344ece1a32fb34bd",
+      "result": "PASS; runner object 7309dc1e1d484188d7c7cb3c6cabd92cf4cfd4ac; validator object ac52f7c8521d860a57061791dec7a575f09067a4",
+      "exit_code": 0
+    },
+    {
+      "command": "git diff --check origin/main...68579288baa22b18d555b17c71976dc00ac267f1",
+      "result": "PASS",
+      "exit_code": 0
+    }
+  ],
+  "non_regression": {
+    "f001_to_f006": "All six common Bridge blobs are byte-identical at platform, windows, host, evals, docs, and .github heads: verification-policy=f59a145af0daa763bf4b7542d336f592d2f35dee; verify_review_state.py=ac52f7c8521d860a57061791dec7a575f09067a4; trusted_verify_review_state.sh=7309dc1e1d484188d7c7cb3c6cabd92cf4cfd4ac; test_verify_review_state.py=318b0fd39e76af28b4aba8710ee98dbcf8e50d74; MANUAL_AUTHORITY.md=1d6cbc1a2a45b40eac569dcce501507729ca3509; verification-gate.yml=09d7cc28c9a2f7b5df63f785787a6644adb449b0.",
+    "other_repository_heads": {
+      "platform": "e625c13d89752254b4422e67be49ef2edadfde8d",
+      "windows": "93d9caaf236eb515bd67015040100c7ba4ae0efd",
+      "host": "74c187738ca523e051871c41dad68765df82cba0",
+      "evals": "a33176c1420ff6273c7ddf683eee7b3c650072cc",
+      ".github": "89031b9f7a6efe479886b5e627a9cc35c6934fb4"
+    }
+  },
+  "limitations": [
+    "No Fresh BREAKER report, verdict, state transition, Owner acceptance, merge, or post-merge assertion is created by this Builder record.",
+    "The task-supplied technical findings are remediation input only and remain separately subject to authorized durable independent-review handling.",
+    "Exact-head GitHub CI, branch protection, independent reviewer identity, mergeability, Owner acceptance, merge, and post-merge verification remain MANUAL_AUTHORITY boundaries."
+  ]
+}
