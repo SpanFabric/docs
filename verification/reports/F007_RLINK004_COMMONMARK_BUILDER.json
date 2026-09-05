@@ -1,0 +1,135 @@
+{
+  "id": "F007-RLINK-004-COMMONMARK-BUILDER-20260905",
+  "type": "REMEDIATION",
+  "producer": "BUILDER",
+  "role": "BUILDER",
+  "authority": "MANUAL_AUTHORITY",
+  "commit_sha": "2ac3c0151f7cec124cead286e518d632e03d7841",
+  "review_subject_digest": "660eddcf4defb6435c7017ede2515305c3e8cd084fb5c936bf40bf22d0ff6b3d",
+  "created_at": "2026-09-05T16:16:49+02:00",
+  "verdict": "BUILDER_GREEN",
+  "risk_class": "R2",
+  "remediation_input": {
+    "finding_ids": [
+      "F-007-RLINK-004"
+    ],
+    "source": "Task-supplied independent technical finding",
+    "authority_asserted_by_this_record": "NONE",
+    "durable_fresh_breaker_evidence_created": false,
+    "note": "This Builder record treats the supplied finding exclusively as remediation input. It neither creates nor substitutes for a Fresh BREAKER report or verdict."
+  },
+  "previous_review_subject": {
+    "pr_head": "a5fd688ab8b846b346db3b32aa7f76c34b455324",
+    "material_commit": "68579288baa22b18d555b17c71976dc00ac267f1",
+    "review_subject_digest": "36b244d5e7cf756486bf0fd982a81fb2ab0b9b7b3c5826e30ef4e359ea5c9d9a"
+  },
+  "material_review_subject": {
+    "commit_sha": "2ac3c0151f7cec124cead286e518d632e03d7841",
+    "review_subject_digest": "660eddcf4defb6435c7017ede2515305c3e8cd084fb5c936bf40bf22d0ff6b3d",
+    "material_file_count": 388,
+    "changed_paths": [
+      ".gitattributes",
+      "scripts/_vendor/markdown_it/**",
+      "scripts/_vendor/markdown_it_py-4.2.0.dist-info/**",
+      "scripts/_vendor/mdurl/**",
+      "scripts/_vendor/mdurl-0.1.2.dist-info/**",
+      "scripts/active_governance_semantics.py",
+      "tests/verification/test_active_governance_semantics.py"
+    ],
+    "digest_exclusions": [
+      "verification/state.yaml",
+      "verification/reports/**"
+    ]
+  },
+  "lifecycle": {
+    "begin_transition": "INDEPENDENT_REVIEW_PENDING -> BUILDING by BUILDER",
+    "completion_transition": "BUILDING -> INDEPENDENT_REVIEW_PENDING by BUILDER",
+    "maximum_asserted_state": "INDEPENDENT_REVIEW_PENDING"
+  },
+  "parser_and_policy_contract": {
+    "parser_authority": "The sole Markdown link authority is the deterministically vendored markdown-it-py 4.2.0 CommonMark parser. No fallback parser or runtime package installation exists.",
+    "pipeline": "Markdown -> vendored CommonMark parser tokens -> parser-derived destinations -> canonical Git/POSIX resolver -> registry classification -> SpanGPU authorization.",
+    "ownership_boundary": "CommonMark recognizes Markdown syntax only. Canonical destination resolution, registry classification, historical-route prohibition, and authorization remain SpanGPU-owned.",
+    "direct_governance_syntax": "Only CommonMark code_inline token content is inspected for direct governance commands; inline and fenced code cannot create Markdown navigation.",
+    "raw_html": "Any navigation-bearing raw HTML token is classified as REJECTED before canonical resolution. Covered attributes are a/area/base href, form action, button/input formaction, and iframe/frame src.",
+    "reference_semantics": "Reference-definition selection is parser-derived: duplicate definitions follow CommonMark first-definition behavior, undefined or non-rendered reference constructs create no navigable route."
+  },
+  "vendor_integrity": {
+    "packages": [
+      {
+        "distribution": "markdown-it-py",
+        "version": "4.2.0",
+        "authorized_wheel_sha256": "9f7ebbcd1a0df36c7e9d6af0bfdd9369bb77f467d6fbe5e11533d81f96cf41c4a"
+      },
+      {
+        "distribution": "mdurl",
+        "version": "0.1.2",
+        "authorized_wheel_sha256": "84008a41e5e2e72a32b21396c16ab53c321d26d1f69dfac9a4b00bc44a89b8f8"
+      }
+    ],
+    "runtime_checks": "The production loader requires the exact vendored distribution metadata and versions, verifies every internal RECORD SHA-256 and size before import, rejects preloaded non-vendor markdown_it/mdurl modules, places scripts/_vendor first on sys.path, and verifies imported module origins remain under that directory.",
+    "committed_payload_check": "87 hash-bearing internal RECORD entries verified against the staged Git index before the material commit. The sole markdown-it console-wrapper RECORD entry is intentionally excluded because it points outside the import root and the untracked installer-generated wrapper was removed.",
+    "line_ending_protection": "scripts/_vendor/** is committed as LF through .gitattributes so Git checkout conversion cannot invalidate RECORD hashes.",
+    "source_archive_provenance_limit": "The supplied wheel archive files were not retained locally, so their exact archive bytes could not be independently matched to the authorized SHA-256 values. This record does not claim direct wheel-archive verification."
+  },
+  "adversarial_coverage": {
+    "historical_reference_corpus": [
+      "escaped closing bracket labels",
+      "balanced and multi-level nested labels",
+      "escaped opening and closing brackets",
+      "inline titles",
+      "full, collapsed, and shortcut reference forms with escaped labels",
+      "case, whitespace, punctuation, and duplicate-definition variants",
+      "undefined reference constructs"
+    ],
+    "non_navigation": [
+      "inline code",
+      "fenced code"
+    ],
+    "failure_paths": [
+      "raw HTML anchors",
+      "raw HTML forms",
+      "raw HTML base elements",
+      "missing vendor root",
+      "preloaded non-vendor markdown_it module"
+    ],
+    "expected_result": "Each rendered route to PHASE000_RESUME_AFTER_PREAPPLY_BREAKER.md is parser-derived, canonicalized, classified HISTORICAL_REFERENCE, and rejected. Raw HTML navigation is rejected. Non-rendered constructs and code are not navigation."
+  },
+  "validation": [
+    {
+      "command": "python -B -m unittest tests/verification/test_active_governance_semantics.py tests/verification/test_project_state_semantics.py -v",
+      "result": "42 tests passed",
+      "exit_code": 0
+    },
+    {
+      "command": "python -B scripts/active_governance_semantics.py --repo-root . --audit",
+      "result": "PASS; legitimate_active_routes=3, external=0, structured=0, allowed_historical=0, unclassified=0, ignored=0",
+      "exit_code": 0
+    },
+    {
+      "command": "staged vendor RECORD verification",
+      "result": "PASS; STAGED_VENDOR_RECORDS_OK=87",
+      "exit_code": 0
+    },
+    {
+      "command": "git diff --cached --check",
+      "result": "PASS before material commit",
+      "exit_code": 0
+    },
+    {
+      "command": "python -B -m unittest discover -s tests/verification -p test_*.py -v",
+      "result": "NOT GREEN on this Windows host: eight existing trusted-runner tests invoke C:\\WINDOWS\\system32\\bash.EXE (WSL launcher) through shutil.which and fail E_ACCESSDENIED. Direct C:\\Program Files\\Git\\bin\\bash.exe execution works. The test-harness issue is outside this F-007-RLINK-004 scope.",
+      "exit_code": 1
+    },
+    {
+      "command": "BuilderKit validation scripts",
+      "result": "NOT RUN: the available Python 3.14 runtime lacks PyYAML and runtime package installation/network access is prohibited by scope.",
+      "exit_code": null
+    }
+  ],
+  "limitations": [
+    "No Fresh BREAKER report, verdict, state transition beyond INDEPENDENT_REVIEW_PENDING, Owner acceptance, merge, or post-merge assertion is created by this Builder record.",
+    "Exact wheel-archive SHA-256 matching is unavailable because the source archives are absent; committed payload integrity is verified through distribution metadata and RECORD entries instead.",
+    "The full verification discovery suite is not green on this host because its pre-existing Bash selection resolves to the unavailable WSL launcher; the exact-head CI and independent Fresh BREAKER remain required."
+  ]
+}
