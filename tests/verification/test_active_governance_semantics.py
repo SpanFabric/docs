@@ -6,11 +6,14 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
+from scripts import active_governance_semantics as governance_semantics
 from scripts.active_governance_semantics import (
     GovernanceRouteError,
     audit_active_governance_references,
     assert_governance_semantics as validate_governance_semantics,
+    markdown_references,
     structured_provenance_references,
 )
 
@@ -202,7 +205,7 @@ class ActiveGovernanceSemanticsTests(unittest.TestCase):
         self.assert_route_rejected("[outside](../../outside.md)", "unclassified internal executable governance target")
 
     def test_backslash_repository_path_is_rejected(self):
-        self.assert_route_rejected("[resume](PHASE000_RESUME_AFTER_PREAPPLY_BREAKER.md\\\\resume)", "backslash repository path")
+        self.assert_route_rejected("[resume](PHASE000_RESUME_AFTER_PREAPPLY_BREAKER.md\\\\resume)", "percent-encoded")
 
     def test_percent_encoded_traversal_or_separator_is_rejected(self):
         self.assert_route_rejected(
@@ -239,7 +242,7 @@ class ActiveGovernanceSemanticsTests(unittest.TestCase):
             self.append_router(root, "[project-state](<../PROJECT_STATE.yaml#authorization>)")
             audit = assert_governance_semantics(self, root)
             self.assertIn(
-                ("<../PROJECT_STATE.yaml#authorization>", "governance/PROJECT_STATE.yaml", "ACTIVE"),
+                ("../PROJECT_STATE.yaml#authorization", "governance/PROJECT_STATE.yaml", "ACTIVE"),
                 {(item.raw_destination, item.canonical_target, item.classification) for item in audit},
             )
 
@@ -263,30 +266,26 @@ class ActiveGovernanceSemanticsTests(unittest.TestCase):
                 ],
             )
 
-    def test_title_bearing_historical_links_are_extracted_and_rejected(self):
+    def test_commonmark_corpus_extracts_every_actual_historical_link_then_rejects_it(self):
         historical = "PHASE000_RESUME_AFTER_PREAPPLY_BREAKER.md"
         cases = (
-            ("double quoted inline", f'[resume]({historical} "retained historical record")', "inline"),
-            ("single quoted inline", f"[resume]({historical} 'retained historical record')", "inline"),
-            ("parenthesized inline", f"[resume]({historical} (retained historical record))", "inline"),
-            ("angle destination with title", f'[resume](<{historical}> "retained historical record")', "inline"),
-            ("explicit reference definition", f'[legacy][id]\n\n[id]: {historical} "retained historical record"', "reference"),
-            ("collapsed reference definition", f'[legacy][]\n\n[legacy]: {historical} \'retained historical record\'', "reference"),
-            ("shortcut reference definition", f'[legacy]\n\n[legacy]: <{historical}> "retained historical record"', "reference"),
+            ("escaped closing bracket", f"[resume\\]]({historical})"),
+            ("balanced nested label", f"[resume [historical]]({historical})"),
+            ("multiple nested labels", f"[a [b [c]]]({historical})"),
+            ("escaped opening and closing brackets", f"[a \\[b\\] c]({historical})"),
+            ("escaped closing bracket with title", f'[resume\\]]({historical} "title")'),
+            ("balanced label with title", f'[resume [historical]]({historical} "title")'),
+            ("full escaped reference", f"[resume\\]][id]\n\n[id]: {historical} 'title'"),
+            ("collapsed escaped reference", f"[resume\\]][]\n\n[resume\\]]: {historical} \"title\""),
+            ("shortcut escaped reference", f"[resume\\]]\n\n[resume\\]]: {historical}"),
+            ("balanced full reference", f"[resume [historical]][id]\n\n[id]: {historical}"),
+            ("case-normalized reference", f"[resume][HISTORICAL REF]\n\n[historical ref]: {historical}"),
+            ("whitespace-normalized reference", f"[resume][historical   ref]\n\n[ Historical Ref ]: {historical}"),
+            ("escaped punctuation reference", f"[resume\\!][id]\n\n[id]: {historical}"),
         )
-        for name, addition, form in cases:
+        for name, addition in cases:
             with self.subTest(name=name):
-                with self.fixture_root() as temporary:
-                    root = Path(temporary)
-                    self.append_router(root, addition)
-                    audit = audit_active_governance_references(root)
-                    matching = [item for item in audit if item.canonical_target == "governance/09-codex/PHASE000_RESUME_AFTER_PREAPPLY_BREAKER.md"]
-                    self.assertEqual(1, len(matching), audit)
-                    self.assertEqual(form, matching[0].form)
-                    self.assertEqual("HISTORICAL_REFERENCE", matching[0].classification)
-                    self.assertFalse(matching[0].allowed)
-                    with self.assertRaisesRegex(GovernanceRouteError, "historical target"):
-                        assert_governance_semantics(self, root)
+                self.assert_historical_route_extracted_then_rejected(addition, historical)
 
     def test_title_is_not_part_of_active_or_external_target_identity(self):
         with self.fixture_root() as temporary:
@@ -303,44 +302,82 @@ class ActiveGovernanceSemanticsTests(unittest.TestCase):
                 {(item.raw_destination, item.canonical_target, item.classification, item.allowed) for item in audit},
             )
 
-    def test_malformed_local_title_syntax_fails_closed_in_the_production_extractor(self):
+    def test_malformed_local_link_syntax_that_commonmark_does_not_render_is_not_navigation(self):
         with self.fixture_root() as temporary:
             root = Path(temporary)
             self.append_router(root, '[resume](PHASE000_RESUME_AFTER_PREAPPLY_BREAKER.md "unterminated)')
-            with self.assertRaisesRegex(GovernanceRouteError, "malformed or unsupported local Markdown reference"):
-                audit_active_governance_references(root)
-
-    def test_malformed_local_reference_definition_fails_closed_in_the_production_extractor(self):
-        with self.fixture_root() as temporary:
-            root = Path(temporary)
             self.append_router(root, '[legacy][id]\n\n[id]: PHASE000_RESUME_AFTER_PREAPPLY_BREAKER.md "unterminated')
-            with self.assertRaisesRegex(GovernanceRouteError, "malformed or unsupported local Markdown reference"):
-                audit_active_governance_references(root)
+            audit = assert_governance_semantics(self, root)
+            self.assertFalse(any(item.classification.startswith("HISTORICAL") for item in audit), audit)
 
-    def test_duplicate_reference_definitions_fail_deterministically(self):
+    def test_duplicate_reference_definitions_follow_commonmark_first_definition_semantics(self):
+        historical = "PHASE000_RESUME_AFTER_PREAPPLY_BREAKER.md"
+        self.assert_historical_route_extracted_then_rejected(
+            f"[resume][id]\n\n[id]: {historical}\n[id]: ../PROJECT_STATE.yaml",
+            historical,
+        )
+
         with self.fixture_root() as temporary:
             root = Path(temporary)
-            self.append_router(
-                root,
-                '[state][id]\n\n[id]: ../PROJECT_STATE.yaml "first"\n[id]: ../PROJECT_STATE.yaml \'second\'',
+            self.append_router(root, f"[state][id]\n\n[id]: ../PROJECT_STATE.yaml\n[id]: {historical}")
+            audit = assert_governance_semantics(self, root)
+            self.assertIn(
+                ("../PROJECT_STATE.yaml", "governance/PROJECT_STATE.yaml", "ACTIVE", True),
+                {(item.raw_destination, item.canonical_target, item.classification, item.allowed) for item in audit},
             )
-            with self.assertRaisesRegex(GovernanceRouteError, "duplicate reference definition"):
-                audit_active_governance_references(root)
 
-    def test_undefined_reference_label_fails_and_undefined_shortcut_is_not_a_path(self):
+    def test_undefined_references_are_non_navigation_under_commonmark(self):
         with self.fixture_root() as temporary:
             root = Path(temporary)
             self.append_router(root, "[resume][missing]")
-            with self.assertRaisesRegex(GovernanceRouteError, "undefined reference label"):
-                audit_active_governance_references(root)
-        with self.fixture_root() as temporary:
-            root = Path(temporary)
             self.append_router(root, "[PHASE000_RESUME_AFTER_PREAPPLY_BREAKER.md]")
             audit = assert_governance_semantics(self, root)
             self.assertNotIn(
                 "PHASE000_RESUME_AFTER_PREAPPLY_BREAKER.md",
                 {item.raw_destination for item in audit},
             )
+
+    def test_inline_and_fenced_code_are_not_navigation(self):
+        historical = "PHASE000_RESUME_AFTER_PREAPPLY_BREAKER.md"
+        with self.fixture_root() as temporary:
+            root = Path(temporary)
+            self.append_router(root, f"`[resume]({historical})`\n\n~~~md\n[resume]({historical})\n~~~")
+            audit = assert_governance_semantics(self, root)
+            self.assertNotIn(historical, {item.raw_destination for item in audit})
+
+    def test_raw_html_navigation_is_rejected_before_span_gpu_path_authorization(self):
+        cases = (
+            ("local anchor", '<a href="PHASE000_RESUME_AFTER_PREAPPLY_BREAKER.md">resume</a>'),
+            ("external anchor", '<a href="https://example.invalid/governance">documentation</a>'),
+            ("form action", '<form action="PHASE000_RESUME_AFTER_PREAPPLY_BREAKER.md"><input type="submit"></form>'),
+            ("base target", '<base href="PHASE000_RESUME_AFTER_PREAPPLY_BREAKER.md">'),
+        )
+        for name, addition in cases:
+            with self.subTest(name=name):
+                with self.fixture_root() as temporary:
+                    root = Path(temporary)
+                    self.append_router(root, addition)
+                    audit = audit_active_governance_references(root)
+                    raw_html = [item for item in audit if item.form == "raw-html-navigation"]
+                    self.assertEqual(1, len(raw_html), audit)
+                    self.assertEqual("REJECTED", raw_html[0].classification)
+                    self.assertFalse(raw_html[0].allowed)
+                    with self.assertRaisesRegex(GovernanceRouteError, "raw HTML navigation is forbidden"):
+                        assert_governance_semantics(self, root)
+
+    def test_missing_vendored_commonmark_dependency_fails_without_fallback(self):
+        with patch.object(governance_semantics, "VENDOR_ROOT", REPO / "scripts" / "missing-vendor"), patch.object(
+            governance_semantics, "_COMMONMARK_PARSER", None
+        ):
+            with self.assertRaisesRegex(GovernanceRouteError, "vendored CommonMark dependency is missing"):
+                markdown_references("governance/09-codex/FIRST_CODEX_PROMPT.md", "[state](../PROJECT_STATE.yaml)")
+
+    def test_preloaded_non_vendored_commonmark_module_is_rejected_without_fallback(self):
+        with patch.object(governance_semantics, "_COMMONMARK_PARSER", None), patch.dict(
+            sys.modules, {"markdown_it": object()}
+        ):
+            with self.assertRaisesRegex(GovernanceRouteError, "non-vendored CommonMark module already loaded"):
+                markdown_references("governance/09-codex/FIRST_CODEX_PROMPT.md", "[state](../PROJECT_STATE.yaml)")
 
     def test_title_content_cannot_create_a_second_hidden_route(self):
         with self.fixture_root() as temporary:

@@ -1,27 +1,30 @@
 """Fail-closed semantic checks for active SpanGPU governance routes.
 
-This module intentionally uses only the Python standard library.  It is the
-single canonical resolver used by the governance regression tests and its
-``--audit`` command; tests must not recreate path-resolution behaviour.
+The repository-vendored ``markdown-it-py`` CommonMark parser is the single
+authority for what Markdown renders as a link.  This module owns only the
+subsequent SpanGPU-specific path canonicalization, classification, and
+authorization decision.  It deliberately has no fallback parser: a missing,
+shadowed, malformed, or altered vendored dependency rejects validation.
 
-Supported executable reference forms are deliberately narrow and explicit:
-
-* inline Markdown links: ``[label](destination)`` (including ``<destination>``
-  and a single-quoted, double-quoted, or parenthesized title),
-* explicit, collapsed, or shortcut Markdown reference links with a local definition, and
-* backtick-delimited, repository-root-anchored direct governance paths.
-
-All other plausible local link encodings are rejected rather than
-reinterpreted.  A historical target is never executable from active
-governance.  Structured provenance is independently recorded metadata; it
-does not participate in navigation authorization.
+Backtick-delimited repository-root paths remain a SpanGPU direct-governance
+form, but are read only from CommonMark ``code_inline`` tokens.  Raw HTML
+navigation is deliberately unsupported and rejected from CommonMark HTML
+tokens.  A historical target is never executable from active governance.
+Structured provenance is independently recorded metadata; it does not
+participate in navigation authorization.
 """
 from __future__ import annotations
 
+import base64
+import csv
 from dataclasses import dataclass
+import hashlib
+from html.parser import HTMLParser
+import importlib
 from pathlib import Path, PurePosixPath
 import argparse
 import re
+import sys
 from typing import Iterable
 
 
@@ -52,15 +55,21 @@ NEUTRALIZERS = re.compile(
     re.IGNORECASE,
 )
 
-# The Markdown-governance grammar is parsed below by one deterministic
-# cursor-based extractor.  A local destination cannot contain whitespace.
-# Titles are parsed explicitly and never become a destination.
+# Direct governance paths are a SpanGPU-specific instruction form.  The
+# expression is applied exclusively to CommonMark ``code_inline`` tokens, not
+# to raw Markdown source.
 DIRECT_GOVERNANCE_PATH = re.compile(
     r"`(?P<destination>AGENTS\.md|governance/[^`\s]+)`"
 )
 HTTP_URL = re.compile(r"https?://[^\s]+\Z", re.IGNORECASE)
 URI_SCHEME = re.compile(r"[A-Za-z][A-Za-z0-9+.-]*:")
 LOCAL_PATH_SUFFIXES = (".md", ".yaml", ".yml", ".json")
+VENDOR_ROOT = Path(__file__).resolve().parent / "_vendor"
+VENDORED_DISTRIBUTIONS = {
+    "markdown_it": ("markdown-it-py", "4.2.0", "markdown_it_py-4.2.0.dist-info"),
+    "mdurl": ("mdurl", "0.1.2", "mdurl-0.1.2.dist-info"),
+}
+_COMMONMARK_PARSER = None
 
 
 @dataclass(frozen=True)
@@ -189,247 +198,203 @@ def canonical_registry_path(raw: str) -> str:
     return "/".join(parts)
 
 
-def normalize_reference_label(label: str) -> str:
-    return " ".join(label.split()).casefold()
+def _is_within(path: Path, root: Path) -> bool:
+    try:
+        path.resolve().relative_to(root.resolve())
+    except ValueError:
+        return False
+    return True
 
 
-def line_number(text: str, offset: int) -> int:
-    return text.count("\n", 0, offset) + 1
-
-
-class MarkdownSyntaxError(ValueError):
-    """The declared Markdown-governance grammar could not consume a construct."""
-
-
-def skip_horizontal_space(text: str, offset: int) -> int:
-    while offset < len(text) and text[offset] in " \t":
-        offset += 1
-    return offset
-
-
-def consume_destination(text: str, offset: int, *, inline: bool) -> tuple[str, int]:
-    """Consume one declared destination without treating a title as a target."""
-    if offset >= len(text) or text[offset] in " \t\n)":
-        raise MarkdownSyntaxError("missing destination")
-    if text[offset] == "<":
-        end = text.find(">", offset + 1)
-        if end < 0 or "\n" in text[offset:end] or "<" in text[offset + 1:end]:
-            raise MarkdownSyntaxError("unterminated or nested angle destination")
-        return text[offset : end + 1], end + 1
-
-    start = offset
-    while offset < len(text) and text[offset] not in " \t\n":
-        if inline and text[offset] == ")":
-            break
-        offset += 1
-    if start == offset:
-        raise MarkdownSyntaxError("missing destination")
-    return text[start:offset], offset
-
-
-def consume_title(text: str, offset: int) -> int:
-    """Consume exactly one single-, double-, or parenthesized Markdown title."""
-    if offset >= len(text):
-        raise MarkdownSyntaxError("missing title")
-    opener = text[offset]
-    if opener in {"'", '"'}:
-        cursor = offset + 1
-        escaped = False
-        while cursor < len(text):
-            character = text[cursor]
-            if character == "\n":
-                break
-            if not escaped and character == opener:
-                return cursor + 1
-            escaped = character == "\\" and not escaped
-            if character != "\\":
-                escaped = False
-            cursor += 1
-        raise MarkdownSyntaxError("unterminated quoted title")
-    if opener == "(":
-        cursor = offset + 1
-        depth = 1
-        escaped = False
-        while cursor < len(text):
-            character = text[cursor]
-            if character == "\n":
-                break
-            if not escaped and character == "(":
-                depth += 1
-            elif not escaped and character == ")":
-                depth -= 1
-                if depth == 0:
-                    return cursor + 1
-            escaped = character == "\\" and not escaped
-            if character != "\\":
-                escaped = False
-            cursor += 1
-        raise MarkdownSyntaxError("unterminated parenthesized title")
-    raise MarkdownSyntaxError("unsupported title syntax")
-
-
-def parse_inline_destination(text: str, offset: int) -> tuple[str, int]:
-    """Parse ``(destination [title])`` and consume its closing parenthesis."""
-    offset = skip_horizontal_space(text, offset)
-    destination, offset = consume_destination(text, offset, inline=True)
-    after_destination = skip_horizontal_space(text, offset)
-    if after_destination < len(text) and text[after_destination] == ")":
-        return destination, after_destination + 1
-    if after_destination == offset:
-        raise MarkdownSyntaxError("destination and title must be separated by horizontal whitespace")
-    after_title = skip_horizontal_space(text, consume_title(text, after_destination))
-    if after_title >= len(text) or text[after_title] != ")":
-        raise MarkdownSyntaxError("unparsed trailing inline-link syntax")
-    return destination, after_title + 1
-
-
-def parse_reference_definition_destination(text: str) -> str:
-    """Parse ``destination [title]`` and reject every trailing token."""
-    offset = skip_horizontal_space(text, 0)
-    destination, offset = consume_destination(text, offset, inline=False)
-    after_destination = skip_horizontal_space(text, offset)
-    if after_destination == len(text):
-        return destination
-    if after_destination == offset:
-        raise MarkdownSyntaxError("destination and title must be separated by horizontal whitespace")
-    after_title = skip_horizontal_space(text, consume_title(text, after_destination))
-    if after_title != len(text):
-        raise MarkdownSyntaxError("unparsed trailing reference-definition syntax")
-    return destination
-
-
-def looks_like_local_governance_destination(fragment: str) -> bool:
-    """Detect only path-shaped local text before choosing the fail-closed branch."""
-    for candidate in re.findall(r"<[^>\n]*>|[^\s<>]+", fragment):
-        candidate = candidate.strip("<>()[]{}'\".,;:")
-        if not candidate or HTTP_URL.fullmatch(candidate) or URI_SCHEME.match(candidate):
-            continue
-        path_part = split_suffix(candidate)
-        if (
-            path_part in {"AGENTS.md", "governance"}
-            or path_part.startswith(("./", "../", "/", "//", "governance/"))
-            or "/" in path_part
-            or "\\" in path_part
-            or "%" in path_part
-            or path_part.endswith(LOCAL_PATH_SUFFIXES)
-        ):
-            return True
-    return False
-
-
-def fail_closed_if_local_markdown(source: str, text: str, offset: int, detail: str) -> None:
-    line_end = text.find("\n", offset)
-    fragment = text[offset:] if line_end < 0 else text[offset:line_end]
-    if looks_like_local_governance_destination(fragment):
-        raise GovernanceRouteError(
-            f"{source}:{line_number(text, offset)}: malformed or unsupported local Markdown reference: {detail}"
-        )
-
-
-def reference_definitions(source: str, text: str) -> tuple[dict[str, str], list[tuple[int, int]]]:
-    """Parse every declared reference definition before resolving reference uses."""
-    definitions: dict[str, str] = {}
-    spans: list[tuple[int, int]] = []
-    offset = 0
-    for line in text.splitlines(keepends=True):
-        body = line.rstrip("\r\n")
-        indent = len(body) - len(body.lstrip(" \t"))
-        if indent <= 3 and body[indent:].startswith("["):
-            close = body.find("]", indent + 1)
-            if close >= 0 and close + 1 < len(body) and body[close + 1] == ":":
-                label_text = body[indent + 1:close]
-                value = body[close + 2:]
-                try:
-                    if not label_text:
-                        raise MarkdownSyntaxError("empty reference definition label")
-                    destination = parse_reference_definition_destination(value)
-                except MarkdownSyntaxError as error:
-                    fail_closed_if_local_markdown(source, text, offset + close + 2, str(error))
-                else:
-                    label = normalize_reference_label(label_text)
-                    if label in definitions:
-                        raise GovernanceRouteError(
-                            f"{source}:{line_number(text, offset)}: duplicate reference definition {label!r}"
-                        )
-                    definitions[label] = destination
-                    spans.append((offset, offset + len(line)))
-        offset += len(line)
-    return definitions, spans
-
-
-def inline_or_reference_at(
-    source: str,
-    text: str,
-    offset: int,
-    definitions: dict[str, str],
-) -> tuple[RawReference, int] | None:
-    """Parse one inline, explicit, collapsed, or shortcut reference at ``offset``."""
-    if offset and text[offset - 1] == "!":
-        return None
-    label_end = text.find("]", offset + 1)
-    if label_end < 0 or "\n" in text[offset:label_end]:
-        return None
-    label_text = text[offset + 1:label_end]
-    next_offset = label_end + 1
-    if next_offset < len(text) and text[next_offset] == "(":
-        try:
-            destination, end = parse_inline_destination(text, next_offset + 1)
-        except MarkdownSyntaxError as error:
-            fail_closed_if_local_markdown(source, text, next_offset + 1, str(error))
-            return None
-        return RawReference(source, line_number(text, offset), "inline", destination), end
-    if next_offset < len(text) and text[next_offset] == "[":
-        reference_end = text.find("]", next_offset + 1)
-        if reference_end < 0 or "\n" in text[next_offset:reference_end]:
-            return None
-        reference_label = text[next_offset + 1:reference_end] or label_text
-        label = normalize_reference_label(reference_label)
-        if label not in definitions:
-            raise GovernanceRouteError(
-                f"{source}:{line_number(text, offset)}: undefined reference label {label!r}"
-            )
-        return RawReference(source, line_number(text, offset), "reference", definitions[label]), reference_end + 1
-    if next_offset < len(text) and text[next_offset] in "[:":
-        return None
-    label = normalize_reference_label(label_text)
-    if label in definitions:
-        return RawReference(source, line_number(text, offset), "reference", definitions[label]), next_offset
+def _metadata_field(metadata: str, field: str) -> str | None:
+    prefix = f"{field}: "
+    for line in metadata.splitlines():
+        if line.startswith(prefix):
+            return line[len(prefix) :]
     return None
 
 
+def line_number(text: str, offset: int) -> int:
+    """Return a source line for metadata diagnostics, not Markdown parsing."""
+    return text.count("\n", 0, offset) + 1
+
+
+def _validate_vendored_distribution(module_name: str) -> tuple[Path, str]:
+    """Verify a vendored runtime package before it can acquire parser authority.
+
+    The original wheel archives are intentionally not required at runtime. Their
+    installed payload is checked against its wheel ``RECORD`` hashes. The
+    Markdown-it console-script record is excluded: it is an installer-generated
+    executable outside the parser's import closure and is never invoked here.
+    """
+    try:
+        distribution_name, expected_version, info_name = VENDORED_DISTRIBUTIONS[module_name]
+    except KeyError as error:
+        raise GovernanceRouteError(f"unknown required vendored module: {module_name}") from error
+    script_root = Path(__file__).resolve().parent
+    vendor_root = VENDOR_ROOT.resolve()
+    if not _is_within(vendor_root, script_root) or vendor_root == script_root:
+        raise GovernanceRouteError("vendored CommonMark root escapes the repository scripts directory")
+    package_root = vendor_root / module_name
+    info_root = vendor_root / info_name
+    metadata_path = info_root / "METADATA"
+    record_path = info_root / "RECORD"
+    if not vendor_root.is_dir() or not package_root.is_dir() or not (package_root / "__init__.py").is_file():
+        raise GovernanceRouteError(f"vendored CommonMark dependency is missing: {module_name}")
+    if not metadata_path.is_file() or not record_path.is_file():
+        raise GovernanceRouteError(f"vendored CommonMark metadata is missing: {distribution_name}")
+    try:
+        metadata = metadata_path.read_text(encoding="utf-8")
+    except OSError as error:
+        raise GovernanceRouteError(f"cannot read vendored CommonMark metadata: {distribution_name}") from error
+    if _metadata_field(metadata, "Name") != distribution_name or _metadata_field(metadata, "Version") != expected_version:
+        raise GovernanceRouteError(f"vendored CommonMark version mismatch: {distribution_name}")
+    try:
+        with record_path.open("r", encoding="utf-8", newline="") as handle:
+            rows = tuple(csv.reader(handle))
+    except (OSError, csv.Error) as error:
+        raise GovernanceRouteError(f"cannot parse vendored CommonMark RECORD: {distribution_name}") from error
+    if not rows:
+        raise GovernanceRouteError(f"empty vendored CommonMark RECORD: {distribution_name}")
+    for row in rows:
+        if len(row) != 3 or not row[0]:
+            raise GovernanceRouteError(f"malformed vendored CommonMark RECORD: {distribution_name}")
+        record_relative = PurePosixPath(row[0])
+        if record_relative.is_absolute():
+            raise GovernanceRouteError(f"absolute vendored CommonMark RECORD path: {distribution_name}")
+        if record_relative.as_posix() == "../../bin/markdown-it.exe":
+            if distribution_name != "markdown-it-py":
+                raise GovernanceRouteError(f"unexpected external RECORD path: {distribution_name}")
+            continue
+        if any(part in {"", ".", ".."} for part in record_relative.parts):
+            raise GovernanceRouteError(f"non-canonical vendored CommonMark RECORD path: {distribution_name}")
+        target = vendor_root.joinpath(*record_relative.parts)
+        if not _is_within(target, vendor_root) or not target.is_file():
+            raise GovernanceRouteError(f"missing vendored CommonMark RECORD payload: {row[0]}")
+        if not row[1] and record_relative.as_posix() == f"{info_name}/RECORD":
+            continue
+        match = re.fullmatch(r"sha256=([A-Za-z0-9_-]+)", row[1])
+        if not match or not row[2].isdigit():
+            raise GovernanceRouteError(f"invalid vendored CommonMark RECORD hash: {row[0]}")
+        payload = target.read_bytes()
+        digest = base64.urlsafe_b64encode(hashlib.sha256(payload).digest()).decode("ascii").rstrip("=")
+        if digest != match.group(1) or len(payload) != int(row[2]):
+            raise GovernanceRouteError(f"vendored CommonMark payload integrity mismatch: {row[0]}")
+    return vendor_root, expected_version
+
+
+def _load_vendored_commonmark_parser():
+    """Load only the pinned repo-local parser and fail closed on any shadowing."""
+    global _COMMONMARK_PARSER
+    if _COMMONMARK_PARSER is not None:
+        return _COMMONMARK_PARSER
+    vendor_root, markdown_version = _validate_vendored_distribution("markdown_it")
+    _, mdurl_version = _validate_vendored_distribution("mdurl")
+    for module_name in VENDORED_DISTRIBUTIONS:
+        for loaded_name, module in tuple(sys.modules.items()):
+            if loaded_name != module_name and not loaded_name.startswith(f"{module_name}."):
+                continue
+            module_file = getattr(module, "__file__", None)
+            if not module_file or not _is_within(Path(module_file), vendor_root):
+                raise GovernanceRouteError(f"non-vendored CommonMark module already loaded: {loaded_name}")
+    vendor_text = str(vendor_root)
+    if vendor_text in sys.path:
+        sys.path.remove(vendor_text)
+    sys.path.insert(0, vendor_text)
+    try:
+        markdown_it = importlib.import_module("markdown_it")
+        mdurl = importlib.import_module("mdurl")
+        from markdown_it import MarkdownIt
+    except Exception as error:
+        raise GovernanceRouteError("vendored CommonMark parser import failed") from error
+    for module_name, module, expected_version in (
+        ("markdown_it", markdown_it, markdown_version),
+        ("mdurl", mdurl, mdurl_version),
+    ):
+        module_file = getattr(module, "__file__", None)
+        if not module_file or not _is_within(Path(module_file), vendor_root):
+            raise GovernanceRouteError(f"CommonMark import escaped vendor root: {module_name}")
+        if getattr(module, "__version__", None) != expected_version:
+            raise GovernanceRouteError(f"vendored CommonMark runtime version mismatch: {module_name}")
+    if _COMMONMARK_PARSER is None:
+        try:
+            _COMMONMARK_PARSER = MarkdownIt("commonmark", {"html": True})
+        except Exception as error:
+            raise GovernanceRouteError("vendored CommonMark parser initialization failed") from error
+    return _COMMONMARK_PARSER
+
+
+class _RawHtmlNavigationDetector(HTMLParser):
+    """Identify browser navigation primitives contained in parser-emitted HTML."""
+
+    _NAVIGATION_ATTRIBUTES = {
+        "a": {"href"},
+        "area": {"href"},
+        "base": {"href"},
+        "form": {"action"},
+        "button": {"formaction"},
+        "input": {"formaction"},
+        "iframe": {"src"},
+        "frame": {"src"},
+    }
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=False)
+        self.destinations: list[str] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        names = self._NAVIGATION_ATTRIBUTES.get(tag.lower(), set())
+        for name, value in attrs:
+            if name.lower() in names:
+                self.destinations.append("" if value is None else value)
+
+    def handle_startendtag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        self.handle_starttag(tag, attrs)
+
+
+def _raw_html_navigation_references(source: str, line: int, markup: str) -> list[RawReference]:
+    detector = _RawHtmlNavigationDetector()
+    try:
+        detector.feed(markup)
+        detector.close()
+    except Exception as error:
+        raise GovernanceRouteError(f"{source}:{line}: raw HTML token could not be inspected safely") from error
+    return [RawReference(source, line, "raw-html-navigation", destination) for destination in detector.destinations]
+
+
+def _token_line(token) -> int:
+    mapping = getattr(token, "map", None)
+    return mapping[0] + 1 if mapping and mapping[0] >= 0 else 1
+
+
 def markdown_references(source: str, text: str) -> list[RawReference]:
-    """Extract every declared executable Markdown/direct-governance form once."""
+    """Extract actual navigable references from vendored CommonMark tokens only."""
+    parser = _load_vendored_commonmark_parser()
+    try:
+        tokens = parser.parse(text)
+    except Exception as error:
+        raise GovernanceRouteError(f"{source}: vendored CommonMark parser failed") from error
     references: list[RawReference] = []
-    definitions, definition_spans = reference_definitions(source, text)
-    protected_spans = list(definition_spans)
-
-    offset = 0
-    while offset < len(text):
-        definition = next((span for span in definition_spans if span[0] <= offset < span[1]), None)
-        if definition:
-            offset = definition[1]
+    for token in tokens:
+        line = _token_line(token)
+        if token.type == "html_block":
+            references.extend(_raw_html_navigation_references(source, line, token.content))
             continue
-        if text[offset] != "[":
-            offset += 1
+        if token.type != "inline":
             continue
-        parsed = inline_or_reference_at(source, text, offset, definitions)
-        if parsed is None:
-            offset += 1
-            continue
-        reference, end = parsed
-        references.append(reference)
-        protected_spans.append((offset, end))
-        offset = end
-
-    def inside_protected_span(candidate: int) -> bool:
-        return any(start <= candidate < end for start, end in protected_spans)
-
-    for match in DIRECT_GOVERNANCE_PATH.finditer(text):
-        if inside_protected_span(match.start()):
-            continue
-        references.append(
-            RawReference(source, line_number(text, match.start()), "direct-governance", match.group("destination"))
-        )
+        for child in token.children or ():
+            if child.type == "link_open":
+                destination = child.attrGet("href")
+                if destination is None:
+                    raise GovernanceRouteError(f"{source}:{line}: CommonMark link token lacks href")
+                references.append(RawReference(source, line, "markdown-link", destination))
+            elif child.type == "html_inline":
+                references.extend(_raw_html_navigation_references(source, line, child.content))
+            elif child.type == "code_inline":
+                for match in DIRECT_GOVERNANCE_PATH.finditer(f"`{child.content}`"):
+                    references.append(
+                        RawReference(source, line, "direct-governance", match.group("destination"))
+                    )
     return references
 
 
@@ -513,6 +478,20 @@ def audit_active_governance_references(root: Path) -> tuple[ResolvedReference, .
     for source in active:
         text = read(root, PurePosixPath(source))
         for raw in markdown_references(source, text):
+            if raw.form == "raw-html-navigation":
+                report.append(
+                    ResolvedReference(
+                        raw.source,
+                        raw.line,
+                        raw.form,
+                        raw.destination,
+                        None,
+                        "REJECTED",
+                        False,
+                        "raw HTML navigation is forbidden",
+                    )
+                )
+                continue
             try:
                 target = canonical_repository_destination(raw.source, raw.destination)
             except GovernanceRouteError as error:
