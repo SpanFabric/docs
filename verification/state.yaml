@@ -14,8 +14,8 @@
     "class": "R2",
     "reason": "F-007 active-governance remediation; model may raise but not lower deterministic floor."
   },
-  "review_subject_digest": "660eddcf4defb6435c7017ede2515305c3e8cd084fb5c936bf40bf22d0ff6b3d",
-  "review_subject_commit": "2ac3c0151f7cec124cead286e518d632e03d7841",
+  "review_subject_digest": "64d0efa04f7747b55af394d665ef449075303d0e49c47188ab8d6c6fe6e79615",
+  "review_subject_commit": "a3e85b7febeeb7c3e7c11fe44964efb3b1e6b60b",
   "evidence": [
     {
       "id": "PROJECT-STATE-CORRECTION-BUILDER-20260903",
@@ -147,7 +147,20 @@
       "review_subject_digest": "660eddcf4defb6435c7017ede2515305c3e8cd084fb5c936bf40bf22d0ff6b3d",
       "created_at": "2026-09-05T16:16:49+02:00",
       "verdict": "BUILDER_GREEN",
-      "active": true
+      "active": false
+    },
+    {
+      "id": "F007-RLINK-004-PYPI-REPRODUCIBILITY-BUILDER-20261003",
+      "type": "BUILDER_REPORT",
+      "producer": "BUILDER",
+      "role": "BUILDER",
+      "authority": "MANUAL_AUTHORITY",
+      "commit_sha": "a3e85b7febeeb7c3e7c11fe44964efb3b1e6b60b",
+      "review_subject_digest": "64d0efa04f7747b55af394d665ef449075303d0e49c47188ab8d6c6fe6e79615",
+      "created_at": "2026-10-03T15:04:39+02:00",
+      "verdict": "BUILDER_GREEN",
+      "active": true,
+      "report_path": "verification/reports/F007_RLINK004_PYPI_REPRODUCIBILITY_BUILDER_20261003.json"
     }
   ],
   "remediation_inputs": [
@@ -185,6 +198,7 @@
     "F-007 remediation has Builder evidence for material commit 4e00e9d1af3c072d511cf9c9c9d78290e1083080 only; that evidence is historical because F-007-RLINK-001 found that raw full-path matching could be bypassed by same-directory Markdown routing. The canonical-resolution remediation at 9da0b7567aba797d62eb248c8ef63d030a2e3227 is historical because F-007-RLINK-002 and F-007-RLINK-003 identified optional-title extraction and provenance-authorization defects.",
     "The Builder remediation at 68579288baa22b18d555b17c71976dc00ac267f1 is bound to digest 36b244d5e7cf756486bf0fd982a81fb2ab0b9b7b3c5826e30ef4e359ea5c9d9a and is historical after supplied Fresh BREAKER remediation input F-007-RLINK-004.",
     "The F-007-RLINK-004 CommonMark remediation is bound to material commit 2ac3c0151f7cec124cead286e518d632e03d7841 and digest 660eddcf4defb6435c7017ede2515305c3e8cd084fb5c936bf40bf22d0ff6b3d. It has Builder evidence only and requires a new independent Fresh BREAKER.",
+    "The PyPI-reproducible F-007-RLINK-004 follow-up is bound to material commit a3e85b7febeeb7c3e7c11fe44964efb3b1e6b60b and digest 64d0efa04f7747b55af394d665ef449075303d0e49c47188ab8d6c6fe6e79615. It supersedes only the non-authoritative source-wheel hash claims in the prior Builder record; no historical evidence file is rewritten.",
     "The correction establishes no Fresh BREAKER, Owner, merge, or post-merge authority."
   ]
 }
