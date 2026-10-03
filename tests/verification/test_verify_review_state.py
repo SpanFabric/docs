@@ -55,8 +55,12 @@ class BridgeTests(unittest.TestCase):
         return git(self.root,'rev-parse','HEAD').stdout.decode().strip()
 
     def bash(self):
-        candidates=[shutil.which('bash')]
+        # The Windows system ``bash.exe`` is a WSL launcher, not the Git Bash
+        # host required by the repository's trusted-runner contract. Prefer an
+        # explicit Git Bash path before accepting an ambiguous PATH resolution.
+        candidates=[]
         if os.name=='nt': candidates.extend([r'C:\Program Files\Git\bin\bash.exe',r'C:\Program Files\Git\usr\bin\bash.exe'])
+        candidates.append(shutil.which('bash'))
         for candidate in candidates:
             if candidate and pathlib.Path(candidate).is_file(): return candidate
         raise RuntimeError('Bash is required to exercise the authoritative trusted runner')
@@ -243,6 +247,12 @@ class BridgeTests(unittest.TestCase):
         self.assertIn(f'TRUSTED_RUNNER_GIT_OBJECT={runner_oid}',p.stdout)
         self.assertIn(f'TRUSTED_VALIDATOR_GIT_OBJECT={validator_oid}',p.stdout)
         self.assertIn(f'TRUSTED_VALIDATOR_COPY_OBJECT={validator_oid}',p.stdout)
+
+    @unittest.skipUnless(os.name=='nt', 'Windows-specific Bash-host selection')
+    def test_windows_trusted_runner_prefers_git_bash_over_path_shim(self):
+        git_bash=pathlib.Path(r'C:\Program Files\Git\bin\bash.exe')
+        if not git_bash.is_file(): self.skipTest('Git Bash is not installed at the canonical Windows path')
+        self.assertEqual(str(git_bash),self.bash())
 
     def test_trusted_runner_preserves_explicit_empty_base_to_validator(self):
         p=self.trusted_cli('--base','')

@@ -11,6 +11,7 @@ from unittest.mock import patch
 from scripts import active_governance_semantics as governance_semantics
 from scripts.active_governance_semantics import (
     GovernanceRouteError,
+    audit_summary,
     audit_active_governance_references,
     assert_governance_semantics as validate_governance_semantics,
     markdown_references,
@@ -364,6 +365,73 @@ class ActiveGovernanceSemanticsTests(unittest.TestCase):
                     self.assertFalse(raw_html[0].allowed)
                     with self.assertRaisesRegex(GovernanceRouteError, "raw HTML navigation is forbidden"):
                         assert_governance_semantics(self, root)
+
+    def test_audit_summary_counts_parser_tokens_and_policy_decisions(self):
+        with self.fixture_root() as temporary:
+            root = Path(temporary)
+            self.append_router(
+                root,
+                "\n".join(
+                    (
+                        "[active](../PROJECT_STATE.yaml)",
+                        "[external](https://example.invalid/governance)",
+                        "[historical](PHASE000_RESUME_AFTER_PREAPPLY_BREAKER.md)",
+                        "[unknown](unclassified-governance.md)",
+                        '<a href="PHASE000_RESUME_AFTER_PREAPPLY_BREAKER.md">resume</a>',
+                    )
+                ),
+            )
+            audit = audit_active_governance_references(root)
+            summary = audit_summary(audit, len(structured_provenance_references(root)))
+            self.assertEqual(
+                sum(item.form == "markdown-link" for item in audit),
+                summary["parsed_navigable_markdown_links"],
+            )
+            self.assertEqual(
+                sum(item.form == "markdown-link" and item.canonical_target is not None for item in audit),
+                summary["parsed_local_markdown_links"],
+            )
+            self.assertEqual(
+                sum(item.form == "markdown-link" and item.classification == "EXTERNAL_HTTP" for item in audit),
+                summary["parsed_external_markdown_links"],
+            )
+            self.assertEqual(1, summary["rejected_historical_routes"])
+            # The unclassified Markdown route and raw-HTML navigation are each
+            # policy rejections; the latter is additionally exposed by its
+            # dedicated counter below.
+            self.assertEqual(2, summary["rejected_unclassified_or_unsafe_routes"])
+            self.assertEqual(1, summary["raw_html_navigation_rejections"])
+            self.assertNotIn("ignored_recognized_local_markdown_references", summary)
+
+    def test_external_vendored_record_path_fails_closed(self):
+        with tempfile.TemporaryDirectory(prefix="spangpu-vendor-record-") as temporary:
+            root = Path(temporary)
+            vendor = root / "_vendor"
+            shutil.copytree(REPO / "scripts" / "_vendor", vendor)
+            record = vendor / "markdown_it_py-4.2.0.dist-info" / "RECORD"
+            record.write_text(
+                record.read_text(encoding="utf-8")
+                + "../../bin/markdown-it.exe,sha256=cTQ9ByxmWQthmPN5_odeSVwaqZm1MOXvuDJsvXqByrM,108327\n",
+                encoding="utf-8",
+            )
+            with patch.object(governance_semantics, "__file__", str(root / "validator.py")), patch.object(
+                governance_semantics, "VENDOR_ROOT", vendor
+            ):
+                with self.assertRaisesRegex(GovernanceRouteError, "non-canonical vendored CommonMark RECORD path"):
+                    governance_semantics._validate_vendored_distribution("markdown_it")
+
+    def test_tampered_vendored_payload_fails_closed(self):
+        with tempfile.TemporaryDirectory(prefix="spangpu-vendor-tamper-") as temporary:
+            root = Path(temporary)
+            vendor = root / "_vendor"
+            shutil.copytree(REPO / "scripts" / "_vendor", vendor)
+            payload = vendor / "mdurl" / "__init__.py"
+            payload.write_text(payload.read_text(encoding="utf-8") + "\n# tampered\n", encoding="utf-8")
+            with patch.object(governance_semantics, "__file__", str(root / "validator.py")), patch.object(
+                governance_semantics, "VENDOR_ROOT", vendor
+            ):
+                with self.assertRaisesRegex(GovernanceRouteError, "vendored CommonMark payload integrity mismatch"):
+                    governance_semantics._validate_vendored_distribution("mdurl")
 
     def test_missing_vendored_commonmark_dependency_fails_without_fallback(self):
         with patch.object(governance_semantics, "VENDOR_ROOT", REPO / "scripts" / "missing-vendor"), patch.object(

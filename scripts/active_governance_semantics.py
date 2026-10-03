@@ -222,10 +222,10 @@ def line_number(text: str, offset: int) -> int:
 def _validate_vendored_distribution(module_name: str) -> tuple[Path, str]:
     """Verify a vendored runtime package before it can acquire parser authority.
 
-    The original wheel archives are intentionally not required at runtime. Their
-    installed payload is checked against its wheel ``RECORD`` hashes. The
-    Markdown-it console-script record is excluded: it is an installer-generated
-    executable outside the parser's import closure and is never invoked here.
+    The original wheel archives are intentionally not required at runtime. The
+    retained wheel payload is checked against its wheel ``RECORD`` hashes. A
+    RECORD path must identify a file within the vendored import root; there is
+    no exception for installer-generated files outside that root.
     """
     try:
         distribution_name, expected_version, info_name = VENDORED_DISTRIBUTIONS[module_name]
@@ -262,10 +262,6 @@ def _validate_vendored_distribution(module_name: str) -> tuple[Path, str]:
         record_relative = PurePosixPath(row[0])
         if record_relative.is_absolute():
             raise GovernanceRouteError(f"absolute vendored CommonMark RECORD path: {distribution_name}")
-        if record_relative.as_posix() == "../../bin/markdown-it.exe":
-            if distribution_name != "markdown-it-py":
-                raise GovernanceRouteError(f"unexpected external RECORD path: {distribution_name}")
-            continue
         if any(part in {"", ".", ".."} for part in record_relative.parts):
             raise GovernanceRouteError(f"non-canonical vendored CommonMark RECORD path: {distribution_name}")
         target = vendor_root.joinpath(*record_relative.parts)
@@ -511,6 +507,30 @@ def audit_active_governance_references(root: Path) -> tuple[ResolvedReference, .
     return tuple(report)
 
 
+def audit_summary(audit: Iterable[ResolvedReference], structured_provenance_count: int) -> dict[str, int]:
+    """Count parser-derived routes and their independently applied policy decisions."""
+    routes = tuple(audit)
+    markdown_links = tuple(item for item in routes if item.form == "markdown-link")
+    return {
+        "parsed_navigable_markdown_links": len(markdown_links),
+        "parsed_local_markdown_links": sum(item.canonical_target is not None for item in markdown_links),
+        "parsed_external_markdown_links": sum(item.classification == "EXTERNAL_HTTP" for item in markdown_links),
+        "direct_governance_code_references": sum(item.form == "direct-governance" for item in routes),
+        "allowed_active_routes": sum(item.classification == "ACTIVE" and item.allowed for item in routes),
+        "rejected_historical_routes": sum(
+            item.classification.startswith("HISTORICAL") and not item.allowed for item in routes
+        ),
+        "rejected_unclassified_or_unsafe_routes": sum(
+            not item.allowed and item.classification in {"UNCLASSIFIED", "REJECTED"} for item in routes
+        ),
+        "raw_html_navigation_rejections": sum(
+            item.form == "raw-html-navigation" and item.classification == "REJECTED" and not item.allowed
+            for item in routes
+        ),
+        "structured_provenance_records": structured_provenance_count,
+    }
+
+
 def legacy_governance_paths(root: Path) -> set[str]:
     paths: set[str] = set()
     for path in (root / "governance").rglob("*"):
@@ -684,7 +704,8 @@ def main() -> int:
             decision = "ALLOWED: " if item.allowed else "REJECTED: "
             kind = "EXTERNAL_REFERENCE" if item.classification == "EXTERNAL_HTTP" else "NAVIGABLE_REFERENCE"
             print("\t".join((kind, item.source, str(item.line), item.form, item.raw_destination, target, item.classification, decision + item.reason)))
-        for reference in structured_provenance_references(args.repo_root.resolve()):
+        provenance = structured_provenance_references(args.repo_root.resolve())
+        for reference in provenance:
             print("\t".join((
                 "STRUCTURED_PROVENANCE",
                 reference.source,
@@ -695,23 +716,10 @@ def main() -> int:
                 "STRUCTURED_PROVENANCE",
                 "METADATA_ONLY: no navigation authorization",
             )))
-        active_routes = sum(item.classification == "ACTIVE" and item.allowed for item in audit)
-        external_routes = sum(item.classification == "EXTERNAL_HTTP" for item in audit)
-        allowed_historical = sum(
-            item.classification.startswith("HISTORICAL") and item.allowed for item in audit
-        )
-        unclassified = sum(item.classification == "UNCLASSIFIED" for item in audit)
-        # ``markdown_references`` is the only declared Markdown-governance
-        # extractor. Every RawReference it emits is appended above or rejected
-        # during extraction, so there is no unaudited recognized-route state.
+        summary = audit_summary(audit, len(provenance))
         print(
             "AUDIT_SUMMARY\t"
-            f"legitimate_active_routes={active_routes}\t"
-            f"external_references={external_routes}\t"
-            f"structured_provenance_metadata={len(structured_provenance_references(args.repo_root.resolve()))}\t"
-            f"allowed_historical_navigable_routes={allowed_historical}\t"
-            f"unclassified_navigable_local_routes={unclassified}\t"
-            "ignored_recognized_local_markdown_references=0"
+            + "\t".join(f"{name}={value}" for name, value in summary.items())
         )
     else:
         print("ACTIVE_GOVERNANCE_SEMANTICS=PASS")
