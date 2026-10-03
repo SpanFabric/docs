@@ -3,12 +3,12 @@
   "bridge_version": "manual-verification-bridge-v1",
   "repository": "docs",
   "authority_mode": "MANUAL_AUTHORITY",
-  "status": "INDEPENDENT_REVIEW_PENDING",
-  "previous_status": "BUILDING",
+  "status": "BREAKER_FAILED",
+  "previous_status": "INDEPENDENT_REVIEW_PENDING",
   "transition": {
-    "from": "BUILDING",
-    "to": "INDEPENDENT_REVIEW_PENDING",
-    "authority": "BUILDER"
+    "from": "INDEPENDENT_REVIEW_PENDING",
+    "to": "BREAKER_FAILED",
+    "authority": "FRESH_BREAKER"
   },
   "risk": {
     "class": "R2",
@@ -187,6 +187,22 @@
       "verdict": "BUILDER_GREEN",
       "active": true,
       "report_path": "verification/reports/SOLO_OWNER_GOVERNANCE_BUILDER_20261003.json"
+    },
+    {
+      "id": "FRESH-BREAKER-WINDOWS-TRUSTED-RUNNER-HOST-SELECTION-DOCS-20261003",
+      "type": "BREAKER_VERDICT",
+      "producer": "FRESH_BREAKER",
+      "role": "FRESH_BREAKER",
+      "authority": "MANUAL_AUTHORITY",
+      "commit_sha": "5eebafd863abea78a2fc8a0f2e96485f1da2eaa2",
+      "review_subject_digest": "c40d0678cfe26dd01d8fcf3808e09da97dba80da7b19df349388a952b7735cd2",
+      "created_at": "2026-10-03T23:17:28.3510389+02:00",
+      "verdict": "FINDINGS",
+      "severity": "HIGH",
+      "finding_id": "WINDOWS_TRUSTED_RUNNER_HOST_SELECTION",
+      "repository_disposition": "KNOWN_GOOD_REFERENCE_NOT_DIRECTLY_AFFECTED",
+      "active": true,
+      "report_path": "verification/reports/FRESH_BREAKER_WINDOWS_TRUSTED_RUNNER_HOST_SELECTION_20261003.json"
     }
   ],
   "remediation_inputs": [
@@ -209,7 +225,18 @@
       "status": "REMEDIATED_PENDING_FRESH_BREAKER"
     }
   ],
-  "blockers": [],
+  "blockers": [
+    {
+      "id": "WINDOWS_TRUSTED_RUNNER_HOST_SELECTION",
+      "severity": "HIGH",
+      "confirmed": true,
+      "status": "OPEN",
+      "scope": "CROSS_REPOSITORY_BATCH",
+      "repository_disposition": "KNOWN_GOOD_REFERENCE_NOT_DIRECTLY_AFFECTED",
+      "report_path": "verification/reports/FRESH_BREAKER_WINDOWS_TRUSTED_RUNNER_HOST_SELECTION_20261003.json",
+      "summary": "No defect is asserted against docs; this records the cross-repository BREAKER_FAILED lifecycle while five affected repositories require remediation."
+    }
+  ],
   "initial_baseline_bootstrap": {
     "kind": "INITIAL_BASELINE_BOOTSTRAP",
     "branch": "main",
