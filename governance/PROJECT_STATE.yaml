@@ -77,8 +77,8 @@ controlled_forks:
 - UP-003
 - UP-004
 next_required_action: 'Fresh independent BREAKER review of the six exact current
-  PR heads and review-subject digests. This correction must first receive exact-head
-  CI; no Phase or Gate completion is implied.'
+  PR heads and review-subject digests after the SOLO_OWNER governance correction.
+  This correction must first receive exact-head CI; no Phase or Gate completion is implied.'
 github_organization: SpanFabric
 local_workspace_root: D:\Projekte\SpanGPU
 builderkit_source: '%USERPROFILE%\Downloads\SpanGPU-BuilderKit.zip'
@@ -113,6 +113,27 @@ verification:
   fresh_breaker: REQUIRED
   owner_acceptance: NOT_OCCURRED
   scope: Six open SpanFabric PRs at their exact review-subject heads/digests.
+hosting_authority:
+  mode: SOLO_OWNER
+  independent_technical_review:
+    authority: FRESH_BREAKER
+    required: true
+  owner_acceptance:
+    authority: OWNER
+    required: true
+    may_be_pr_author: true
+  github_review:
+    human_approval_required: false
+    required_approvals: 0
+  branch_protection:
+    pull_request_required: true
+    required_checks:
+    - verification-gate
+    - bootstrap-integrity
+    force_push_allowed: false
+    deletion_allowed: false
+    admin_bypass_allowed: false
+    require_up_to_date: false
 phase_completion:
   PHASE-000: NOT_COMPLETED
   PHASE-001: NOT_AUTHORIZED

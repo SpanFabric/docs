@@ -12,6 +12,7 @@ required_top_level:
 - repositories_bootstrapped
 - next_required_action
 - verification
+- hosting_authority
 - phase_completion
 - gate_completion
 - authorization
@@ -44,6 +45,10 @@ state_separation:
     not PHASE-000 completion.
   verification: repository verification state; Builder/CI evidence does not substitute
     for a fresh independent BREAKER or Owner acceptance.
+  hosting_authority: explicit hosting-review mode. SOLO_OWNER keeps Fresh BREAKER and
+    Owner acceptance mandatory while setting GitHub human approvals to zero; it still
+    requires PRs, exact checks, force/deletion prohibition, administrator enforcement,
+    no broad bypass, and exact-subject invalidation after every material head change.
   phase_completion: PHASE-000 and successor authorization are independent of repository
     existence and verification-bridge implementation.
   gate_completion: GATE-000 PASS requires its own immutable evidence and is not inferred

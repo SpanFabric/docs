@@ -160,6 +160,29 @@ class ActiveGovernanceSemanticsTests(unittest.TestCase):
             with self.assertRaisesRegex(AssertionError, "phase_001: NOT_AUTHORIZED"):
                 assert_governance_semantics(self, root)
 
+    def test_solo_owner_hosting_authority_rejects_weakened_controls(self):
+        mutations = (
+            ("mode: SOLO_OWNER", "mode: MULTI_OWNER"),
+            ("authority: FRESH_BREAKER\n    required: true", "authority: FRESH_BREAKER\n    required: false"),
+            ("authority: OWNER\n    required: true", "authority: OWNER\n    required: false"),
+            ("required_approvals: 0", "required_approvals: 1"),
+            ("force_push_allowed: false", "force_push_allowed: true"),
+            ("deletion_allowed: false", "deletion_allowed: true"),
+            ("admin_bypass_allowed: false", "admin_bypass_allowed: true"),
+            ("require_up_to_date: false", "require_up_to_date: true"),
+        )
+        for before, after in mutations:
+            with self.subTest(before=before, after=after):
+                with self.fixture_root() as temporary:
+                    root = Path(temporary)
+                    path = root / PROJECT_STATE
+                    path.write_text(
+                        path.read_text(encoding="utf-8").replace(before, after, 1),
+                        encoding="utf-8",
+                    )
+                    with self.assertRaisesRegex(GovernanceRouteError, "SOLO_OWNER hosting_authority"):
+                        assert_governance_semantics(self, root)
+
     def test_same_directory_markdown_historical_route_is_rejected(self):
         self.assert_route_rejected("[resume](PHASE000_RESUME_AFTER_PREAPPLY_BREAKER.md)", "historical target")
 

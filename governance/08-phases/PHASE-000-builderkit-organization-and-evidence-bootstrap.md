@@ -40,8 +40,12 @@ boundary is the normal PR and `MANUAL_AUTHORITY` flow.
 ### Remaining completion route
 1. Resolve the exact current heads and review-subject digests for the six open PRs.
 2. Obtain a fresh independent BREAKER review of those exact subjects.
-3. Complete the required external GitHub protections, required checks and independent
-   review controls under `MANUAL_AUTHORITY`; repository text alone cannot assert them.
+3. Complete the required external GitHub hosting controls under `MANUAL_AUTHORITY`;
+   repository text alone cannot assert them. In the explicit current `SOLO_OWNER`
+   mode, those controls require PRs, exact required checks, force-push and
+   branch-deletion prohibition, administrator enforcement, and no broad bypass. A
+   second-human GitHub approval is not required; this does not weaken the separate
+   Fresh BREAKER or Owner Acceptance authorities.
 4. Obtain Owner Acceptance without inferring it from Builder, CI, or BREAKER work.
 5. Cross the controlled merge boundary and record the exact resulting merge SHA.
 6. Run post-merge verification against that resulting merge SHA.
@@ -110,10 +114,10 @@ boundary audits; final acceptance evidence.
 
 ## DONE CRITERIA
 All linked scope criteria and current validation pass; a fresh BREAKER accepts the exact
-current PR subjects; external protection/review controls and Owner Acceptance are
-completed; the resulting merge SHA is verified post-merge; and `GATE-000` passes with
-immutable evidence. Historical BuilderKit checks remain provenance and do not substitute
-for any current authority boundary.
+current PR subjects; external GitHub hosting controls for the explicit current governance
+mode and Owner Acceptance are completed; the resulting merge SHA is verified post-merge;
+and `GATE-000` passes with immutable evidence. Historical BuilderKit checks remain
+provenance and do not substitute for any current authority boundary.
 
 ## HISTORICAL BUILDERKIT FAILURE PROVENANCE — NOT CURRENT EXECUTION
 Any required test does not execute; dry-run nonzero/unexpected scope; unmanaged materialization conflict; environment/upstream blocker; unresolved blocking breaker finding; architecture invariant violation.

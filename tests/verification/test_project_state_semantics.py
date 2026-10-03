@@ -44,6 +44,7 @@ class ProjectStateSemanticsTests(unittest.TestCase):
                 project = root_section(document, "project")
                 bootstrap = root_section(document, "phase_000_bootstrap")
                 verification = root_section(document, "verification")
+                hosting_authority = root_section(document, "hosting_authority")
                 authorization = root_section(document, "authorization")
 
                 self.assertEqual(scalar(project, "status", 2), "INDEPENDENT_REVIEW_PENDING")
@@ -67,6 +68,23 @@ class ProjectStateSemanticsTests(unittest.TestCase):
                 )
                 self.assertEqual(scalar(authorization, "next_action", 2), "FRESH_INDEPENDENT_BREAKER_REVIEW")
                 self.assertEqual(scalar(authorization, "phase_001", 2), "NOT_AUTHORIZED")
+                self.assertEqual(scalar(hosting_authority, "mode", 2), "SOLO_OWNER")
+                self.assertIn(
+                    "  independent_technical_review:\n    authority: FRESH_BREAKER\n    required: true",
+                    hosting_authority,
+                )
+                self.assertIn(
+                    "  owner_acceptance:\n    authority: OWNER\n    required: true\n    may_be_pr_author: true",
+                    hosting_authority,
+                )
+                self.assertIn(
+                    "  github_review:\n    human_approval_required: false\n    required_approvals: 0",
+                    hosting_authority,
+                )
+                self.assertIn(
+                    "  branch_protection:\n    pull_request_required: true\n    required_checks:\n    - verification-gate\n    - bootstrap-integrity\n    force_push_allowed: false\n    deletion_allowed: false\n    admin_bypass_allowed: false\n    require_up_to_date: false",
+                    hosting_authority,
+                )
 
                 self.assertIn("PHASE-000: NOT_COMPLETED", document)
                 self.assertIn("GATE-000: NOT_PASSED", document)
@@ -86,6 +104,7 @@ class ProjectStateSemanticsTests(unittest.TestCase):
         for field in (
             "repositories_bootstrapped",
             "verification",
+            "hosting_authority",
             "phase_completion",
             "gate_completion",
             "authorization",
@@ -95,6 +114,7 @@ class ProjectStateSemanticsTests(unittest.TestCase):
         self.assertIn("original_builderkit_strategy: SUPERSEDED", schema)
         self.assertIn("actual_bootstrap: CONTROLLED_INITIAL_BASELINE_BOOTSTRAP", schema)
         self.assertIn("materializer_apply: QUARANTINED_F000_04", schema)
+        self.assertIn("SOLO_OWNER keeps Fresh BREAKER", schema)
 
 
 if __name__ == "__main__":

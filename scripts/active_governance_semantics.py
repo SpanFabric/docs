@@ -126,6 +126,37 @@ def scalar(document: str, key: str, indent: int = 0) -> str:
     return match.group(1).strip().strip("'")
 
 
+def root_mapping(document: str, key: str) -> str:
+    match = re.search(
+        rf"(?ms)^{re.escape(key)}:\n(.*?)(?=^[^\s#][^:]*:|\Z)", document
+    )
+    if not match:
+        raise GovernanceRouteError(f"missing root mapping {key}")
+    return match.group(1)
+
+
+def require_solo_owner_hosting_authority(document: str) -> None:
+    """Enforce the active canonical hosting model without parsing permissive YAML."""
+    hosting = root_mapping(document, "hosting_authority")
+    required_fragments = (
+        "  mode: SOLO_OWNER\n",
+        "  independent_technical_review:\n    authority: FRESH_BREAKER\n    required: true\n",
+        "  owner_acceptance:\n    authority: OWNER\n    required: true\n    may_be_pr_author: true\n",
+        "  github_review:\n    human_approval_required: false\n    required_approvals: 0\n",
+        "  branch_protection:\n    pull_request_required: true\n",
+        "    - verification-gate\n    - bootstrap-integrity\n",
+        "    force_push_allowed: false\n",
+        "    deletion_allowed: false\n",
+        "    admin_bypass_allowed: false\n",
+        "    require_up_to_date: false\n",
+    )
+    for fragment in required_fragments:
+        if fragment not in hosting:
+            raise GovernanceRouteError(
+                "SOLO_OWNER hosting_authority is incomplete or weakened: " + fragment.strip()
+            )
+
+
 def phase_block(document: str, phase_id: str) -> str:
     match = re.search(rf"(?ms)^- id: {re.escape(phase_id)}\n(.*?)(?=^- id:|\Z)", document)
     if not match:
@@ -625,6 +656,7 @@ def assert_governance_semantics(root: Path) -> tuple[ResolvedReference, ...]:
     state = read(root, PROJECT_STATE)
     projection = read(root, PROJECT_PROJECTION)
     for document in (state, projection):
+        require_solo_owner_hosting_authority(document)
         if scalar(document, "repositories_bootstrapped") != "true":
             raise GovernanceRouteError("repositories_bootstrapped must remain true")
         for expected in (
