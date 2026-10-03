@@ -5,7 +5,7 @@
   "role": "BUILDER",
   "authority": "MANUAL_AUTHORITY",
   "commit_sha": "e743945d26abfee8a5cc33bfe60acd292ba4bcc7",
-  "review_subject_digest": "fbf04ed7d4201097c9a7cffaba882168f3107bd72a817828e74a6163e116cad44",
+  "review_subject_digest": "fbf04ed7d4201097c9a7cffaba882168f3107bd72a817828e74a6163e16cad44",
   "created_at": "2026-10-04T00:14:41.1492124+02:00",
   "verdict": "BUILDER_GREEN",
   "lifecycle_after_persistence": "INDEPENDENT_REVIEW_PENDING",
