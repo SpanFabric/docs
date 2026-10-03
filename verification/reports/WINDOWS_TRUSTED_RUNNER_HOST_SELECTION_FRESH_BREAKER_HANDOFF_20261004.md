@@ -24,7 +24,7 @@ Lifecycle: INDEPENDENT_REVIEW_PENDING only
 | SpanFabric/host | `8e2d4f59da25f83124ee964c45cf56ab7bb69254` | `c723d9c74c08c08324478b2f3848f6deaeed82f3388292d76c2a9e3d8f52bec5` | `b3c2d092677904adaf700ea4ef45298470eb37af` | `37157285208 / 111303179276` |
 | SpanFabric/evals | `4f6c61bbee92b2385c1ee7b217cac7fb09e4d283` | `021132a430c3a12cf07b15cbe6ee817e985b47bdce5150528502b03bb4b0a5d3` | `7266e041b1ed3ec596752a15642a181ddc3b6cf5` | `37157287246 / 111303185371` |
 | SpanFabric/docs | `e743945d26abfee8a5cc33bfe60acd292ba4bcc7` | `fbf04ed7d4201097c9a7cffaba882168f3107bd72a817828e74a6163e16cad44` | `4e333bee09825ad80b610e47521103d980ed983e` | `37157289548 / 111303191996` |
-| SpanFabric/.github | `95e888267f4540be6f88274bfeb994debb97fbe7` | `f071b2b406c11b83280f276ab7a8552c52007b0dc7952ee588e27687a1156522d` | `9127cbe4bfda45b71bb9a4029982d28097393608` | `37157291243 / 111303197629` |
+| SpanFabric/.github | `95e888267f4540be6f88274bfeb994debb97fbe7` | `f071b2b406c11b83280f276ab7a8552c52007b0dc7952ee588e27687a156522d` | `9127cbe4bfda45b71bb9a4029982d28097393608` | `37157291243 / 111303197629` |
 
 All listed exact-head Verification gate and integrity workflows succeeded. Every hosted Windows job selected `C:\Program Files\Git\bin\bash.exe`, logged valid Git-Bash POSIX paths, reported `WINDOWS_TRUSTED_RUNNER_EXIT=0`, and reported `WINDOWS_VERIFICATION_TESTS=PASS`.
 
