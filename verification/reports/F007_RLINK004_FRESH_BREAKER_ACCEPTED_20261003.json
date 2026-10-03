@@ -1,0 +1,62 @@
+{
+  "id": "F007-RLINK-004-FRESH-BREAKER-ACCEPTED-20261003",
+  "type": "BREAKER_VERDICT",
+  "producer": "FRESH_BREAKER",
+  "role": "FRESH_BREAKER",
+  "authority": "MANUAL_AUTHORITY",
+  "created_at": "2026-10-03T18:22:02.4085316+02:00",
+  "verdict": "ACCEPTED",
+  "lifecycle_after_persistence": "READY_FOR_OWNER_ACCEPTANCE",
+  "authority_limit": "This is a persisted independent Fresh BREAKER technical verdict only. It does not perform Owner Acceptance, merge, post-merge verification, GATE-000 PASS, PHASE-000 completion, or PHASE-001 authorization.",
+  "review_repository": "SpanFabric/docs",
+  "review_pr": 1,
+  "review_base": {
+    "branch": "main",
+    "sha": "b622dd3d21cc1cebdf07d7de344ece1a32fb34bd"
+  },
+  "review_head": "0a8b26a4f5df4233916a2a31833416a166d2f349",
+  "material_subject": {
+    "sha": "a3e85b7febeeb7c3e7c11fe44964efb3b1e6b60b",
+    "review_subject_digest": "64d0efa04f7747b55af394d665ef449075303d0e49c47188ab8d6c6fe6e79615",
+    "material_file_count": 384
+  },
+  "fresh_breaker_scope": [
+    "F-007-RLINK-001",
+    "F-007-RLINK-002",
+    "F-007-RLINK-003",
+    "F-007-RLINK-004",
+    "current PyPI vendor reproducibility",
+    "F-000-04 first-boundary invariant",
+    "F-001 through F-006 non-regression"
+  ],
+  "verified_ci": {
+    "Bootstrap integrity": {
+      "run": 37125353250,
+      "event": "pull_request",
+      "conclusion": "success",
+      "head_sha": "0a8b26a4f5df4233916a2a31833416a166d2f349"
+    },
+    "Verification gate": {
+      "run": 37125353273,
+      "event": "pull_request",
+      "conclusion": "success",
+      "head_sha": "0a8b26a4f5df4233916a2a31833416a166d2f349"
+    }
+  },
+  "vendor_reproducibility": {
+    "result": "PROVEN",
+    "historical_original_wheel_identity": "NOT_PROVEN"
+  },
+  "verification_results": {
+    "F-007-RLINK-001-through-RLINK-004": "ACCEPTED",
+    "F-001-through-F-006-non-regression": "ACCEPTED",
+    "F-000-04-first-boundary-invariant": "ACCEPTED"
+  },
+  "owner_acceptance": "NOT_PERFORMED",
+  "merge": "NOT_PERFORMED",
+  "post_merge_verification": "NOT_PERFORMED",
+  "external_github_controls": {
+    "status": "NOT_ESTABLISHED",
+    "owner_action_block": "READY_FOR_OWNER_ACCEPTANCE does not authorize Owner Acceptance while PR-before-merge enforcement, required status checks, required review, force-push prohibition, branch deletion protection, and applicable rules/rulesets remain unestablished across the six repositories."
+  }
+}
