@@ -1,0 +1,38 @@
+{
+  "id": "WINDOWS-TRUSTED-RUNNER-HOST-SELECTION-BUILDER-DOCS-20261004",
+  "type": "BUILDER_REPORT",
+  "producer": "BUILDER",
+  "role": "BUILDER",
+  "authority": "MANUAL_AUTHORITY",
+  "commit_sha": "e743945d26abfee8a5cc33bfe60acd292ba4bcc7",
+  "review_subject_digest": "fbf04ed7d4201097c9a7cffaba882168f3107bd72a817828e74a6163e116cad44",
+  "created_at": "2026-10-04T00:14:41.1492124+02:00",
+  "verdict": "BUILDER_GREEN",
+  "lifecycle_after_persistence": "INDEPENDENT_REVIEW_PENDING",
+  "finding_remediated": "WINDOWS_TRUSTED_RUNNER_HOST_SELECTION",
+  "repository_disposition": "KNOWN_GOOD_REFERENCE_WITH_SHARED_CI_IMPROVEMENT",
+  "scope": "Retain the existing Git-Bash-first helper, convert native test paths through the selected Git Bash, and require native Windows immutable-runner validation before verification-gate can succeed.",
+  "local_windows": {
+    "selected_bash": "C:\\Program Files\\Git\\bin\\bash.exe",
+    "authoritative_immutable_runner": "PASS",
+    "path_conversion": "PASS: /d/Projekte/SpanGPU/docs and a private /tmp runner path were accepted by Git Bash.",
+    "full_verification_suite": "PASS: 81 tests including active-governance, project-state, SOLO_OWNER, and F-007/RLINK coverage.",
+    "restricted_executor_observation": "The restricted sandbox still produces MSYS NtCreateDirectoryObject access denial and WSL/E_ACCESSDENIED. The unrestricted native Windows executor passed, so this is a LOCAL_ENVIRONMENT_LIMITATION of the restricted executor, not a product failure."
+  },
+  "hosted_windows": {
+    "validation_head": "4e333bee09825ad80b610e47521103d980ed983e",
+    "verification_gate_run": 37157289548,
+    "windows_trusted_runner_job": 111303191996,
+    "verification_gate_job": 111303653814,
+    "selected_bash": "C:\\Program Files\\Git\\bin\\bash.exe",
+    "trusted_runner_exit": 0,
+    "native_test_result": "PASS",
+    "path_conversion": "PASS: Git Bash logged /d/a/docs/docs and a /d/a/_temp trusted runner path.",
+    "integrity_run": 37157289527,
+    "result": "PASS"
+  },
+  "workflow_design": "windows-trusted-runner runs on windows-latest, materializes HEAD:scripts/trusted_verify_review_state.sh from Git objects inside Git Bash, and verification-gate has needs: windows-trusted-runner. The public required context remains verification-gate.",
+  "non_regression": ["F-001 through F-006 verification bridge suite", "SOLO_OWNER semantics", "F-007", "RLINK-001 through RLINK-004", "F-000-04 remains QUARANTINED/FORBIDDEN"],
+  "fresh_breaker_handoff": "verification/reports/WINDOWS_TRUSTED_RUNNER_HOST_SELECTION_FRESH_BREAKER_HANDOFF_20261004.md",
+  "authority_limit": "Builder evidence only. A new independent Fresh BREAKER remains required; no Owner Acceptance, merge, post-merge verification, or hosting-control assertion is made."
+}

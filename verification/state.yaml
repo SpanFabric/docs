@@ -3,19 +3,19 @@
   "bridge_version": "manual-verification-bridge-v1",
   "repository": "docs",
   "authority_mode": "MANUAL_AUTHORITY",
-  "status": "BUILDING",
-  "previous_status": "BREAKER_FAILED",
+  "status": "INDEPENDENT_REVIEW_PENDING",
+  "previous_status": "BUILDING",
   "transition": {
-    "from": "BREAKER_FAILED",
-    "to": "BUILDING",
+    "from": "BUILDING",
+    "to": "INDEPENDENT_REVIEW_PENDING",
     "authority": "BUILDER"
   },
   "risk": {
     "class": "R2",
     "reason": "F-007 active-governance remediation; model may raise but not lower deterministic floor."
   },
-  "review_subject_digest": "c40d0678cfe26dd01d8fcf3808e09da97dba80da7b19df349388a952b7735cd2",
-  "review_subject_commit": "5eebafd863abea78a2fc8a0f2e96485f1da2eaa2",
+  "review_subject_digest": "fbf04ed7d4201097c9a7cffaba882168f3107bd72a817828e74a6163e116cad44",
+  "review_subject_commit": "e743945d26abfee8a5cc33bfe60acd292ba4bcc7",
   "evidence": [
     {
       "id": "PROJECT-STATE-CORRECTION-BUILDER-20260903",
@@ -203,6 +203,19 @@
       "repository_disposition": "KNOWN_GOOD_REFERENCE_NOT_DIRECTLY_AFFECTED",
       "active": false,
       "report_path": "verification/reports/FRESH_BREAKER_WINDOWS_TRUSTED_RUNNER_HOST_SELECTION_20261003.json"
+    },
+    {
+      "id": "WINDOWS-TRUSTED-RUNNER-HOST-SELECTION-BUILDER-DOCS-20261004",
+      "type": "BUILDER_REPORT",
+      "producer": "BUILDER",
+      "role": "BUILDER",
+      "authority": "MANUAL_AUTHORITY",
+      "commit_sha": "e743945d26abfee8a5cc33bfe60acd292ba4bcc7",
+      "review_subject_digest": "fbf04ed7d4201097c9a7cffaba882168f3107bd72a817828e74a6163e116cad44",
+      "created_at": "2026-10-04T00:14:41.1492124+02:00",
+      "verdict": "BUILDER_GREEN",
+      "active": true,
+      "report_path": "verification/reports/WINDOWS_TRUSTED_RUNNER_HOST_SELECTION_BUILDER_20261004.json"
     }
   ],
   "remediation_inputs": [
@@ -230,11 +243,11 @@
       "id": "WINDOWS_TRUSTED_RUNNER_HOST_SELECTION",
       "severity": "HIGH",
       "confirmed": true,
-      "status": "OPEN",
+      "status": "REMEDIATED_PENDING_FRESH_BREAKER",
       "scope": "CROSS_REPOSITORY_BATCH",
       "repository_disposition": "KNOWN_GOOD_REFERENCE_NOT_DIRECTLY_AFFECTED",
       "report_path": "verification/reports/FRESH_BREAKER_WINDOWS_TRUSTED_RUNNER_HOST_SELECTION_20261003.json",
-      "summary": "No defect is asserted against docs; this records the cross-repository BREAKER_FAILED lifecycle while five affected repositories require remediation."
+      "summary": "Docs remains the known-good helper reference; shared native-Windows CI remediation is bound to material commit e743945d26abfee8a5cc33bfe60acd292ba4bcc7 and requires independent Fresh BREAKER review."
     }
   ],
   "initial_baseline_bootstrap": {
