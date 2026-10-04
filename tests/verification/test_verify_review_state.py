@@ -54,24 +54,31 @@ class BridgeTests(unittest.TestCase):
     def head(self):
         return git(self.root,'rev-parse','HEAD').stdout.decode().strip()
 
-    def bash(self):
-        # The Windows system ``bash.exe`` is a WSL launcher, not the Git Bash
-        # host required by the repository's trusted-runner contract. Prefer an
-        # explicit Git Bash path before accepting an ambiguous PATH resolution.
+    @staticmethod
+    def select_bash(is_windows,path_bash,is_file=None):
         candidates=[]
-        if os.name=='nt': candidates.extend([r'C:\Program Files\Git\bin\bash.exe',r'C:\Program Files\Git\usr\bin\bash.exe'])
-        candidates.append(shutil.which('bash'))
+        if is_windows: candidates.extend([r'C:\Program Files\Git\bin\bash.exe',r'C:\Program Files\Git\usr\bin\bash.exe'])
+        if not is_windows: candidates.append(path_bash)
         for candidate in candidates:
-            if candidate and pathlib.Path(candidate).is_file(): return candidate
+            if candidate and (is_file(candidate) if is_file else pathlib.Path(candidate).is_file()): return candidate
         raise RuntimeError('Bash is required to exercise the authoritative trusted runner')
+
+    def bash(self):
+        # Native Windows never consults PATH: fixed Git installation only.
+        return self.select_bash(os.name=='nt',None if os.name=='nt' else shutil.which('bash'))
 
     def bash_path(self,bash,path):
         native_path=str(path)
         if os.name!='nt': return native_path
-        converted=subprocess.run([bash,'--noprofile','--norc','-lc','cygpath -u -- "$1"','bash',native_path],capture_output=True,text=True)
-        if converted.returncode or not converted.stdout.strip().startswith('/'):
+        if any(ord(character)<32 for character in native_path):
+            raise ValueError('Windows paths must not contain control characters')
+        # MSYS reparses native argv; apostrophes can be lost even with $1.
+        # The environment is a data channel, never interpolated shell syntax.
+        env=dict(os.environ,SPAN_GPU_NATIVE_PATH=native_path)
+        converted=subprocess.run([bash,'--noprofile','--norc','-c','cygpath -u -- "$SPAN_GPU_NATIVE_PATH"'],env=env,capture_output=True,encoding='utf-8')
+        if converted.returncode or not converted.stdout.startswith('/'):
             raise RuntimeError('Git Bash failed to convert a trusted-runner path: '+converted.stderr)
-        return converted.stdout.strip()
+        return converted.stdout.removesuffix('\n')
 
     def trusted_cli(self,*args):
         """Materialize the canonical runner from HEAD, never from the fixture worktree."""
@@ -273,6 +280,30 @@ class BridgeTests(unittest.TestCase):
         self.assertIn(f'TRUSTED_RUNNER_GIT_OBJECT={runner_oid}',p.stdout)
         self.assertIn(f'TRUSTED_VALIDATOR_GIT_OBJECT={validator_oid}',p.stdout)
         self.assertIn(f'TRUSTED_VALIDATOR_COPY_OBJECT={validator_oid}',p.stdout)
+
+    def select_bash_for_test(self,is_windows,path_bash,present):
+        present=set(present)
+        return self.select_bash(is_windows,path_bash,lambda candidate: candidate in present)
+
+    def test_windows_bash_prefers_git_bin_before_path(self):
+        self.assertEqual(r'C:\Program Files\Git\bin\bash.exe',self.select_bash_for_test(True,r'C:\Tools\bash.exe',[r'C:\Program Files\Git\bin\bash.exe',r'C:\Tools\bash.exe']))
+
+    def test_windows_bash_uses_usr_bin_when_bin_is_absent(self):
+        self.assertEqual(r'C:\Program Files\Git\usr\bin\bash.exe',self.select_bash_for_test(True,r'C:\Tools\bash.exe',[r'C:\Program Files\Git\usr\bin\bash.exe',r'C:\Tools\bash.exe']))
+
+    def test_windows_bash_rejects_arbitrary_path_host(self):
+        with self.assertRaisesRegex(RuntimeError,'Bash is required'):
+            self.select_bash_for_test(True,r'C:\Tools\bash.exe',[r'C:\Tools\bash.exe'])
+
+    def test_windows_bash_rejects_when_no_candidate_is_suitable(self):
+        with self.assertRaisesRegex(RuntimeError,'Bash is required'):
+            self.select_bash_for_test(True,None,[])
+
+    def test_non_windows_bash_selection_retains_path_behavior(self):
+        self.assertEqual('/usr/bin/bash',self.select_bash_for_test(False,'/usr/bin/bash',['/usr/bin/bash']))
+
+    def test_windows_bash_rejects_historical_wsl_launcher_when_git_bash_exists(self):
+        self.assertEqual(r'C:\Program Files\Git\bin\bash.exe',self.select_bash_for_test(True,r'C:\WINDOWS\system32\bash.exe',[r'C:\Program Files\Git\bin\bash.exe',r'C:\WINDOWS\system32\bash.exe']))
 
     @unittest.skipUnless(os.name=='nt', 'Windows-specific Bash-host selection')
     def test_windows_trusted_runner_prefers_git_bash_over_path_shim(self):
