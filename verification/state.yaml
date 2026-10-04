@@ -3,19 +3,19 @@
   "bridge_version": "manual-verification-bridge-v1",
   "repository": "docs",
   "authority_mode": "MANUAL_AUTHORITY",
-  "status": "BUILDING",
-  "previous_status": "INDEPENDENT_REVIEW_PENDING",
+  "status": "INDEPENDENT_REVIEW_PENDING",
+  "previous_status": "BUILDING",
   "transition": {
-    "from": "INDEPENDENT_REVIEW_PENDING",
-    "to": "BUILDING",
+    "from": "BUILDING",
+    "to": "INDEPENDENT_REVIEW_PENDING",
     "authority": "BUILDER"
   },
   "risk": {
     "class": "R2",
     "reason": "F-007 active-governance remediation; model may raise but not lower deterministic floor."
   },
-  "review_subject_digest": "c7aae47dc5ff8d73d053faee2c1b400984b6154db49e091cc2cd77e198cafc7e",
-  "review_subject_commit": "3249ca92ba3058fa59c1a94a8fc72a7aafdf565c",
+  "review_subject_digest": "eb2ac7289be11267160e374745275b8737d85ed971864090fac657257935231f",
+  "review_subject_commit": "ae016577aac478deb760fc089fe43b417b25fd89",
   "evidence": [
     {
       "id": "PROJECT-STATE-CORRECTION-BUILDER-20260903",
@@ -255,6 +255,19 @@
       "verdict": "BUILDER_GREEN",
       "active": false,
       "report_path": "verification/reports/FBR_WTR_001_002_003_REMEDIATION_BUILDER_CI_FOLLOWUP_20261004.json"
+    },
+    {
+      "id": "FBR-WTR-001-POSITIVE-PATH-FALLBACK-BUILDER-DOCS-20261004",
+      "type": "REMEDIATION",
+      "producer": "BUILDER",
+      "role": "BUILDER",
+      "authority": "MANUAL_AUTHORITY",
+      "commit_sha": "ae016577aac478deb760fc089fe43b417b25fd89",
+      "review_subject_digest": "eb2ac7289be11267160e374745275b8737d85ed971864090fac657257935231f",
+      "created_at": "2026-10-04T07:08:07Z",
+      "verdict": "BUILDER_GREEN",
+      "active": true,
+      "report_path": "verification/reports/FBR_WTR_001_POSITIVE_PATH_FALLBACK_BUILDER_20261004.json"
     }
   ],
   "remediation_inputs": [
@@ -308,7 +321,7 @@
       "report_path": "verification/reports/FRESH_BREAKER_WTR_001_002_003_20261004.json",
       "summary": "WSL-only PATH fallback is accepted",
       "builder_disposition": "REMEDIATED_PENDING_FRESH_BREAKER",
-      "builder_report_path": "verification/reports/FBR_WTR_001_002_003_REMEDIATION_BUILDER_CI_FOLLOWUP_20261004.json"
+      "builder_report_path": "verification/reports/FBR_WTR_001_POSITIVE_PATH_FALLBACK_BUILDER_20261004.json"
     },
     {
       "id": "FBR-WTR-002",
@@ -319,7 +332,7 @@
       "report_path": "verification/reports/FRESH_BREAKER_WTR_001_002_003_20261004.json",
       "summary": "Public verification-gate is skipped rather than failed after Windows prerequisite failure",
       "builder_disposition": "REMEDIATED_PENDING_FRESH_BREAKER",
-      "builder_report_path": "verification/reports/FBR_WTR_001_002_003_REMEDIATION_BUILDER_CI_FOLLOWUP_20261004.json"
+      "builder_report_path": "verification/reports/FBR_WTR_001_POSITIVE_PATH_FALLBACK_BUILDER_20261004.json"
     },
     {
       "id": "FBR-WTR-003",
@@ -330,7 +343,7 @@
       "report_path": "verification/reports/FRESH_BREAKER_WTR_001_002_003_20261004.json",
       "summary": "Apostrophe-containing native Windows paths are silently altered",
       "builder_disposition": "REMEDIATED_PENDING_FRESH_BREAKER",
-      "builder_report_path": "verification/reports/FBR_WTR_001_002_003_REMEDIATION_BUILDER_CI_FOLLOWUP_20261004.json"
+      "builder_report_path": "verification/reports/FBR_WTR_001_POSITIVE_PATH_FALLBACK_BUILDER_20261004.json"
     }
   ],
   "initial_baseline_bootstrap": {
@@ -353,6 +366,7 @@
     "FBR-WTR-001/002/003 have Builder remediation bound to the new material subject. Their historical Breaker report is unchanged and inactive; findings remain OPEN pending a new independent Fresh Breaker.",
     "Builder reopened for portable fixed-installation test fixture after Ubuntu CI exposed an environmental assumption; prior Builder report and failed CI remain historical.",
     "Portable CI-fixture followup validated locally on the new material identity; prior evidence stays inactive, independent Fresh Breaker required.",
-    "Builder reopened solely to finalize FBR-WTR-001 positive Windows PATH suitability and matching manual text; historical reports remain immutable. No Owner, merge or PHASE-001 authority."
+    "Builder reopened solely to finalize FBR-WTR-001 positive Windows PATH suitability and matching manual text; historical reports remain immutable. No Owner, merge or PHASE-001 authority.",
+    "FBR-WTR-001 positive-suitability Windows PATH fallback and matching manual finalized on the new material subject. FBR-WTR-002 workflow and FBR-WTR-003 runtime preserved. Historical exact-output claim is superseded by new evidence showing /c/path'name/runner, without rewriting old reports. Earlier empty native conversion observations remain disclosed; all six require a new independent Fresh Breaker."
   ]
 }
