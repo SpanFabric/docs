@@ -1,0 +1,226 @@
+{
+  "id": "F007-RLINK-004-PYPI-REPRODUCIBILITY-BUILDER-20261003",
+  "type": "BUILDER_REPORT",
+  "producer": "BUILDER",
+  "role": "BUILDER",
+  "authority": "MANUAL_AUTHORITY",
+  "created_at": "2026-10-03T15:04:39+02:00",
+  "verdict": "BUILDER_GREEN",
+  "lifecycle": "INDEPENDENT_REVIEW_PENDING",
+  "authority_limit": "Builder technical evidence only. This record does not create a Fresh BREAKER verdict, Owner acceptance, merge authority, post-merge authority, GATE-000 PASS, or PHASE-001 authorization.",
+  "remediation_input": {
+    "finding_ids": [
+      "F-007",
+      "F-007-RLINK-004"
+    ],
+    "owner_determination": "Owner authorization supplied 2026-10-03: the official PyPI wheel artifacts and their published SHA-256 values are authoritative for current reproducibility; the previously recorded conflicting values are not source-wheel SHA-256 values."
+  },
+  "material_review_subject": {
+    "commit_sha": "a3e85b7febeeb7c3e7c11fe44964efb3b1e6b60b",
+    "review_subject_digest": "64d0efa04f7747b55af394d665ef449075303d0e49c47188ab8d6c6fe6e79615",
+    "material_file_count": 384,
+    "parent_commit_sha": "63ca7f42a1a1b6990c457282dfd341ca4a819802",
+    "changed_paths": [
+      "scripts/_vendor/markdown_it_py-4.2.0.dist-info/INSTALLER",
+      "scripts/_vendor/markdown_it_py-4.2.0.dist-info/RECORD",
+      "scripts/_vendor/markdown_it_py-4.2.0.dist-info/REQUESTED",
+      "scripts/_vendor/mdurl-0.1.2.dist-info/INSTALLER",
+      "scripts/_vendor/mdurl-0.1.2.dist-info/RECORD",
+      "scripts/_vendor/mdurl-0.1.2.dist-info/REQUESTED",
+      "scripts/active_governance_semantics.py",
+      "tests/verification/test_active_governance_semantics.py",
+      "tests/verification/test_verify_review_state.py"
+    ],
+    "digest_exclusions": [
+      "verification/state.yaml",
+      "verification/reports/**"
+    ]
+  },
+  "supersession": {
+    "historical_record_preserved": "verification/reports/F007_RLINK004_COMMONMARK_BUILDER.json",
+    "supersedes_only": "The source-wheel SHA-256 claims in the historical Builder record; the historical file is not rewritten.",
+    "non_authoritative_conflicting_claims": {
+      "markdown_it_py_4_2_0": "9f7ebbcd1a0df36c7e9d6af0bfdd9369bb77f467d6fbe5e11533d81f96cf41c4a",
+      "mdurl_0_1_2": "84008a41e5e2e72a32b21396c16ab53c321d26d1f69dfac9a4b00bc44a89b8f8"
+    },
+    "reason": "Those values were not official PyPI source-wheel SHA-256 values and must not be represented as such."
+  },
+  "gate_a_vendor_provenance": {
+    "result": "PASS",
+    "original_lost_archive_identity": "NOT_PROVEN: the original historical archives were not retained, so their byte identity remains unknowable.",
+    "authoritative_current_origin": "Official PyPI release artifacts, owner-authorized.",
+    "retrieved_at": "2026-10-03T12:05:23+02:00",
+    "artifacts": [
+      {
+        "filename": "markdown_it_py-4.2.0-py3-none-any.whl",
+        "package": "markdown-it-py",
+        "version": "4.2.0",
+        "source_url": "https://files.pythonhosted.org/packages/b3/81/4da04ced5a082363ecfa159c010d200ecbd959ae410c10c0264a38cac0f5/markdown_it_py-4.2.0-py3-none-any.whl",
+        "size_bytes": 91687,
+        "published_sha256": "9f7ebbcd14fe59494226453aed97c1070d83f8d24b6fc3a3bcf9a38092641c4a",
+        "locally_recomputed_sha256": "9f7ebbcd14fe59494226453aed97c1070d83f8d24b6fc3a3bcf9a38092641c4a",
+        "digest_match": true
+      },
+      {
+        "filename": "mdurl-0.1.2-py3-none-any.whl",
+        "package": "mdurl",
+        "version": "0.1.2",
+        "source_url": "https://files.pythonhosted.org/packages/b3/38/89ba8ad64ae25be8de66a6d463314cf1eb366222074cfda9ee839c56a4b4/mdurl-0.1.2-py3-none-any.whl",
+        "size_bytes": 9979,
+        "published_sha256": "84008a41e51615a49fc9966191ff91509e3c40b939176e643fd50a5c2196b8f8",
+        "locally_recomputed_sha256": "84008a41e51615a49fc9966191ff91509e3c40b939176e643fd50a5c2196b8f8",
+        "digest_match": true
+      }
+    ],
+    "fresh_reproduction": {
+      "method": "Fresh raw extraction of the two verified wheels into a system-temporary tree, compared path-for-path and byte-for-byte with scripts/_vendor after the deterministic remediation.",
+      "complete_relative_path_set": "85 committed files equals 85 wheel files",
+      "content_differences": [],
+      "record_contents": "byte-identical to the source-wheel RECORD files",
+      "package_metadata": "byte-identical to the source-wheel metadata",
+      "result": "The retained vendor payload is reproducible from the currently authoritative PyPI wheel artifacts.",
+      "material_payload_changed": true,
+      "change_reason": "The prior committed tree contained pip installer residue and non-wheel RECORD content; this material commit removes that residue and reproduces the verified wheel payload exactly."
+    },
+    "vendor_trust_checks": {
+      "loader_origins": "markdown_it and mdurl both resolve only below scripts/_vendor; installed versions are 4.2.0 and 0.1.2.",
+      "site_packages_fallback": "Rejected by production loader assertions and focused tests.",
+      "missing_vendor": "Fails closed; focused corpus test passed.",
+      "tampered_vendor": "Fails closed through RECORD payload validation; focused corpus test passed.",
+      "external_record_path": "Fails closed; focused corpus test passed.",
+      "record_validation": "Passed after exact source-wheel reproduction."
+    }
+  },
+  "gate_b_audit_counter_integrity": {
+    "result": "PASS",
+    "command": "python -B scripts/active_governance_semantics.py --repo-root . --audit",
+    "exit_code": 0,
+    "production_summary": {
+      "parsed_navigable_markdown_links": 0,
+      "parsed_local_markdown_links": 0,
+      "parsed_external_markdown_links": 0,
+      "direct_governance_code_references": 3,
+      "allowed_active_routes": 3,
+      "rejected_historical_routes": 0,
+      "rejected_unclassified_or_unsafe_routes": 0,
+      "raw_html_navigation_rejections": 0,
+      "structured_provenance_records": 0
+    },
+    "counter_contract": "Each count is derived from parser-token routes and their separately applied canonicalization/classification/policy decision. The misleading ignored_recognized_local_markdown_references assertion has been removed."
+  },
+  "gate_c_f007_security_corpus": {
+    "result": "PASS",
+    "command": "C:\\Python314\\python.exe -B -m unittest tests.verification.test_active_governance_semantics -v",
+    "exit_code": 0,
+    "result_summary": "43 tests in 64.107s; OK",
+    "coverage": [
+      "RLINK-001 through RLINK-004 canonical CommonMark link extraction and authorization boundaries",
+      "escaped and balanced labels, nested labels, escaped brackets, title-bearing inline links",
+      "full, collapsed, shortcut, case-normalized and whitespace-normalized reference links; duplicate and undefined definitions",
+      "inline/fenced code and escaped plain-text non-navigation",
+      "raw HTML navigation rejection",
+      "canonical path, fragment, query, percent-encoded traversal and root-escape rejection",
+      "F-000-04 first-boundary invariant: active governance -> rendered historical target is rejected before a historical resume document can reach materialize-repositories.py --apply",
+      "every real local navigable historical target is tokenized, canonicalized, classified HISTORICAL_REFERENCE or HISTORICAL_EVIDENCE, marked allowed=false, and semantically rejected"
+    ]
+  },
+  "gate_d": {
+    "result": "PASS",
+    "pinned_builderkit_identity": {
+      "pinned_root": "D:\\Projekte\\SpanGPU\\_builderkit-v1.2.3-db2c71009b3a67af\\SpanGPU-BuilderKit",
+      "archive_path": "C:\\Users\\sever\\Downloads\\SpanGPU-BuilderKit-v1.2.3.zip",
+      "expected_archive_sha256": "db2c71009b3a67af150459876ab778ae081498520ba71dfd1e7805bf46ea6b82",
+      "archive_result": "NOT_PRESENT; the owner made the archive hash check conditional on archive presence, so no substitute archive was used.",
+      "version_file": "2026.09.02-v1.2.3-spanfabric",
+      "embedded_manifest_replay": {
+        "manifest_version": "2026.09.02-v1.2.3-spanfabric",
+        "declared_hashed_files": 390,
+        "actual_files_excluding_manifest": 390,
+        "missing": [],
+        "unexpected": [],
+        "size_mismatches": [],
+        "hash_mismatches": [],
+        "result": "PASS"
+      }
+    },
+    "approved_runtime": {
+      "executable": "D:\\Projekte\\SpanGPU\\.tooling\\builderkit-validator\\Scripts\\python.exe",
+      "python_version": "3.14.7 (tags/v3.14.7:823f032, Aug 5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+      "pyyaml_version": "6.0.3",
+      "provenance": "Existing owner-designated isolated runtime independently reported the exact authorized PyYAML version; no package download, install, or global-Python mutation occurred."
+    },
+    "pinned_validators": [
+      {
+        "script": "11-bootstrap/validate-builderkit.py",
+        "command": "builderkit-validator\\Scripts\\python.exe -I -B validate-builderkit.py",
+        "working_directory": "pinned BuilderKit root",
+        "exit_code": 0,
+        "stdout": {"status": "PASS", "errors": [], "warnings": [], "counts": {"requirements": 396, "decisions": 34, "phases": 43, "gates": 32, "upstreams": 20, "risks": 27}},
+        "stderr": ""
+      },
+      {
+        "script": "11-bootstrap/validate-traceability.py",
+        "command": "builderkit-validator\\Scripts\\python.exe -I -B validate-traceability.py",
+        "working_directory": "pinned BuilderKit root",
+        "exit_code": 0,
+        "stdout": {"status": "PASS", "errors": []},
+        "stderr": ""
+      },
+      {
+        "script": "11-bootstrap/validate-upstreams.py",
+        "command": "builderkit-validator\\Scripts\\python.exe -I -B validate-upstreams.py",
+        "working_directory": "pinned BuilderKit root",
+        "exit_code": 0,
+        "stdout": {"status": "PASS", "errors": []},
+        "stderr": ""
+      }
+    ],
+    "default_full_suite": {
+      "command": "C:\\Python314\\python.exe -B -m unittest discover -s tests/verification -p test_*.py -v",
+      "exit_code": 0,
+      "result_summary": "79 tests in 89.964s; OK",
+      "stderr_sha256": "069379161c6687ec76d168e295f35afd17f0ccb469abdd7dcf67e0b1e1d545c6"
+    },
+    "trusted_runner_harness_correction": {
+      "previous_behavior": "Before this material correction, the default suite selected C:\\WINDOWS\\system32\\bash.EXE through shutil.which('bash'); eight trusted-runner tests then failed with E_ACCESSDENIED. A diagnostic-only PATH adjustment selecting Git Bash proved the intended tests passed, but was not credited as a default-environment result.",
+      "intended_contract": "The Manual Verification Bridge requires a Git Bash host (or another real Bash host with Git and Python); Windows bash.exe is the WSL launcher and is not that host.",
+      "correction": "The test harness now prefers the canonical Windows Git Bash paths before any ambiguous PATH result, with a Windows-specific regression that asserts C:\\Program Files\\Git\\bin\\bash.exe is selected when installed.",
+      "current_evidence": "The dedicated test passed and the current unmodified full suite passed with exit code 0. This is a narrowly scoped test-harness correction at the F-007 validation boundary, not a production policy weakening."
+    },
+    "f001_to_f006_blob_check": {
+      "unchanged": {
+        ".steward/verification-policy.yaml": "f59a145af0daa763bf4b7542d336f592d2f35dee",
+        "scripts/verify_review_state.py": "ac52f7c8521d860a57061791dec7a575f09067a4",
+        "scripts/trusted_verify_review_state.sh": "7309dc1e1d484188d7c7cb3c6cabd92cf4cfd4ac",
+        ".github/workflows/verification-gate.yml": "09d7cc28c9a2f7b5df63f785787a6644adb449b0",
+        "verification/MANUAL_AUTHORITY.md": "1d6cbc1a2a45b40eac569dcce501507729ca3509"
+      },
+      "intentional_exception": {
+        "path": "tests/verification/test_verify_review_state.py",
+        "previous_blob": "318b0fd39e76af28b4aba8710ee98dbcf8e50d74",
+        "current_blob": "4093f32e5f65f722710208419ff2e2e90f6bc643",
+        "reason": "The narrowly necessary trusted-runner host-selection correction above; its regression and full-suite coverage are current."
+      }
+    },
+    "working_tree_review": {
+      "git_diff_check_exit_code": 0,
+      "reviewed_changed_path_count": 9,
+      "unrelated_changed_paths": [],
+      "final_materialized_runner": {
+        "command": "C:\\Program Files\\Git\\bin\\bash.exe --noprofile --norc <system-temp-host-script>",
+        "base": "b622dd3d21cc1cebdf07d7de344ece1a32fb34bd",
+        "exit_code": 0,
+        "review_subject_digest": "64d0efa04f7747b55af394d665ef449075303d0e49c47188ab8d6c6fe6e79615",
+        "material_file_count": 384,
+        "trusted_runner_git_object": "7309dc1e1d484188d7c7cb3c6cabd92cf4cfd4ac",
+        "trusted_validator_git_object": "ac52f7c8521d860a57061791dec7a575f09067a4",
+        "trusted_validator_copy_object": "ac52f7c8521d860a57061791dec7a575f09067a4"
+      }
+    }
+  },
+  "limitations_and_open_authority": [
+    "The original historical wheel archive bytes are not retained; only current reproducibility from authoritative PyPI artifacts is proven.",
+    "The optional original BuilderKit ZIP was absent, so its archive SHA-256 could not be recomputed; the exact owner-authorized extraction and all 390 embedded-manifest content entries were verified instead.",
+    "The exact-head hosted CI, Fresh BREAKER review, Owner acceptance, merge, and post-merge verification remain unproven at this point."
+  ]
+}

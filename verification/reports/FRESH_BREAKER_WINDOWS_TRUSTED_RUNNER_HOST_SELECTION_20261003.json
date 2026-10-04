@@ -1,0 +1,63 @@
+{
+  "id": "FRESH-BREAKER-WINDOWS-TRUSTED-RUNNER-HOST-SELECTION-DOCS-20261003",
+  "type": "BREAKER_VERDICT",
+  "producer": "FRESH_BREAKER",
+  "role": "FRESH_BREAKER",
+  "authority": "MANUAL_AUTHORITY",
+  "commit_sha": "5eebafd863abea78a2fc8a0f2e96485f1da2eaa2",
+  "review_subject_digest": "c40d0678cfe26dd01d8fcf3808e09da97dba80da7b19df349388a952b7735cd2",
+  "created_at": "2026-10-03T23:17:28.3510389+02:00",
+  "verdict": "FINDINGS",
+  "lifecycle_after_persistence": "BREAKER_FAILED",
+  "authority_limit": "This is a persisted independent Fresh BREAKER batch finding only. It does not remediate code, alter tests or workflows, configure GitHub, perform Owner Acceptance, merge, rebase, or post-merge verification.",
+  "review_repository": "SpanFabric/docs",
+  "review_pr": 1,
+  "review_head": "273aefde059042d8d745c2d08412f6ea5d726e9b",
+  "material_subject": {
+    "sha": "5eebafd863abea78a2fc8a0f2e96485f1da2eaa2",
+    "review_subject_digest": "c40d0678cfe26dd01d8fcf3808e09da97dba80da7b19df349388a952b7735cd2",
+    "reviewed_head": "273aefde059042d8d745c2d08412f6ea5d726e9b"
+  },
+  "finding": {
+    "id": "WINDOWS_TRUSTED_RUNNER_HOST_SELECTION",
+    "severity": "HIGH",
+    "priority": "P1",
+    "repository_disposition": "KNOWN_GOOD_REFERENCE_NOT_DIRECTLY_AFFECTED",
+    "direct_finding": false,
+    "batch_failure_mechanism": "The cross-repository review cannot reach independent readiness because platform, windows, host, evals, and .github resolve PATH bash before installed Git Bash. The docs subject is the known-good reference: it selects Git Bash candidates before PATH.",
+    "reference_invariant": "On native Windows, the trusted runner must select C:\\Program Files\\Git\\bin\\bash.exe, then C:\\Program Files\\Git\\usr\\bin\\bash.exe, before accepting PATH resolution.",
+    "impact": "No material defect is asserted against SpanFabric/docs. Its status records the batch-level BREAKER_FAILED verdict only, so the six-repository lifecycle remains coordinated while the five affected subjects are remediated and independently re-reviewed."
+  },
+  "affected_repositories": [
+    "SpanFabric/platform",
+    "SpanFabric/windows",
+    "SpanFabric/host",
+    "SpanFabric/evals",
+    "SpanFabric/.github"
+  ],
+  "known_good_reference": {
+    "repository": "SpanFabric/docs",
+    "review_head": "273aefde059042d8d745c2d08412f6ea5d726e9b",
+    "disposition": "KNOWN_GOOD_REFERENCE_NOT_DIRECTLY_AFFECTED",
+    "reason": "Its Windows helper enumerates Git Bash locations before appending the PATH result."
+  },
+  "verification_evidence": {
+    "source_review": "Confirmed directly in the reviewed helper ordering: docs selects Git Bash before PATH, unlike the five affected repositories.",
+    "native_host_probe": "Get-Command bash resolved C:\\WINDOWS\\system32\\bash.exe. A platform exact-head unit run produced 26 passed, 7 errors, and 1 failure at the trusted-runner helper boundary.",
+    "hosted_ci": "The exact reviewed heads had successful Ubuntu-hosted checks. Those checks do not establish native Windows host selection and are supporting evidence only.",
+    "execution_limit": "A post-review local Git Bash invocation was unavailable because Git Bash failed with NtCreateDirectoryObject status 0xC0000022 and WSL returned Wsl/E_ACCESSDENIED. This environment limitation does not alter the confirmed five-repository source-level defect."
+  },
+  "required_remediation": [
+    "Port the docs Git-Bash-first host-selection order to SpanFabric/platform, SpanFabric/windows, SpanFabric/host, SpanFabric/evals, and SpanFabric/.github.",
+    "Add regression proof that native Windows prefers C:\\Program Files\\Git\\bin\\bash.exe, then C:\\Program Files\\Git\\usr\\bin\\bash.exe, before PATH.",
+    "Run a Windows trusted-runner CI or protected equivalent that executes immutable materialize-then-run verification.",
+    "Recompute all changed material subjects and review-subject digests.",
+    "Verify exact-head CI after remediation.",
+    "Obtain a new independent Fresh BREAKER review for the remediated subjects."
+  ],
+  "required_regression_evidence": "Regression coverage must demonstrate the required native Windows candidate order, not merely that a mock or Linux PATH command succeeds.",
+  "fresh_verification_requirement": "Any remediation materially changes the affected reviewed subjects and invalidates their Fresh BREAKER evidence; each remediated subject must re-enter BUILDING and receive a newly bound independent Fresh BREAKER verdict.",
+  "owner_acceptance": "NOT_PERFORMED",
+  "merge": "NOT_PERFORMED",
+  "post_merge_verification": "NOT_PERFORMED"
+}

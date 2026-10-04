@@ -1,0 +1,19 @@
+schema_version: '1.0'
+allowed_phase_status:
+- NOT_STARTED
+- IN_PROGRESS
+- INDEPENDENT_REVIEW_PENDING
+- BLOCKED_ENVIRONMENT
+- BLOCKED_ARCHITECTURE
+- BLOCKED_UPSTREAM
+- FAILED
+- COMPLETED
+semantics:
+  IN_PROGRESS: Work for the phase has started but the phase has not met its completion criteria.
+  INDEPENDENT_REVIEW_PENDING: Builder work is complete for the current review subject, but
+    fresh independent review is still required before any acceptance claim.
+  COMPLETED: All phase completion conditions and required authority boundaries have been satisfied.
+compatibility:
+  - A phase catalog status must be one of allowed_phase_status.
+  - repositories_bootstrapped alone cannot move PHASE-000 out of IN_PROGRESS or INDEPENDENT_REVIEW_PENDING.
+  - GATE-000 and PHASE-001 authorization remain independently represented by PROJECT_STATE.

@@ -1,0 +1,39 @@
+{
+  "id": "PROJECT-STATE-CORRECTION-BUILDER-20260903",
+  "type": "BUILDER_REPORT",
+  "producer": "BUILDER",
+  "role": "BUILDER",
+  "authority": "MANUAL_AUTHORITY",
+  "commit_sha": "5c19c5a9caf4f1d09ae52f2e79b1d9386e305ed6",
+  "review_subject_digest": "edc6cfc997f6d65e48fc94a0ac98560950f9dfd3b9220696ae026cf1dfbc3892",
+  "created_at": "2026-09-03T12:36:06Z",
+  "verdict": "BUILDER_GREEN",
+  "risk_class": "R2",
+  "scope": "Correct stale canonical post-bootstrap governance state without changing phase, gate, product, materializer, workflow, or other-repository implementation.",
+  "state_claims": [
+    "The six repository baselines exist through CONTROLLED_INITIAL_BASELINE_BOOTSTRAP.",
+    "The Manual Verification Bridge v1 is established and all six repository subjects remain INDEPENDENT_REVIEW_PENDING.",
+    "PHASE-000 is not completed, GATE-000 is not passed, and PHASE-001 is not authorized.",
+    "F-000-04 keeps materialize-repositories.py --apply quarantined and unauthorized.",
+    "The original BuilderKit Stage-A/Stage-B strategy is retained as SUPERSEDED history, not an active instruction."
+  ],
+  "tests": [
+    "PyYAML 6.0.3 schema and semantic assertions against governance/PROJECT_STATE.yaml and governance/12-machine-readable/project.yaml (pass)",
+    "tests/verification/test_project_state_semantics.py (2 passed)",
+    "tests/verification/test_verify_review_state.py complete suite, partitioned only for the Windows command time limit (33 passed)",
+    "trusted materialized runner with base b622dd3d21cc1cebdf07d7de344ece1a32fb34bd (pass; review-subject digest edc6cfc997f6d65e48fc94a0ac98560950f9dfd3b9220696ae026cf1dfbc3892)",
+    "git diff --cached --check (pass)"
+  ],
+  "fresh_breaker_handoff": [
+    "Recompute the Docs review-subject digest from material commit 5c19c5a9caf4f1d09ae52f2e79b1d9386e305ed6 and compare it to the active state evidence.",
+    "Check that PROJECT_STATE distinguishes repository existence, independent-review status, phase completion, gate completion, and authorization instead of treating any one as another.",
+    "Verify the original Stage-A path is historical/superseded and cannot redirect work to a new pre-apply BREAKER or globally forbid normal PR flow.",
+    "Verify F-000-04 still blocks only materialize-repositories.py --apply and that no materializer Apply acceptance is inferred.",
+    "Use the cross-repository exact heads and digests in FRESH_BREAKER_HANDOFF.md; no other repository subject changed in this correction."
+  ],
+  "limitations": [
+    "No Fresh BREAKER, Specialist, Owner, merge, or post-merge verdict is asserted.",
+    "The exact final Docs PR tip includes excluded Builder state/report metadata and must be read from GitHub before review; the material review subject is the commit and digest above.",
+    "GitHub protection, required checks, and required-review enforcement remain external MANUAL_AUTHORITY state."
+  ]
+}

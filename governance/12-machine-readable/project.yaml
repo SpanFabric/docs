@@ -1,10 +1,11 @@
 project:
   name: SpanGPU
   builderkit_version: 2026.09.02-v1.2.3-spanfabric
-  status: READY_FOR_PHASE_00
+  status: INDEPENDENT_REVIEW_PENDING
   research_status: COMPLETE_INPUT_FROZEN
   architecture_status: RECOMMENDED_PROOF_GATED
-  implementation_status: NOT_STARTED
+  implementation_status: BOOTSTRAP_INFRASTRUCTURE_ESTABLISHED
+  product_functionality_status: NOT_STARTED
   organization: SpanFabric
 north_star: Local Windows app/CPU/RAM/storage/input; remote physical GPU execution
   and remote-authoritative VRAM; normal WDDM adapter; WAN first-class; no per-game/launcher/injection
@@ -18,7 +19,8 @@ builderkit_acceptance_gate: GATE-BK-000
 completed_phases: []
 completed_gates:
 - GATE-BK-000
-blocked_items: []
+blocked_items:
+- F-000-04
 provisional_decisions:
 - TD-002
 - TD-004
@@ -68,24 +70,87 @@ repositories:
 - evals
 - docs
 - .github
+repositories_bootstrapped: true
 controlled_forks:
 - UP-001
 - UP-002
 - UP-003
 - UP-004
-next_required_action: 'Execute PHASE-000 Stage A only: prepare pinned validator environment,
-  run validators and all bootstrap dry-runs, seal pre-bootstrap evidence, then stop
-  for a fresh PRE-APPLY BREAKER. GitHub mutation remains forbidden until that BREAKER
-  accepts.'
+next_required_action: 'Fresh independent BREAKER review of the six exact current
+  PR heads and review-subject digests after the SOLO_OWNER governance correction.
+  This correction must first receive exact-head CI; no Phase or Gate completion is implied.'
 github_organization: SpanFabric
 local_workspace_root: D:\Projekte\SpanGPU
 builderkit_source: '%USERPROFILE%\Downloads\SpanGPU-BuilderKit.zip'
 branding_asset_source: 00-project/branding/SpanFabric-logo.png
 primary_repository: platform
 phase_000_bootstrap:
+  status: SUPERSEDED
+  superseded_by: CONTROLLED_INITIAL_BASELINE_BOOTSTRAP
+  supersession_reason: The original BuilderKit Stage-A/Stage-B path was abandoned
+    after repeated pre-apply findings; repository baselines were instead created through
+    a controlled INITIAL_BASELINE_BOOTSTRAP followed by normal Git/PR verification.
   pre_apply_breaker_required: true
-  pre_apply_breaker_status: NOT_RUN
-  github_mutation_allowed: false
+  pre_apply_breaker_status: NOT_RUN_SUPERSEDED
+  github_mutation_allowed: NOT_APPLICABLE_SUPERSEDED_PATH
   prebootstrap_evidence_root: D:\Projekte\SpanGPU\_evidence-prebootstrap
   materialization_manifest: 11-bootstrap/materialization-manifest.yaml
   post_apply_breaker_required: true
+  actual_bootstrap:
+    method: CONTROLLED_INITIAL_BASELINE_BOOTSTRAP
+    baseline_branch: main
+    repository_baselines_exist: true
+    normal_pr_verification_required: true
+  materializer_apply:
+    finding: F-000-04
+    status: QUARANTINED
+    authorization: FORBIDDEN
+    statement: materialize-repositories.py --apply was not accepted or used for the
+      actual bootstrap and remains unauthorized.
+verification:
+  status: INDEPENDENT_REVIEW_PENDING
+  bridge: MANUAL_VERIFICATION_BRIDGE_V1_ESTABLISHED
+  fresh_breaker: REQUIRED
+  owner_acceptance: NOT_OCCURRED
+  scope: Six open SpanFabric PRs at their exact review-subject heads/digests.
+hosting_authority:
+  mode: SOLO_OWNER
+  independent_technical_review:
+    authority: FRESH_BREAKER
+    required: true
+  owner_acceptance:
+    authority: OWNER
+    required: true
+    may_be_pr_author: true
+  github_review:
+    human_approval_required: false
+    required_approvals: 0
+  branch_protection:
+    pull_request_required: true
+    required_checks:
+    - verification-gate
+    - bootstrap-integrity
+    force_push_allowed: false
+    deletion_allowed: false
+    admin_bypass_allowed: false
+    require_up_to_date: false
+phase_completion:
+  PHASE-000: NOT_COMPLETED
+  PHASE-001: NOT_AUTHORIZED
+gate_completion:
+  GATE-000: NOT_PASSED
+authorization:
+  next_action: FRESH_INDEPENDENT_BREAKER_REVIEW
+  phase_001: NOT_AUTHORIZED
+  github_mutation:
+    prebootstrap_global_prohibition: SUPERSEDED
+    current_boundary: NORMAL_PR_AND_MANUAL_AUTHORITY_FLOW
+  after_fresh_breaker_acceptance:
+  - EXTERNAL_GITHUB_PROTECTION_AND_REQUIRED_CHECKS_MANUAL_AUTHORITY
+  - OWNER_ACCEPTANCE_MANUAL_AUTHORITY
+  - MERGE_BOUNDARY_AND_POST_MERGE_VERIFICATION_FLOW
+quarantined_items:
+- finding: F-000-04
+  scope: BuilderKit materialize-repositories.py --apply
+  status: QUARANTINED
+  phase_001_effect: NOT_AUTHORIZED_BY_THIS_STATE

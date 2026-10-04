@@ -9,7 +9,14 @@ required_top_level:
 - completed_phases
 - completed_gates
 - repositories
+- repositories_bootstrapped
 - next_required_action
+- verification
+- hosting_authority
+- phase_completion
+- gate_completion
+- authorization
+- quarantined_items
 project_required:
 - name
 - builderkit_version
@@ -17,9 +24,9 @@ project_required:
 - research_status
 - architecture_status
 - implementation_status
+- product_functionality_status
 - organization
 allowed_project_status:
-- READY_FOR_PHASE_00
 - PHASE_ACTIVE
 - INDEPENDENT_REVIEW_PENDING
 - BLOCKED_ENVIRONMENT
@@ -28,6 +35,23 @@ allowed_project_status:
 - FAILED
 - PROOF_NOT_ESTABLISHED
 phase_000:
-  pre_apply_breaker_required: true
-  github_mutation_before_pre_apply_breaker: FORBIDDEN
-  post_apply_breaker_required_for_done: true
+  original_builderkit_strategy: SUPERSEDED
+  historical_pre_apply_breaker_required: true
+  historical_github_mutation_before_pre_apply_breaker: FORBIDDEN
+  actual_bootstrap: CONTROLLED_INITIAL_BASELINE_BOOTSTRAP
+  materializer_apply: QUARANTINED_F000_04
+state_separation:
+  repositories_bootstrapped: existence of initial repository baselines only; it is
+    not PHASE-000 completion.
+  verification: repository verification state; Builder/CI evidence does not substitute
+    for a fresh independent BREAKER or Owner acceptance.
+  hosting_authority: explicit hosting-review mode. SOLO_OWNER keeps Fresh BREAKER and
+    Owner acceptance mandatory while setting GitHub human approvals to zero; it still
+    requires PRs, exact checks, force/deletion prohibition, administrator enforcement,
+    no broad bypass, and exact-subject invalidation after every material head change.
+  phase_completion: PHASE-000 and successor authorization are independent of repository
+    existence and verification-bridge implementation.
+  gate_completion: GATE-000 PASS requires its own immutable evidence and is not inferred
+    from bootstrap infrastructure.
+  authorization: names the next allowed authority-bound action without reintroducing a
+    global pre-bootstrap GitHub-mutation prohibition after bootstrap has occurred.

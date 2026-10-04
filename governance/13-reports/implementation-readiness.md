@@ -1,3 +1,13 @@
+# HISTORICAL / SUPERSEDED
+
+**NOT AN ACTIVE ENTRYPOINT — DO NOT EXECUTE.**
+
+This readiness report describes the superseded BuilderKit route. Current
+authorization is owned by `PROJECT_STATE.yaml`; use `FIRST_CODEX_PROMPT.md` and
+`12-machine-readable/governance-entrypoints.yaml` to find the active route.
+
+---
+
 # Implementation Readiness
 **STATUS: READY** — specifically ready to begin **PHASE-000 Stage A**, not ready for GitHub mutation or SpanGPU runtime claims.
 
