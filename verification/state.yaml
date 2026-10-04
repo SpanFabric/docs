@@ -3,19 +3,19 @@
   "bridge_version": "manual-verification-bridge-v1",
   "repository": "docs",
   "authority_mode": "MANUAL_AUTHORITY",
-  "status": "BUILDING",
-  "previous_status": "BREAKER_FAILED",
+  "status": "INDEPENDENT_REVIEW_PENDING",
+  "previous_status": "BUILDING",
   "transition": {
-    "from": "BREAKER_FAILED",
-    "to": "BUILDING",
+    "from": "BUILDING",
+    "to": "INDEPENDENT_REVIEW_PENDING",
     "authority": "BUILDER"
   },
   "risk": {
     "class": "R2",
     "reason": "F-007 active-governance remediation; model may raise but not lower deterministic floor."
   },
-  "review_subject_digest": "fbf04ed7d4201097c9a7cffaba882168f3107bd72a817828e74a6163e16cad44",
-  "review_subject_commit": "e743945d26abfee8a5cc33bfe60acd292ba4bcc7",
+  "review_subject_digest": "5f61f698388df102a6f7e1091fcddd43f59ec39d5ac0032c643b048d2d1c86c9",
+  "review_subject_commit": "4fee477c786667627ed763c8b3057aabd0463859",
   "evidence": [
     {
       "id": "PROJECT-STATE-CORRECTION-BUILDER-20260903",
@@ -229,6 +229,19 @@
       "verdict": "FINDINGS",
       "active": false,
       "report_path": "verification/reports/FRESH_BREAKER_WTR_001_002_003_20261004.json"
+    },
+    {
+      "id": "FBR-WTR-001-002-003-REMEDIATION-BUILDER-DOCS-20261004",
+      "type": "REMEDIATION",
+      "producer": "BUILDER",
+      "role": "BUILDER",
+      "authority": "MANUAL_AUTHORITY",
+      "commit_sha": "4fee477c786667627ed763c8b3057aabd0463859",
+      "review_subject_digest": "5f61f698388df102a6f7e1091fcddd43f59ec39d5ac0032c643b048d2d1c86c9",
+      "created_at": "2026-10-04T00:20:16Z",
+      "verdict": "BUILDER_GREEN",
+      "active": true,
+      "report_path": "verification/reports/FBR_WTR_001_002_003_REMEDIATION_BUILDER_20261004.json"
     }
   ],
   "remediation_inputs": [
@@ -280,7 +293,9 @@
       "status": "OPEN",
       "scope": "CROSS_REPOSITORY_TRUST_BOUNDARY",
       "report_path": "verification/reports/FRESH_BREAKER_WTR_001_002_003_20261004.json",
-      "summary": "WSL-only PATH fallback is accepted"
+      "summary": "WSL-only PATH fallback is accepted",
+      "builder_disposition": "REMEDIATED_PENDING_FRESH_BREAKER",
+      "builder_report_path": "verification/reports/FBR_WTR_001_002_003_REMEDIATION_BUILDER_20261004.json"
     },
     {
       "id": "FBR-WTR-002",
@@ -289,7 +304,9 @@
       "status": "OPEN",
       "scope": "CROSS_REPOSITORY_TRUST_BOUNDARY",
       "report_path": "verification/reports/FRESH_BREAKER_WTR_001_002_003_20261004.json",
-      "summary": "Public verification-gate is skipped rather than failed after Windows prerequisite failure"
+      "summary": "Public verification-gate is skipped rather than failed after Windows prerequisite failure",
+      "builder_disposition": "REMEDIATED_PENDING_FRESH_BREAKER",
+      "builder_report_path": "verification/reports/FBR_WTR_001_002_003_REMEDIATION_BUILDER_20261004.json"
     },
     {
       "id": "FBR-WTR-003",
@@ -298,7 +315,9 @@
       "status": "OPEN",
       "scope": "SHARED_WINDOWS_CONVERSION_BOUNDARY",
       "report_path": "verification/reports/FRESH_BREAKER_WTR_001_002_003_20261004.json",
-      "summary": "Apostrophe-containing native Windows paths are silently altered"
+      "summary": "Apostrophe-containing native Windows paths are silently altered",
+      "builder_disposition": "REMEDIATED_PENDING_FRESH_BREAKER",
+      "builder_report_path": "verification/reports/FBR_WTR_001_002_003_REMEDIATION_BUILDER_20261004.json"
     }
   ],
   "initial_baseline_bootstrap": {
@@ -317,6 +336,7 @@
     "The F-007-RLINK-004 CommonMark remediation is bound to material commit 2ac3c0151f7cec124cead286e518d632e03d7841 and digest 660eddcf4defb6435c7017ede2515305c3e8cd084fb5c936bf40bf22d0ff6b3d. It has Builder evidence only and requires a new independent Fresh BREAKER.",
     "The PyPI-reproducible F-007-RLINK-004 follow-up is bound to material commit a3e85b7febeeb7c3e7c11fe44964efb3b1e6b60b and digest 64d0efa04f7747b55af394d665ef449075303d0e49c47188ab8d6c6fe6e79615. It supersedes only the non-authoritative source-wheel hash claims in the prior Builder record; no historical evidence file is rewritten.",
     "An owner-authorized persisted Fresh BREAKER verdict accepts the PyPI-reproducible F-007-RLINK-004 material subject at a3e85b7febeeb7c3e7c11fe44964efb3b1e6b60b and digest 64d0efa04f7747b55af394d665ef449075303d0e49c47188ab8d6c6fe6e79615. READY_FOR_OWNER_ACCEPTANCE is technical lifecycle readiness only; Owner Acceptance remains blocked until external hosting-control prerequisites are independently established.",
-    "No Owner Acceptance, merge, post-merge verification, GATE-000 PASS, PHASE-000 completion, or PHASE-001 authorization is established by the persisted Fresh BREAKER verdict."
+    "No Owner Acceptance, merge, post-merge verification, GATE-000 PASS, PHASE-000 completion, or PHASE-001 authorization is established by the persisted Fresh BREAKER verdict.",
+    "FBR-WTR-001/002/003 have Builder remediation bound to the new material subject. Their historical Breaker report is unchanged and inactive; findings remain OPEN pending a new independent Fresh Breaker."
   ]
 }
