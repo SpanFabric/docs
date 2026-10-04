@@ -3,11 +3,11 @@
   "bridge_version": "manual-verification-bridge-v1",
   "repository": "docs",
   "authority_mode": "MANUAL_AUTHORITY",
-  "status": "INDEPENDENT_REVIEW_PENDING",
-  "previous_status": "BUILDING",
+  "status": "BUILDING",
+  "previous_status": "INDEPENDENT_REVIEW_PENDING",
   "transition": {
-    "from": "BUILDING",
-    "to": "INDEPENDENT_REVIEW_PENDING",
+    "from": "INDEPENDENT_REVIEW_PENDING",
+    "to": "BUILDING",
     "authority": "BUILDER"
   },
   "risk": {
@@ -240,7 +240,7 @@
       "review_subject_digest": "5f61f698388df102a6f7e1091fcddd43f59ec39d5ac0032c643b048d2d1c86c9",
       "created_at": "2026-10-04T00:20:16Z",
       "verdict": "BUILDER_GREEN",
-      "active": true,
+      "active": false,
       "report_path": "verification/reports/FBR_WTR_001_002_003_REMEDIATION_BUILDER_20261004.json"
     }
   ],
@@ -337,6 +337,7 @@
     "The PyPI-reproducible F-007-RLINK-004 follow-up is bound to material commit a3e85b7febeeb7c3e7c11fe44964efb3b1e6b60b and digest 64d0efa04f7747b55af394d665ef449075303d0e49c47188ab8d6c6fe6e79615. It supersedes only the non-authoritative source-wheel hash claims in the prior Builder record; no historical evidence file is rewritten.",
     "An owner-authorized persisted Fresh BREAKER verdict accepts the PyPI-reproducible F-007-RLINK-004 material subject at a3e85b7febeeb7c3e7c11fe44964efb3b1e6b60b and digest 64d0efa04f7747b55af394d665ef449075303d0e49c47188ab8d6c6fe6e79615. READY_FOR_OWNER_ACCEPTANCE is technical lifecycle readiness only; Owner Acceptance remains blocked until external hosting-control prerequisites are independently established.",
     "No Owner Acceptance, merge, post-merge verification, GATE-000 PASS, PHASE-000 completion, or PHASE-001 authorization is established by the persisted Fresh BREAKER verdict.",
-    "FBR-WTR-001/002/003 have Builder remediation bound to the new material subject. Their historical Breaker report is unchanged and inactive; findings remain OPEN pending a new independent Fresh Breaker."
+    "FBR-WTR-001/002/003 have Builder remediation bound to the new material subject. Their historical Breaker report is unchanged and inactive; findings remain OPEN pending a new independent Fresh Breaker.",
+    "Builder reopened for portable fixed-installation test fixture after Ubuntu CI exposed an environmental assumption; prior Builder report and failed CI remain historical."
   ]
 }
