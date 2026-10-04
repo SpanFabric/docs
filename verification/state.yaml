@@ -3,12 +3,12 @@
   "bridge_version": "manual-verification-bridge-v1",
   "repository": "docs",
   "authority_mode": "MANUAL_AUTHORITY",
-  "status": "BREAKER_FAILED",
-  "previous_status": "INDEPENDENT_REVIEW_PENDING",
+  "status": "BUILDING",
+  "previous_status": "BREAKER_FAILED",
   "transition": {
-    "from": "INDEPENDENT_REVIEW_PENDING",
-    "to": "BREAKER_FAILED",
-    "authority": "FRESH_BREAKER"
+    "from": "BREAKER_FAILED",
+    "to": "BUILDING",
+    "authority": "BUILDER"
   },
   "risk": {
     "class": "R2",
@@ -214,7 +214,7 @@
       "review_subject_digest": "fbf04ed7d4201097c9a7cffaba882168f3107bd72a817828e74a6163e16cad44",
       "created_at": "2026-10-04T00:14:41.1492124+02:00",
       "verdict": "BUILDER_GREEN",
-      "active": true,
+      "active": false,
       "report_path": "verification/reports/WINDOWS_TRUSTED_RUNNER_HOST_SELECTION_BUILDER_20261004.json"
     },
     {
@@ -227,7 +227,7 @@
       "review_subject_digest": "fbf04ed7d4201097c9a7cffaba882168f3107bd72a817828e74a6163e16cad44",
       "created_at": "2026-10-04T01:16:39.4629153+02:00",
       "verdict": "FINDINGS",
-      "active": true,
+      "active": false,
       "report_path": "verification/reports/FRESH_BREAKER_WTR_001_002_003_20261004.json"
     }
   ],
@@ -235,19 +235,30 @@
     {
       "kind": "EXTERNAL_FRESH_BREAKER_FINDINGS",
       "reference": "https://github.com/SpanFabric/docs/pull/1",
-      "findings": ["F-001", "F-002", "F-003", "F-004"],
+      "findings": [
+        "F-001",
+        "F-002",
+        "F-003",
+        "F-004"
+      ],
       "status": "REMEDIATED_PENDING_FRESH_BREAKER"
     },
     {
       "kind": "EXTERNAL_FRESH_BREAKER_FINDINGS",
       "reference": "https://github.com/SpanFabric/docs/pull/1",
-      "findings": ["F-005", "F-006"],
+      "findings": [
+        "F-005",
+        "F-006"
+      ],
       "status": "REMEDIATED_PENDING_FRESH_BREAKER"
     },
     {
       "kind": "EXTERNAL_FRESH_BREAKER_FINDING",
       "reference": "https://github.com/SpanFabric/docs/pull/1",
-      "findings": ["F-007", "F-007-RLINK-004"],
+      "findings": [
+        "F-007",
+        "F-007-RLINK-004"
+      ],
       "status": "REMEDIATED_PENDING_FRESH_BREAKER"
     }
   ],
