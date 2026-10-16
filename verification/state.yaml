@@ -3,19 +3,19 @@
   "bridge_version": "manual-verification-bridge-v1",
   "repository": "docs",
   "authority_mode": "MANUAL_AUTHORITY",
-  "status": "ACCEPTED",
-  "previous_status": "READY_FOR_OWNER_ACCEPTANCE",
+  "status": "MERGED",
+  "previous_status": "ACCEPTED",
   "transition": {
-    "from": "READY_FOR_OWNER_ACCEPTANCE",
-    "to": "ACCEPTED",
-    "authority": "OWNER"
+    "from": "ACCEPTED",
+    "to": "MERGED",
+    "authority": "MERGE_HOSTING_GATE"
   },
   "risk": {
     "class": "R2",
     "reason": "F-007 active-governance remediation; model may raise but not lower deterministic floor."
   },
   "review_subject_digest": "eb2ac7289be11267160e374745275b8737d85ed971864090fac657257935231f",
-  "review_subject_commit": "ae016577aac478deb760fc089fe43b417b25fd89",
+  "review_subject_commit": "0ee004ae6d4b7caa96a666275c65f5412a8b6eee",
   "evidence": [
     {
       "id": "PROJECT-STATE-CORRECTION-BUILDER-20260903",
@@ -294,6 +294,20 @@
       "verdict": "ACCEPTED",
       "active": true,
       "report_path": "verification/reports/OWNER_ACCEPTANCE_SOLO_OWNER_20261004.json"
+    },
+    {
+      "id": "MERGE-HOSTING-GATE-MERGE-STATE-DOCS-20261016",
+      "type": "MERGE_STATE",
+      "producer": "MERGE_HOSTING_GATE",
+      "role": "MERGE_HOSTING_GATE",
+      "authority": "MANUAL_AUTHORITY",
+      "verdict": "MERGED",
+      "commit_sha": "0ee004ae6d4b7caa96a666275c65f5412a8b6eee",
+      "merge_commit_sha": "0ee004ae6d4b7caa96a666275c65f5412a8b6eee",
+      "review_subject_digest": "eb2ac7289be11267160e374745275b8737d85ed971864090fac657257935231f",
+      "created_at": "2026-10-16T11:13:29.803201+00:00",
+      "active": true,
+      "report_path": "verification/reports/MERGE_HOSTING_GATE_MERGE_STATE_20261016.json"
     }
   ],
   "remediation_inputs": [
@@ -431,5 +445,6 @@
     "Builder reopened solely to finalize FBR-WTR-001 positive Windows PATH suitability and matching manual text; historical reports remain immutable. No Owner, merge or PHASE-001 authority.",
     "FBR-WTR-001 positive-suitability Windows PATH fallback and matching manual finalized on the new material subject. FBR-WTR-002 workflow and FBR-WTR-003 runtime preserved. Historical exact-output claim is superseded by new evidence showing /c/path'name/runner, without rewriting old reports. Earlier empty native conversion observations remain disclosed; all six require a new independent Fresh Breaker.",
     "Owner-authorized append-only persistence of FBR-WTR-001-POSITIVE-PATH-FALLBACK-FINAL-20261004: technical ACCEPTED bound to material ae016577aac478deb760fc089fe43b417b25fd89 and digest eb2ac7289be11267160e374745275b8737d85ed971864090fac657257935231f. Historical reports remain unchanged and historical failed Fresh BREAKER state evidence remains inactive. READY_FOR_OWNER_ACCEPTANCE is technical readiness only; hosting controls, Owner Acceptance, merge/post-merge, GATE-000 PASS, PHASE-000 completion and PHASE-001 authorization are not performed."
-  ]
+  ],
+  "resulting_merge_commit_sha": "0ee004ae6d4b7caa96a666275c65f5412a8b6eee"
 }
