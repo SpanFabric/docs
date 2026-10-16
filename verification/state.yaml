@@ -3,19 +3,19 @@
   "bridge_version": "manual-verification-bridge-v1",
   "repository": "docs",
   "authority_mode": "MANUAL_AUTHORITY",
-  "status": "ACCEPTED",
-  "previous_status": "READY_FOR_OWNER_ACCEPTANCE",
+  "status": "BUILDING",
+  "previous_status": "ACCEPTED",
   "transition": {
-    "from": "READY_FOR_OWNER_ACCEPTANCE",
-    "to": "ACCEPTED",
-    "authority": "OWNER"
+    "from": "ACCEPTED",
+    "to": "BUILDING",
+    "authority": "BUILDER"
   },
   "risk": {
     "class": "R2",
     "reason": "F-007 active-governance remediation; model may raise but not lower deterministic floor."
   },
-  "review_subject_digest": "eb2ac7289be11267160e374745275b8737d85ed971864090fac657257935231f",
-  "review_subject_commit": "ae016577aac478deb760fc089fe43b417b25fd89",
+  "review_subject_digest": "",
+  "review_subject_commit": "",
   "evidence": [
     {
       "id": "PROJECT-STATE-CORRECTION-BUILDER-20260903",
@@ -266,7 +266,7 @@
       "review_subject_digest": "eb2ac7289be11267160e374745275b8737d85ed971864090fac657257935231f",
       "created_at": "2026-10-04T07:08:07Z",
       "verdict": "BUILDER_GREEN",
-      "active": true,
+      "active": false,
       "report_path": "verification/reports/FBR_WTR_001_POSITIVE_PATH_FALLBACK_BUILDER_20261004.json"
     },
     {
@@ -279,7 +279,7 @@
       "review_subject_digest": "eb2ac7289be11267160e374745275b8737d85ed971864090fac657257935231f",
       "created_at": "2026-10-04T12:54:53Z",
       "verdict": "ACCEPTED",
-      "active": true,
+      "active": false,
       "report_path": "verification/reports/FRESH_BREAKER_FBR_WTR_001_POSITIVE_PATH_FALLBACK_FINAL_20261004.json"
     },
     {
@@ -292,7 +292,7 @@
       "review_subject_digest": "eb2ac7289be11267160e374745275b8737d85ed971864090fac657257935231f",
       "created_at": "2026-10-04T17:56:06+02:00",
       "verdict": "ACCEPTED",
-      "active": true,
+      "active": false,
       "report_path": "verification/reports/OWNER_ACCEPTANCE_SOLO_OWNER_20261004.json"
     }
   ],
