@@ -1,0 +1,46 @@
+{
+  "branch": "fix/verification-gate-first-push-20261016",
+  "runs": [
+    {
+      "event": "pull_request",
+      "run_id": 39774710102,
+      "jobs": {
+        "id": 119810638061,
+        "name": "bootstrap-integrity",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      "html_url": "https://github.com/SpanFabric/docs/actions/runs/39774710102",
+      "name": "Bootstrap integrity",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "5b80beaa6fd3783a3241265916801b6875ec05d1"
+    },
+    {
+      "event": "pull_request",
+      "run_id": 39774710212,
+      "jobs": [
+        {
+          "id": 119810638091,
+          "name": "windows-trusted-runner",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 119813851244,
+          "name": "verification-gate",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ],
+      "html_url": "https://github.com/SpanFabric/docs/actions/runs/39774710212",
+      "name": "Verification gate",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "5b80beaa6fd3783a3241265916801b6875ec05d1"
+    }
+  ],
+  "base": "0ee004ae6d4b7caa96a666275c65f5412a8b6eee",
+  "repo": "docs",
+  "head": "5b80beaa6fd3783a3241265916801b6875ec05d1"
+}
