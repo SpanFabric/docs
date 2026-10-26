@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0",
+  "id": "MERGE_STATE-MISSING-PARENT-FIXTURE-DOCS-20261026",
+  "type": "MERGE_STATE",
+  "producer": "MERGE_HOSTING_GATE",
+  "role": "MERGE_HOSTING_GATE",
+  "authority": "MANUAL_AUTHORITY",
+  "created_at": "2026-10-26T08:01:52.068642+00:00",
+  "verdict": "MERGED",
+  "repository": "SpanFabric/docs",
+  "commit_sha": "8716d9f6fd68f784b84a8e2dc74c7d26abe7f569",
+  "merge_commit_sha": "8716d9f6fd68f784b84a8e2dc74c7d26abe7f569",
+  "review_subject_digest": "4544582dc6a85e919ea446cccc99dd09afcf0fea8fdac5c97b67600611709fce",
+  "reviewed_material_sha": "45e0bfef2823364c518be04eafc13700c47c0f8e",
+  "accepted_pr_head": "30ba948b65890fe8f4412db8941d4731b803af13",
+  "merge_transaction": {
+    "pr": 4,
+    "pre_merge_main": "c5df5c2118799821f2f36678b79a98fbcbab665b",
+    "parents": [
+      "c5df5c2118799821f2f36678b79a98fbcbab665b",
+      "30ba948b65890fe8f4412db8941d4731b803af13"
+    ],
+    "merge_sha": "8716d9f6fd68f784b84a8e2dc74c7d26abe7f569",
+    "accepted_tree_unchanged": true,
+    "parent_binding": "PASS"
+  },
+  "exact_merge_push_ci": {
+    "repo": "docs",
+    "merge_sha": "8716d9f6fd68f784b84a8e2dc74c7d26abe7f569",
+    "ci_pass": true,
+    "required": {
+      "verification-gate": [
+        {
+          "id": 121459956102,
+          "name": "verification-gate",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/SpanFabric/docs/actions/runs/40288504898/job/121459956102"
+        }
+      ],
+      "bootstrap-integrity": [
+        {
+          "id": 121457786245,
+          "name": "bootstrap-integrity",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/SpanFabric/docs/actions/runs/40288504905/job/121457786245"
+        }
+      ],
+      "windows-trusted-runner": [
+        {
+          "id": 121457786225,
+          "name": "windows-trusted-runner",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/SpanFabric/docs/actions/runs/40288504898/job/121457786225"
+        }
+      ]
+    },
+    "runs": [
+      {
+        "id": 40288504905,
+        "name": "Bootstrap integrity",
+        "status": "completed",
+        "conclusion": "success",
+        "event": "push",
+        "head_sha": "8716d9f6fd68f784b84a8e2dc74c7d26abe7f569",
+        "html_url": "https://github.com/SpanFabric/docs/actions/runs/40288504905"
+      },
+      {
+        "id": 40288504898,
+        "name": "Verification gate",
+        "status": "completed",
+        "conclusion": "success",
+        "event": "push",
+        "head_sha": "8716d9f6fd68f784b84a8e2dc74c7d26abe7f569",
+        "html_url": "https://github.com/SpanFabric/docs/actions/runs/40288504898"
+      }
+    ]
+  },
+  "local_validation": {
+    "repo": "docs",
+    "merge_sha": "8716d9f6fd68f784b84a8e2dc74c7d26abe7f569",
+    "trusted_exit": 0,
+    "direct_exit": 0,
+    "expected_digest": "4544582dc6a85e919ea446cccc99dd09afcf0fea8fdac5c97b67600611709fce",
+    "trusted_digest_matches": true,
+    "direct_digest_matches": true,
+    "working_tree_clean": true
+  },
+  "transition": {
+    "from": "ACCEPTED",
+    "to": "MERGED",
+    "authority": "MERGE_HOSTING_GATE"
+  },
+  "kit_archive": "PENDING_DEBT; suspended by explicit Owner exception; not invoked",
+  "limitations": [
+    "MANUAL_AUTHORITY; no cryptographic identity claim",
+    "No new material, Fresh Breaker or Owner authority is created",
+    "Evidence binds the actual reviewed material merge, not its excluded metadata persistence successor",
+    "No GATE-000, PHASE-001, UP-003 change, or monorepo creation"
+  ]
+}
